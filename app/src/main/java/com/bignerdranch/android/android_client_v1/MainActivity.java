@@ -16,6 +16,7 @@ import android.widget.TextView;
  *
  */
 public class MainActivity extends AppCompatActivity {
+    private int baichen_test = 0;
     // 定义FragmentTabHost对象
     private FragmentTabHost mTabHost;
 
