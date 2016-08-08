@@ -30,17 +30,13 @@ public class MainActivity extends AppCompatActivity {
     // 定义数组来存放按钮图片
     private int mImageViewArray[] = {
             R.drawable.main_tab_item_home,
-            R.drawable.main_tab_item_category,
-            R.drawable.main_tab_item_user,
-            R.drawable.main_tab_item_setting };
+            R.drawable.main_tab_item_life,
+            R.drawable.main_tab_item_policy,
+            R.drawable.main_tab_item_mine};
 
     // Tab选项卡的文字
     private String mTextViewArray[] = { "主页", "生活",  "保单", "我的" };
 
-    private int a;
-    private int c;
-    private int b;
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
