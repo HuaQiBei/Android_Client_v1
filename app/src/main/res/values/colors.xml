@@ -153,4 +153,7 @@
 <color name="navy">#000080</color><!--海军色 --> 
 <color name="black">#000000</color><!--黑色 --> 
 <color name="green_title">#4FD09E</color>
+    <color name="home_search_bg">#e64514</color>
+    <color name="normal_bg_color">#f0f0f0</color>
+    <color name="normal_bg_color_litter">#f7f7f7</color>
 </resources>
