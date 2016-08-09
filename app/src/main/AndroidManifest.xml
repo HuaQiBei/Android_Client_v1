@@ -11,9 +11,68 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyInfoActivity"
+            android:label="我的资料"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+        <activity
+            android:name=".HeadActivity"
+            android:label="设置头像"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+        <activity
+            android:name=".NameActivity"
+            android:label="设置昵称"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+        <activity
+            android:name=".ResetActivity"
+            android:label="修改密码"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+        <activity
+            android:name=".PhoneActivity"
+            android:label="修改手机"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+
+        <activity
+            android:name=".ModifyEmailActivity"
+            android:label="@string/Email_Title"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+
+        <activity
+            android:name=".AddressActivity"
+            android:label="@string/Address_Title"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+
+        <activity
+            android:name=".AddAddressActivity"
+            android:label="@string/Address_Title"
+            android:parentActivityName=".AddressActivity">
+        </activity>
+
+        <activity
+            android:name=".ContactActivity"
+            android:label="@string/Contacts_Title"
+            android:parentActivityName=".MyInfoActivity">
+        </activity>
+
+        <activity
+            android:name=".AddContactsActivity"
+            android:label="@string/Contacts_info"
+            android:parentActivityName=".ContactActivity">
+        </activity>
+
+
+        <activity android:name=".BankcardActivity"
+                  android:label="@string/BankCard_title">//返回没写
         </activity>
     </application>
 

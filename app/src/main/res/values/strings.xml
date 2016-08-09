@@ -3,5 +3,24 @@
 
     <string name="app_name">v1</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="Email_Title">修改邮箱</string>
+    <string name="New_Email">新邮箱</string>
+    <string name="Save">保存</string>
+    <string name="Address_Title">保单地址</string>
+    <string name="Add_address">添加新地址</string>
+    <string name="Cancel">取消</string>
+    <string name="OK">确定</string>
+    <string name="address_name">收货人</string>
+    <string name="address_number">手机号</string>
+    <string name="address_post_number">邮政编码</string>
+    <string name="address_district">所在地区</string>
+    <string name="address_detail">详细地址</string>
+    <string name="Contacts_Title">其他联系人</string>
+    <string name="Add_contacts">添加联系人</string>
+    <string name="Contacts_info">联系人信息</string>
+    <string name="Contacts_name">姓名</string>
+    <string name="Contacts_number">手机号</string>
+    <string name="Contacts_ID">身份证号</string>
+    <string name="BankCard_title">银行卡</string>
+    <string name="AddBankCard">添加银行卡</string>
 </resources>
