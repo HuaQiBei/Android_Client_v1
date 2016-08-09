@@ -2,6 +2,7 @@ package com.bignerdranch.android.android_client_v1;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,10 +21,13 @@ public class LifeFragment extends Fragment {
 	private RecyclerView mLifeRecyclerView;
 	private LifeAdapter mAdapter;
 
-	private UUID refresh_id;
 	@Override
 	public View onCreateView(LayoutInflater inflater,  ViewGroup container,
 							 Bundle savedInstanceState) {
+
+
+		((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.title2);
+
 		View view = inflater.inflate(//android.R.layout.simple_list_item_1,
 				R.layout.fragment_life,
 				container, false);
