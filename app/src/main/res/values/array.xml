@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="insurance_type">
+        <item>酒店意外险</item>
+        <item>飞机延误险</item>
+        <item>打车延误险</item>
+        <item>餐厅等位险</item>
+    </string-array>
+
+    <string-array name="reason">
+        <item>延误</item>
+        <item>意外</item>
+        <item>等位</item>
+        <item>打车</item>
+    </string-array>
+</resources>

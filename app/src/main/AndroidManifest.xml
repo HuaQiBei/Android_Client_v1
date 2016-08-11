@@ -79,6 +79,12 @@
             android:label="生活详情"
             android:parentActivityName=".LifeDetailActivity">
         </activity>
+
+        <activity
+            android:name=".AddPolicyActivity"
+            android:label="填写保单"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>
