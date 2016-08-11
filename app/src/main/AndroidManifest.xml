@@ -74,6 +74,11 @@
         <activity android:name=".BankcardActivity"
                   android:label="@string/BankCard_title">//返回没写
         </activity>
+        <activity
+            android:name=".LifeDetailActivity"
+            android:label="生活详情"
+            android:parentActivityName=".LifeDetailActivity">
+        </activity>
     </application>
 
 </manifest>
