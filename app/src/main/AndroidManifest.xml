@@ -74,6 +74,12 @@
         <activity android:name=".BankcardActivity"
                   android:label="@string/BankCard_title">//返回没写
         </activity>
+
+        <activity
+            android:name=".AddPolicyActivity"
+            android:label="填写保单"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

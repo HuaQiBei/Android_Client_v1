@@ -23,8 +23,7 @@ public class MineFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_mine, container, false);
 
-		AppCompatActivity activity = (AppCompatActivity) getActivity();
-		activity.getSupportActionBar().setTitle(R.string.hello_world);
+		((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.title4);
 
 		user = view.findViewById(R.id.username);
 		user.setOnClickListener(new View.OnClickListener(){

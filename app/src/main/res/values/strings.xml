@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">v1</string>
+    <string name="app_name">app_name</string>
+    <string name="title1">1</string>
+    <string name="title2">2</string>
+    <string name="title3">3</string>
+    <string name="title4">4</string>
     <string name="hello_world">Hello world!</string>
     <string name="Email_Title">修改邮箱</string>
     <string name="New_Email">新邮箱</string>
