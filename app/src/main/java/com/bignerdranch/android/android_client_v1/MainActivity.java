@@ -36,7 +36,12 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.main_tab_item_mine};
 
     // Tab选项卡的文字
-    private String mTextViewArray[] = { "主页", "生活",  "保单", "我的" };
+    private String mTextViewArray[] = {
+            "主页",
+            "生活",
+            "保单",
+            "我的"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
