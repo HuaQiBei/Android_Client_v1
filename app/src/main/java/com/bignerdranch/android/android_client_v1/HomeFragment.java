@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		//initViewPager();
-		Log.e("jhd","onStart");
+		Log.d("test","HomeFragment onStart");
 
 		// TODO Auto-generated method stub  暂时不能用
 		//checkGPSIsOpen();
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
 
 		initGridView();
 
-		Log.e("jhd", "onCreateView");
+		Log.d("test", "HomeFragment onCreateView");
 
 		handler.sendEmptyMessage(1);//发线程 初始化viewpager 解决切换页面导致viewpager中的内容为空
 
@@ -273,7 +273,7 @@ public class HomeFragment extends Fragment {
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		Log.e("jhd", "onStop");
+		Log.d("test", "HomeFragment onStop");
 	}
 
 

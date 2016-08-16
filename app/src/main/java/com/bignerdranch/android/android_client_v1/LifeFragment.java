@@ -25,7 +25,7 @@ public class LifeFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,  ViewGroup container,
 							 Bundle savedInstanceState) {
-
+		Log.d("test","LifeFragment onCreateView");
 
 		((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.title2);
 
@@ -47,8 +47,15 @@ public class LifeFragment extends Fragment {
 
 	@Override
 	public void onResume() {
+		Log.d("test","LifeFragment onResume");
 		super.onResume();
 		updateUI();
+	}
+
+	@Override
+	public void onStop() {
+		Log.d("test","LifeFragment onStop");
+		super.onStop();
 	}
 
 	private void updateUI(){
