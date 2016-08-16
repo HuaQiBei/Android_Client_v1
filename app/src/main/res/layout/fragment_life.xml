@@ -8,20 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" >
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
 
             <RadioGroup
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal" >
 
                 <RadioButton
@@ -29,7 +23,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_left"
                     android:button="@null"
                     android:checked="true"
                     android:clickable="true"
@@ -40,13 +33,13 @@
                     android:paddingTop="5dp"
                     android:singleLine="true"
                     android:text="全部商家"
-                    android:textColor="@drawable/btn_text_color_selector" />
+                    android:textColor="@drawable/btn_text_color_selector"
+                    android:textSize="16sp"/>
 
                 <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_right"
                     android:button="@null"
                     android:clickable="true"
                     android:gravity="center"
@@ -56,33 +49,13 @@
                     android:paddingTop="5dp"
                     android:singleLine="true"
                     android:text="优惠商家"
+                    android:textSize="16sp"
                     android:textColor="@drawable/btn_text_color_selector" />
             </RadioGroup>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/detail_activity_home_list1_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:padding="9dp"
-            android:src="@drawable/ic_web_back" />
 
-        <FrameLayout
-            android:id="@+id/detail_activity_home_list1_search_fl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/navibar_icon_search" />
-        </FrameLayout>
     </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"

@@ -6,6 +6,10 @@
     <color name="colorAccent">#7f7f82</color>
     <color name="foot_txt_gray">#A9A9A9</color>
 
+
+    <color name="normal">#77000000</color>
+    <color name="highlight">#882977c3</color>
+
 <color name="white">#ffffff</color><!--白色 --> 
 <color name="ivory">#fffff0</color><!--象牙色 --> 
 <color name="lightyellow">#ffffe0</color><!--亮黄色 --> 

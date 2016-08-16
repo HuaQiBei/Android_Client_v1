@@ -175,7 +175,7 @@ public class ViewPagerSimpleFragment extends Fragment {
         public OrderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             Log.d("test", ""+"onCreateViewHolder");
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.item_main_list, parent, false);
+            View view = layoutInflater.inflate(R.layout.item_order_list, parent, false);
             return new OrderHolder(view);
         }
 

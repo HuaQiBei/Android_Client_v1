@@ -26,9 +26,6 @@ public class LifeFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater,  ViewGroup container,
 							 Bundle savedInstanceState) {
 		Log.d("test","LifeFragment onCreateView");
-
-
-
 		View view = inflater.inflate(//android.R.layout.simple_list_item_1,
 				R.layout.fragment_life,
 				container, false);
@@ -131,7 +128,7 @@ public class LifeFragment extends Fragment {
 			Log.d("test","onCreateViewHolder");
 			LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 			View view = layoutInflater
-					.inflate(R.layout.list_item_life, parent, false);
+					.inflate(R.layout.item_life_list, parent, false);
 			return new LifeHolder(view);
 		}
 
