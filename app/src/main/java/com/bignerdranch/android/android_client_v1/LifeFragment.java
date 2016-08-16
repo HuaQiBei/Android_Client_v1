@@ -27,7 +27,7 @@ public class LifeFragment extends Fragment {
 							 Bundle savedInstanceState) {
 		Log.d("test","LifeFragment onCreateView");
 
-		((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.title2);
+
 
 		View view = inflater.inflate(//android.R.layout.simple_list_item_1,
 				R.layout.fragment_life,
