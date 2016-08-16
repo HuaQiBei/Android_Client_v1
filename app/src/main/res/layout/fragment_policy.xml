@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
-        hyman:visible_tab_count="5">
+        >
 
     </com.bignerdranch.android.android_client_v1.ViewPagerIndicator>
 
