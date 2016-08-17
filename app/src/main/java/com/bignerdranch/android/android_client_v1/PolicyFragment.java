@@ -26,21 +26,9 @@ public class PolicyFragment extends Fragment {
 
     private FragmentPagerAdapter mAdapter;
 
-    private static final String BUNDLE_TITLE = "title";//设置bundle的key
 
-    private String mTitle;//接收用户传过来的title
+    private int mTitle;//接收用户传过来的title
 
-    public static PolicyFragment newInstance(String title) {
-
-        Bundle bundle = new Bundle();
-        bundle.putString(BUNDLE_TITLE, title);
-
-
-        PolicyFragment fragment = new PolicyFragment();
-        fragment.setArguments(bundle);
-        Log.d("life","newInstance+"+bundle.getString(BUNDLE_TITLE));
-        return fragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,11 +41,6 @@ public class PolicyFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        if (getArguments() != null) {
-            Log.d("life","getArguments");
-            mTitle = getArguments().getString(BUNDLE_TITLE);
-        }
-        Log.d("life","全部"+mTitle);
         super.onViewCreated(view, savedInstanceState);
         initViews();
         mIndicator.setVisibleTabCount(5);
@@ -89,6 +72,8 @@ public class PolicyFragment extends Fragment {
             Log.d("life", "mAdapter != null");
         }
         mViewPager.setAdapter(mAdapter);
+        mTitle = ((MainActivity)getActivity()).getPolicyTitle();
+        mViewPager.setCurrentItem(mTitle);
     }
 
     private void initViews() {

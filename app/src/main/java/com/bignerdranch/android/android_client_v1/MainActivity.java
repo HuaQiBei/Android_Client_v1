@@ -17,7 +17,11 @@ import android.widget.TextView;
  * @功能说明 自定义TabHost
  *
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
+
+    private int mPolicyTitle;
+
     // 定义FragmentTabHost对象
     private FragmentTabHost mTabHost;
 
@@ -94,5 +98,16 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(mTextViewArray[index]);
 
         return view;
+    }
+    public int getPolicyTitle() {
+        return mPolicyTitle;
+    }
+
+    public void setPolicyTitle(int policyTitle) {
+        mPolicyTitle = policyTitle;
+    }
+
+    public void setCurrentTabByTag(String tag){
+        mTabHost.setCurrentTabByTag(tag);
     }
 }
