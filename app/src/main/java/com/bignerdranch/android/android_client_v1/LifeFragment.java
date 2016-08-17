@@ -19,18 +19,18 @@ import java.util.List;
 
 public class LifeFragment extends Fragment {
 
-	private RecyclerView mLifeRecyclerView;
-	private LifeAdapter mAdapter;
+    private RecyclerView mLifeRecyclerView;
+    private LifeAdapter mAdapter;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater,  ViewGroup container,
-							 Bundle savedInstanceState) {
-		Log.d("test","LifeFragment onCreateView");
-		View view = inflater.inflate(//android.R.layout.simple_list_item_1,
-				R.layout.fragment_life,
-				container, false);
-		return view;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d("test", "LifeFragment onCreateView");
+        View view = inflater.inflate(//android.R.layout.simple_list_item_1,
+                R.layout.fragment_life,
+                container, false);
+        return view;
+    }
 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
