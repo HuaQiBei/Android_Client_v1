@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 public class MineFragment extends Fragment {
 
 	private View user;
+	private View view_policy;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,14 @@ public class MineFragment extends Fragment {
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(),MyInfoActivity.class);
 				startActivity(intent);
+			}
+		});
+
+		view_policy = view.findViewById(R.id.view_policy);
+		view_policy.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
 			}
 		});
 		return view;

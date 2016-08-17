@@ -24,11 +24,12 @@ import java.util.List;
 public class ViewPagerSimpleFragment extends Fragment {
     private String mTitle;//接收用户传过来的title
     private static final String BUNDLE_TITLE = "title";//设置bundle的key
-    private RecyclerView mOrderRecyclerView;
-    private OrderAdapter mOrderAdapter;
+    private RecyclerView mPolicyRecyclerView;
+    private PolicyAdapter mPolicyAdapter;
 
 
     View view = null;
+
     /**
      * fragment一般使用newInstance方法new出实例
      */
@@ -60,15 +61,15 @@ public class ViewPagerSimpleFragment extends Fragment {
         if (bundle != null) {
             mTitle = bundle.getString(BUNDLE_TITLE);
         }
-        if(view == null) {
+        if (view == null) {
             Log.d("test ", "ViewPagerSimpleFragment onCreateView()");
             //fragment内容
-            view = inflater.inflate(R.layout.fragment_order_list, container, false);
+            view = inflater.inflate(R.layout.fragment_policy_list, container, false);
         }
-        mOrderRecyclerView = (RecyclerView) view.findViewById(R.id.order_recycler_view);
+        mPolicyRecyclerView = (RecyclerView) view.findViewById(R.id.policy_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
-        mOrderRecyclerView.setLayoutManager(linearLayoutManager);
+        mPolicyRecyclerView.setLayoutManager(linearLayoutManager);
         updateUI();
         return view;
     }
@@ -90,7 +91,7 @@ public class ViewPagerSimpleFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("test ", "ViewPagerSimpleFragment onStop()"+mTitle);
+        Log.d("test ", "ViewPagerSimpleFragment onStop()" + mTitle);
     }
 
     @Override
@@ -100,60 +101,79 @@ public class ViewPagerSimpleFragment extends Fragment {
     }
 
     private void updateUI() {
-        OrderList orderList = OrderList.get(getActivity());
-        List<Order> orders;
+        PolicyList policyList = PolicyList.get(getActivity());
+        List<Policy> Policys;
         if (mTitle.equals("全部")) {
-            orders = orderList.getOrders();
+            Policys = policyList.getPolicys();
             Log.d("test ", "给我输出全部");
-        }else {
-            orders = orderList.getOrders(mTitle);
-            Log.d("test ", "给我输出"+mTitle);
-        }
-        if (mOrderAdapter == null) {
-            mOrderAdapter = new OrderAdapter(orders);
-            mOrderRecyclerView.setAdapter(mOrderAdapter);
         } else {
-            mOrderRecyclerView.setAdapter(mOrderAdapter);
-            mOrderAdapter.notifyDataSetChanged();
+            Policys = policyList.getPolicys(mTitle);
+            Log.d("test ", "给我输出" + mTitle);
+        }
+        if (mPolicyAdapter == null) {
+            mPolicyAdapter = new PolicyAdapter(Policys);
+            mPolicyRecyclerView.setAdapter(mPolicyAdapter);
+        } else {
+            mPolicyRecyclerView.setAdapter(mPolicyAdapter);
+            mPolicyAdapter.notifyDataSetChanged();
         }
 
     }
 
-    private class OrderHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Order mOrder;
-        private TextView mOrderKind;
-        private TextView mOrderState;
-        private TextView mOrderPrice;
-        private TextView mOrderDetail;
-        private Button mCheckOrder;
+    private class PolicyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private Policy mPolicy;
+        private TextView mPolicyKind;
+        private TextView mPolicyState;
+        private TextView mPolicyPrice;
+        private TextView mPolicyDetail;
+        private Button mCheckPolicy;
         private Button mApply;
         private CardView mCardView;
 
-        public OrderHolder(View itemView) {
+        public PolicyHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            mOrderKind = (TextView) itemView.findViewById(R.id.list_tv_OrderKind);
-            mOrderState = (TextView) itemView.findViewById(R.id.list_tv_OrderState);
-            mOrderDetail = (TextView) itemView.findViewById(R.id.list_tv_OrderDetail);
-            mOrderPrice = (TextView) itemView.findViewById(R.id.list_tv_OrderPrice);
-            mCheckOrder = (Button) itemView.findViewById(R.id.list_bt_Order);
+            mPolicyKind = (TextView) itemView.findViewById(R.id.list_tv_PolicyKind);
+            mPolicyState = (TextView) itemView.findViewById(R.id.list_tv_PolicyState);
+            mPolicyDetail = (TextView) itemView.findViewById(R.id.list_tv_PolicyDetail);
+            mPolicyPrice = (TextView) itemView.findViewById(R.id.list_tv_PolicyPrice);
+            mCheckPolicy = (Button) itemView.findViewById(R.id.list_bt_Policy);
             mApply = (Button) itemView.findViewById(R.id.list_bt_Apply);
             mCardView = (CardView) itemView.findViewById(R.id.mCardView);
         }
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mOrder.getOrderNum() + " clicked!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), mPolicy.getPolicyNum() + " clicked!", Toast.LENGTH_SHORT).show();
         }
 
-        public void bindOrder(Order order) {
-            mOrder = order;
+        public void bindPolicy(Policy Policy) {
+            mPolicy = Policy;
 
-            mOrderKind.setText(mOrder.getKind());
-            mOrderState.setText(mOrder.getOrderState());
-            mOrderDetail.setText(mOrder.getOrderNum() + mOrder.getTitle());
-            mOrderPrice.setText(mOrder.getPrice());
+            mPolicyKind.setText(mPolicy.getKind());
+            mPolicyState.setText(mPolicy.getPolicyState());
+            mPolicyDetail.setText(mPolicy.getPolicyNum() + mPolicy.getTitle());
+            mPolicyPrice.setText(mPolicy.getPrice());
             mApply.setVisibility(View.GONE);
+            switch (mPolicy.getPolicyState()){
+                case "待支付":{
+                    mCheckPolicy.setText("去支付");
+                    break;
+                }
+                case "生效中":{
+                    mApply.setText("申请理赔");
+                    mApply.setVisibility(View.VISIBLE);
+                    break;
+                }
+                case "理赔中":{
+                    mApply.setText("查看进度");
+                    mApply.setVisibility(View.VISIBLE);
+                    break;
+                }
+                default:
+
+            }
+
 
         }
     }
@@ -163,31 +183,32 @@ public class ViewPagerSimpleFragment extends Fragment {
 
     }
 
-    private class OrderAdapter extends RecyclerView.Adapter<OrderHolder> {
+    private class PolicyAdapter extends RecyclerView.Adapter<PolicyHolder> {
 
-        private List<Order> mOrders;
+        private List<Policy> mPolicys;
 
-        public OrderAdapter(List<Order> orders) {
-            mOrders = orders;
+        public PolicyAdapter(List<Policy> Policys) {
+            mPolicys = Policys;
         }
 
         @Override
-        public OrderHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            Log.d("test", ""+"onCreateViewHolder");
+        public PolicyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            Log.d("test", "" + "onCreateViewHolder");
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.item_order_list, parent, false);
-            return new OrderHolder(view);
+            View view = layoutInflater.inflate(R.layout.item_policy_list, parent, false);
+            return new PolicyHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(OrderHolder holder, int position) {
-            Order order = mOrders.get(position);
-            holder.bindOrder(order);
+        public void onBindViewHolder(PolicyHolder holder, int position) {
+            Policy Policy = mPolicys.get(position);
+            holder.bindPolicy(Policy);
         }
 
         @Override
         public int getItemCount() {
-            return mOrders.size();
+            return mPolicys.size();
         }
     }
 }

@@ -143,7 +143,7 @@ public class ViewPagerIndicator extends LinearLayout {
         if (titles != null && titles.size() > 0) {
             this.removeAllViews();
             mTitles = titles;
-            for (String title: mTitles) {
+            for (String title : mTitles) {
                 addView(generateTextView(title));
             }
             setItemClickEvent();
@@ -168,15 +168,15 @@ public class ViewPagerIndicator extends LinearLayout {
         return tv;
     }
 
-    public interface PageOnchangeListener{
-         void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
+    public interface PageOnchangeListener {
+        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
 
-         void onPageSelected(int position);
+        void onPageSelected(int position);
 
-         void onPageScrollStateChanged(int state);
+        void onPageScrollStateChanged(int state);
     }
-    public PageOnchangeListener mListener;
 
+    public PageOnchangeListener mListener;
 
 
     //设置关联的ViewPager

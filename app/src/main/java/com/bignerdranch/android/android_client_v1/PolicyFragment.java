@@ -9,88 +9,110 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PolicyFragment extends Fragment {
 
-	private View view=null;
+    private View view = null;
 
-	private ViewPagerIndicator mIndicator;
-	private ViewPager mViewPager;
+    private ViewPagerIndicator mIndicator;
+    private ViewPager mViewPager;
 
-	private List<String> mTitles = Arrays.asList("全部", "待支付", "生效中", "理赔中", "已失效");
-	private List<ViewPagerSimpleFragment> mContents = new ArrayList<>();
+    private List<String> mTitles = Arrays.asList("全部", "待支付", "生效中", "理赔中", "已失效");
+    private List<ViewPagerSimpleFragment> mContents = new ArrayList<>();
 
-	private FragmentPagerAdapter mAdapter;
+    private FragmentPagerAdapter mAdapter;
 
+    private static final String BUNDLE_TITLE = "title";//设置bundle的key
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		view = inflater.inflate(R.layout.fragment_policy, container, false);
-		Log.d("test","PolicyFragment onCreateView");
-		return view;
-	}
+    private String mTitle;//接收用户传过来的title
 
-	@Override
-	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		initViews();
-		mIndicator.setVisibleTabCount(5);
-		mIndicator.setTabItemTitles(mTitles);
-		mIndicator.setViewPager(mViewPager, 0);
-	}
+    public static PolicyFragment newInstance(String title) {
 
-	@Override
-	public void onResume() {
-		Log.d("test","PolicyFragment onResume");
-		super.onResume();
-		//find
-		updateUI();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-
-		Log.d("test","PolicyFragment onStop");
-	}
-
-	private void updateUI(){
-
-		if (mAdapter == null){
-			initData();
-			mViewPager.setAdapter(mAdapter);
-		}else {
-			mViewPager.setAdapter(mAdapter);
-		}
-	}
-
-	private void initViews() {
-		mViewPager = (ViewPager) view.findViewById(R.id.id_viewpager);
-		mIndicator = (ViewPagerIndicator) view.findViewById(R.id.id_indicator);
-		for (String title : mTitles) {
-			Log.d("test","来一个"+title);
-			ViewPagerSimpleFragment fragment = ViewPagerSimpleFragment.newInstance(title);
-			mContents.add(fragment);
-		}
-	}
+        Bundle bundle = new Bundle();
+        bundle.putString(BUNDLE_TITLE, title);
 
 
-	private void initData() {//getActivity().getSupportFragmentManager()
-		mAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
-			@Override
-			public Fragment getItem(int position) {
-				return mContents.get(position);
-			}
+        PolicyFragment fragment = new PolicyFragment();
+        fragment.setArguments(bundle);
+        Log.d("life","newInstance+"+bundle.getString(BUNDLE_TITLE));
+        return fragment;
+    }
 
-			@Override
-			public int getCount() {
-				return mContents.size();
-			}
-		};
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_policy, container, false);
+        Log.d("life", "PolicyFragment onCreateView");
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            Log.d("life","getArguments");
+            mTitle = getArguments().getString(BUNDLE_TITLE);
+        }
+        Log.d("life","全部"+mTitle);
+        super.onViewCreated(view, savedInstanceState);
+        initViews();
+        mIndicator.setVisibleTabCount(5);
+        mIndicator.setTabItemTitles(mTitles);
+        mIndicator.setViewPager(mViewPager, 0);
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("life", "PolicyFragment onResume");
+        super.onResume();
+        //find
+        updateUI();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        Log.d("life", "PolicyFragment onStop");
+    }
+
+    private void updateUI() {
+
+        if (mAdapter == null) {
+            Log.d("life", "mAdapter == null");
+            initData();
+        } else {
+            Log.d("life", "mAdapter != null");
+        }
+        mViewPager.setAdapter(mAdapter);
+    }
+
+    private void initViews() {
+        mViewPager = (ViewPager) view.findViewById(R.id.id_viewpager);
+        mIndicator = (ViewPagerIndicator) view.findViewById(R.id.id_indicator);
+    }
+
+
+    private void initData() {//getActivity().getSupportFragmentManager()
+        for (String title : mTitles) {
+            Log.d("life", "来一个" + title);
+            ViewPagerSimpleFragment fragment = ViewPagerSimpleFragment.newInstance(title);
+            mContents.add(fragment);
+        }
+        mAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return mContents.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mContents.size();
+            }
+        };
+    }
 }
