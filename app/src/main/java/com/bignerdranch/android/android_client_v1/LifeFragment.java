@@ -1,7 +1,10 @@
 package com.bignerdranch.android.android_client_v1;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,35 +15,44 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 public class LifeFragment extends Fragment {
 
-	private RecyclerView mLifeRecyclerView;
-	private LifeAdapter mAdapter;
+    private RecyclerView mLifeRecyclerView;
+    private LifeAdapter mAdapter;
 
-	private UUID refresh_id;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d("test", "LifeFragment onCreateView");
+        View view = inflater.inflate(//android.R.layout.simple_list_item_1,
+                R.layout.fragment_life,
+                container, false);
+        return view;
+    }
+
 	@Override
-	public View onCreateView(LayoutInflater inflater,  ViewGroup container,
-							 Bundle savedInstanceState) {
-		View view = inflater.inflate(//android.R.layout.simple_list_item_1,
-				R.layout.fragment_life,
-				container, false);
-
-
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 		mLifeRecyclerView = (RecyclerView) view.findViewById(R.id.life_recycler_view);
 		mLifeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 		updateUI();
 
-		return view;
 	}
 
 	@Override
 	public void onResume() {
+		Log.d("test","LifeFragment onResume");
 		super.onResume();
-		//updateUI();
+		updateUI();
+	}
+
+	@Override
+	public void onStop() {
+		Log.d("test","LifeFragment onStop");
+		super.onStop();
 	}
 
 	private void updateUI(){
@@ -56,6 +68,7 @@ public class LifeFragment extends Fragment {
 			mAdapter = new LifeAdapter(Lifes);
 			mLifeRecyclerView.setAdapter(mAdapter);
 		}else {
+			mLifeRecyclerView.setAdapter(mAdapter);
 			mAdapter.notifyDataSetChanged();
 
 		}
@@ -65,7 +78,7 @@ public class LifeFragment extends Fragment {
 	}
 
 	private class LifeHolder extends RecyclerView.ViewHolder
-			//implements View.OnClickListener
+			implements View.OnClickListener
 	{
 
 
@@ -77,7 +90,7 @@ public class LifeFragment extends Fragment {
 		public LifeHolder(View itemView){
 			super(itemView);
 
-//			itemView.setOnClickListener(this);
+			itemView.setOnClickListener(this);
 
 			//mTitleTextView = (TextView)itemView;
 			mTitleTextView = (TextView)itemView.findViewById(R.id.list_item_life_title_text_view);
@@ -91,26 +104,23 @@ public class LifeFragment extends Fragment {
 		}
 
 
-//		@Override
-//		public void onClick(View v) {
-//			// Toast.makeText(getActivity(),mLife.getTitle() + " clicked!",Toast.LENGTH_SHORT)
-//			//.show();
-//			// Intent intent = LifeActivity.newIntent(getActivity(),mLife.getId());
-//			Intent intent = LifePagerActivity.newIntent(getActivity(),mLife.getId());
-//			refresh_id = mLife.getId();
-//			startActivity(intent);
-//			// startActivityForResult(intent,REQUEST_Life);
-//
-//		}
+		@Override
+		public void onClick(View v) {
+			Intent intent = LifeDetailActivity.newIntent(getActivity(),mLife.getId());
+			startActivity(intent);
+
+			// startActivityForResult(intent,REQUEST_Life);
+
+		}
 	}
 
 
 	private class LifeAdapter extends RecyclerView.Adapter<LifeHolder>{
 
-		private List<Life> mLifes;
+		private List<Life> mLifeList;
 
 		public LifeAdapter(List<Life> Lifes){
-			mLifes = Lifes;
+			mLifeList = Lifes;
 		}
 
 		@Override
@@ -118,21 +128,22 @@ public class LifeFragment extends Fragment {
 			Log.d("test","onCreateViewHolder");
 			LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
 			View view = layoutInflater
-					.inflate(R.layout.list_item_life, parent, false);
+					.inflate(R.layout.item_life_list, parent, false);
 			return new LifeHolder(view);
 		}
 
 		@Override
 		public void onBindViewHolder(LifeHolder holder, int position) {
+			Log.d("life","position"+position);
 
-			Life life = mLifes.get(position);
+			Life life = mLifeList.get(position);
 			//holder.mTitleTextView.setText("测试商品");
 			holder.bindLife(life);
 		}
 
 		@Override
 		public int getItemCount() {
-			return mLifes.size();
+			return mLifeList.size();
 		}
 	}
 

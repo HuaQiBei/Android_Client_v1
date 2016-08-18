@@ -3,8 +3,12 @@
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#7f7f82</color>
     <color name="foot_txt_gray">#A9A9A9</color>
+
+
+    <color name="normal">#77000000</color>
+    <color name="highlight">#882977c3</color>
 
 <color name="white">#ffffff</color><!--白色 --> 
 <color name="ivory">#fffff0</color><!--象牙色 --> 
@@ -74,8 +78,7 @@
 <color name="indianred">#cd5c5c</color><!--印第安红 --> 
 <color name="mediumvioletred">#c71585</color><!--中紫罗兰色 --> 
 <color name="silver">#c0c0c0</color><!--银色 -->
-
-    <color name="silverGray">#c7c7c7</color>
+<color name="silverGray">#c7c7c7</color><!--银灰色 -->
 <color name="darkkhaki">#bdb76b</color><!--暗黄褐色 --> 
 <color name="rosybrown">#bc8f8f</color><!--褐玫瑰红 --> 
 <color name="mediumorchid">#ba55d3</color><!--中粉紫色 --> 
@@ -156,7 +159,9 @@
 <color name="black">#000000</color><!--黑色 --> 
 <color name="green_title">#4FD09E</color>
 
+    <color name="blue_ico">#2977C3</color>
 
+    <color name="home_search_bg">#e64514</color>
     <color name="normal_bg_color">#f0f0f0</color>
     <color name="normal_bg_color_litter">#f7f7f7</color>
 </resources>

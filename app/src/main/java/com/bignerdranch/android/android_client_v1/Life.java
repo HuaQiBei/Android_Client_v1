@@ -12,7 +12,10 @@ public class Life {
     private String mPrice;
     private String mCategory;
     private String mDistance;
-
+    public Life() {
+        //Generate unique identifier
+        mId = UUID.randomUUID();
+    }
     public UUID getId() {
         return mId;
     }

@@ -3,8 +3,10 @@ package com.bignerdranch.android.android_client_v1;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
@@ -15,7 +17,11 @@ import android.widget.TextView;
  * @功能说明 自定义TabHost
  *
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
+
+    private int mPolicyTitle;
+
     // 定义FragmentTabHost对象
     private FragmentTabHost mTabHost;
 
@@ -35,11 +41,19 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.main_tab_item_mine};
 
     // Tab选项卡的文字
-    private String mTextViewArray[] = { "主页", "生活",  "保单", "我的" };
+    private String mTextViewArray[] = {
+            "主页",
+            "生活",
+            "保单",
+            "我的"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("test","MainActivity onCreate");
+      //  requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_main);
 
         initView();
@@ -84,5 +98,16 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(mTextViewArray[index]);
 
         return view;
+    }
+    public int getPolicyTitle() {
+        return mPolicyTitle;
+    }
+
+    public void setPolicyTitle(int policyTitle) {
+        mPolicyTitle = policyTitle;
+    }
+
+    public void setCurrentTabByTag(String tag){
+        mTabHost.setCurrentTabByTag(tag);
     }
 }
