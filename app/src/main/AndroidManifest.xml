@@ -85,6 +85,11 @@
             android:label="填写保单"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".view.ChooseAreaActivity"
+            android:label=""
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

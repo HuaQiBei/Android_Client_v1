@@ -52,26 +52,21 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         ((MainActivity) getActivity()).setCurrentTabByTag("保单");
         switch (v.getId()) {
-            case R.id.view_policy: {
+            case R.id.view_policy:
                 ((MainActivity) getActivity()).setPolicyTitle(0);
                 break;
-            }
-            case R.id.view_policy2: {
+            case R.id.view_policy2:
                 ((MainActivity) getActivity()).setPolicyTitle(1);
                 break;
-            }
-            case R.id.view_policy3: {
+            case R.id.view_policy3:
                 ((MainActivity) getActivity()).setPolicyTitle(2);
                 break;
-            }
-            case R.id.view_policy4: {
+            case R.id.view_policy4:
                 ((MainActivity) getActivity()).setPolicyTitle(3);
                 break;
-            }
-            case R.id.view_policy5: {
+            case R.id.view_policy5:
                 ((MainActivity) getActivity()).setPolicyTitle(4);
                 break;
-            }
         }
     }
 }
