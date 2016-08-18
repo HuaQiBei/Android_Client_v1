@@ -2,6 +2,7 @@ package com.bignerdranch.android.android_client_v1;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.sax.RootElement;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
 	private View user;
 
+	private static final int REQUEST_POLICY = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,28 +50,30 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		((MainActivity) getActivity()).setCurrentTabByTag("保单");
-		switch (v.getId()){
-			case R.id.view_policy:{
-				((MainActivity) getActivity()).setPolicyTitle(0);
-				break;
-			}
-			case R.id.view_policy2:{
-				((MainActivity) getActivity()).setPolicyTitle(1);
-				break;
-			}
-			case R.id.view_policy3:{
-				((MainActivity) getActivity()).setPolicyTitle(2);
-				break;
-			}
-			case R.id.view_policy4:{
-				((MainActivity) getActivity()).setPolicyTitle(3);
-				break;
-			}
-			case R.id.view_policy5:{
-				((MainActivity) getActivity()).setPolicyTitle(4);
-				break;
-			}
-		}
+		Intent intent = MainActivity.newIntent(getActivity(), 4);
+		startActivityForResult(intent, REQUEST_POLICY);
+//		((MainActivity) getActivity()).setCurrentTabByTag("保单");
+//		switch (v.getId()){
+//			case R.id.view_policy:{
+//				((MainActivity) getActivity()).setPolicyTitle(0);
+//				break;
+//			}
+//			case R.id.view_policy2:{
+//				((MainActivity) getActivity()).setPolicyTitle(1);
+//				break;
+//			}
+//			case R.id.view_policy3:{
+//				((MainActivity) getActivity()).setPolicyTitle(2);
+//				break;
+//			}
+//			case R.id.view_policy4:{
+//				((MainActivity) getActivity()).setPolicyTitle(3);
+//				break;
+//			}
+//			case R.id.view_policy5:{
+//				((MainActivity) getActivity()).setPolicyTitle(4);
+//				break;
+//			}
+//		}
 	}
 }
