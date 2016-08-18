@@ -1,6 +1,7 @@
 package com.bignerdranch.android.android_client_v1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 
 import com.lidroid.xutils.ViewUtils;
@@ -35,6 +37,8 @@ public class HomeFragment extends Fragment {
 	private RadioButton rb2;
 	@ViewInject(R.id.index_home_rb3)
 	private RadioButton rb3;
+
+	private TextView jiudian;
 
 	private GridView gridView1;
 	private GridView gridView2;
@@ -72,7 +76,14 @@ public class HomeFragment extends Fragment {
 		ViewUtils.inject(this, view);   //注入控件
 		//获取数据并显示
 		//topCity.setText(SharedUtils.getCityName(getActivity()));
-
+        jiudian=(TextView) view.findViewById(R.id.jiudianxian);
+		jiudian.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(getActivity(),AddPolicyActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		initGridView();
 
