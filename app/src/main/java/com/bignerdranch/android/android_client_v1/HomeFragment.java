@@ -39,9 +39,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @ViewInject(R.id.index_home_rb3)
     private RadioButton rb3;
 
-    private GridView gridView1;
-    private GridView gridView2;
-    private GridView gridView3;
+	private TextView jiudian;
+
+	private GridView gridView1;
+	private GridView gridView2;
+	private GridView gridView3;
 
     //接受处理消息
     private Handler handler = new Handler(new Handler.Callback() {//暂时先让秒数动起来
@@ -70,11 +72,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, null);
-        ViewUtils.inject(this, view);   //注入控件
-        //获取数据并显示
-        //topCity.setText(SharedUtils.getCityName(getActivity()));
-
+		View view=inflater.inflate(R.layout.fragment_home, null);
+		ViewUtils.inject(this, view);   //注入控件
+		//获取数据并显示
+		//topCity.setText(SharedUtils.getCityName(getActivity()));
+        jiudian=(TextView) view.findViewById(R.id.jiudianxian);
+		jiudian.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(getActivity(),AddPolicyActivity.class);
+				startActivity(intent);
+			}
+		});
 
         initGridView();
 

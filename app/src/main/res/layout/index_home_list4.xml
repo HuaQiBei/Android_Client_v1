@@ -26,10 +26,11 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/jiudianxian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                    android:text="折后减50元"
+                    android:text="酒店意外险"
                     android:textColor="#844833"
                     android:textSize="16sp" />
 
