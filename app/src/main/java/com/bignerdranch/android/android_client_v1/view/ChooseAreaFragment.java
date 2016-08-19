@@ -145,6 +145,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryProvinces() {
         mProvinceList = mWeatherDB.loadProvinces();
         if (mProvinceList.size() > 0) {
+            Log.d("life","查数据库");
             dataList.clear();
             for (Province province :
                     mProvinceList) {
@@ -154,6 +155,7 @@ public class ChooseAreaFragment extends Fragment {
             mTitleText.setText("中国");
             mCurrentLevel = LEVEL_PROVINCE;
         } else {
+            Log.d("life","查服务器");
             queryFromServer(null, "province");
         }
     }
@@ -164,6 +166,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCities() {
         mCityList = mWeatherDB.loadCities(mSelectedProvince.getId());
         if (mCityList.size() > 0) {
+            Log.d("life","查数据库");
             dataList.clear();
             for (City city :
                     mCityList) {
@@ -173,6 +176,7 @@ public class ChooseAreaFragment extends Fragment {
             mTitleText.setText(mSelectedProvince.getProvinceName());
             mCurrentLevel = LEVEL_CITY;
         } else {
+            Log.d("life","查服务器");
             queryFromServer(mSelectedProvince.getProvinceCode(), "city");
 
         }
@@ -182,6 +186,7 @@ public class ChooseAreaFragment extends Fragment {
      * 查询市内的县，优先从数据库查询，如果没有再去服务器查询
      */
     private void queryCounties() {
+        Log.d("life","查数据库");
         mCountyList = mWeatherDB.loadCounties(mSelectedCity.getId());
         Log.d("life", mSelectedCity.getCityName() + " " + mCountyList.size());
         if (mCountyList.size() > 0) {
@@ -194,6 +199,7 @@ public class ChooseAreaFragment extends Fragment {
             mTitleText.setText(mSelectedCity.getCityName());
             mCurrentLevel = LEVEL_COUNTY;
         } else {
+            Log.d("life","查服务器");
             queryFromServer(mSelectedCity.getCityCode(), "county");
         }
     }
