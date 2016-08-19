@@ -1,7 +1,6 @@
 package com.bignerdranch.android.android_client_v1.view;
 
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.bignerdranch.android.android_client_v1.SingleFragmentActivity;
 

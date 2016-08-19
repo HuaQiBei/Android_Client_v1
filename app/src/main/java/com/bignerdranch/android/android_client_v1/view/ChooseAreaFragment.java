@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by DELL on 2016/8/18.
  */
-public class ChooseAreaFragment extends Fragment{
+public class ChooseAreaFragment extends Fragment {
 
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
@@ -38,7 +38,7 @@ public class ChooseAreaFragment extends Fragment{
     private ProgressDialog progressDialog;
     private TextView mTitleText;
     private RecyclerView mAreaRecyclerView;
-   // private ArrayAdapter<String> mAdapter;
+    // private ArrayAdapter<String> mAdapter;
     private WeatherDB mWeatherDB;
     private List<String> dataList = new ArrayList<>();
     private List<Province> mProvinceList;
@@ -62,20 +62,43 @@ public class ChooseAreaFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
         mAreaRecyclerView = (RecyclerView) view.findViewById(R.id.area_recycler_view);
         mAreaRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mTitleText = (TextView)view.findViewById(R.id.area_title_text);
-       // mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dataList);
+        mTitleText = (TextView) view.findViewById(R.id.area_title_text);
         mWeatherDB = WeatherDB.getInstance(getActivity());
         mAdapter = new AreaAdapter();
         mAreaRecyclerView.setAdapter(mAdapter);
-        Log.d("life",""+mAdapter.getItemCount());
-
         queryProvinces();
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        getView().setFocusableInTouchMode(true);
+//        getView().requestFocus();
+//        getView().setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (event.getAction() == KeyEvent.KEYCODE_BACK){
+//                    Log.d("life","返回键");
+//                    if (mCurrentLevel == LEVEL_CITY){
+//
+//                        queryProvinces();
+//                    } else if (mCurrentLevel == LEVEL_COUNTY) {
+//                        queryCities();
+//                    }else
+//                        getActivity().finish();
+//                    return true;
+//                }
+//                return false;
+//            }
+//
+//        });
+//    }
+
     private class AreaHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener{
+            implements View.OnClickListener {
         public TextView mItemText;
-        public AreaHolder(View itemView){
+
+        public AreaHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             mItemText = (TextView) itemView.findViewById(android.R.id.text1);
@@ -83,19 +106,18 @@ public class ChooseAreaFragment extends Fragment{
 
         @Override
         public void onClick(View v) {
-            Log.d("life",""+ getAdapterPosition());
-            if(mCurrentLevel == LEVEL_PROVINCE){
+            Log.d("life", "" + getAdapterPosition());
+            if (mCurrentLevel == LEVEL_PROVINCE) {
                 mSelectedProvince = mProvinceList.get(getAdapterPosition());
                 queryCities();
-            }else if(mCurrentLevel == LEVEL_CITY){
+            } else if (mCurrentLevel == LEVEL_CITY) {
                 mSelectedCity = mCityList.get(getAdapterPosition());
                 queryCounties();
             }
-
         }
     }
 
-    private class AreaAdapter extends RecyclerView.Adapter<AreaHolder>{
+    private class AreaAdapter extends RecyclerView.Adapter<AreaHolder> {
         @Override
         public AreaHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
@@ -106,7 +128,7 @@ public class ChooseAreaFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(AreaHolder holder, int position) {
-            String  data = dataList.get(position);
+            String data = dataList.get(position);
             holder.mItemText.setText(data);
         }
 
@@ -120,9 +142,9 @@ public class ChooseAreaFragment extends Fragment{
     /**
      * 查询全国所有的省，优先从数据库查询，如果没有再去服务器查询
      */
-    private void queryProvinces(){
+    private void queryProvinces() {
         mProvinceList = mWeatherDB.loadProvinces();
-        if (mProvinceList.size() > 0){
+        if (mProvinceList.size() > 0) {
             dataList.clear();
             for (Province province :
                     mProvinceList) {
@@ -131,16 +153,17 @@ public class ChooseAreaFragment extends Fragment{
             mAdapter.notifyDataSetChanged();
             mTitleText.setText("中国");
             mCurrentLevel = LEVEL_PROVINCE;
-        }else {
+        } else {
             queryFromServer(null, "province");
         }
     }
+
     /**
      * 查询省内所有的市，优先从数据库查询，如果没有再去服务器查询
      */
-    private void queryCities(){
+    private void queryCities() {
         mCityList = mWeatherDB.loadCities(mSelectedProvince.getId());
-        if (mCityList.size() > 0){
+        if (mCityList.size() > 0) {
             dataList.clear();
             for (City city :
                     mCityList) {
@@ -149,17 +172,19 @@ public class ChooseAreaFragment extends Fragment{
             mAdapter.notifyDataSetChanged();
             mTitleText.setText(mSelectedProvince.getProvinceName());
             mCurrentLevel = LEVEL_CITY;
-        }else {
+        } else {
             queryFromServer(mSelectedProvince.getProvinceCode(), "city");
 
         }
     }
+
     /**
      * 查询市内的县，优先从数据库查询，如果没有再去服务器查询
      */
-    private void queryCounties(){
+    private void queryCounties() {
         mCountyList = mWeatherDB.loadCounties(mSelectedCity.getId());
-        if (mCountyList.size() > 0){
+        Log.d("life", mSelectedCity.getCityName() + " " + mCountyList.size());
+        if (mCountyList.size() > 0) {
             dataList.clear();
             for (County county :
                     mCountyList) {
@@ -168,46 +193,48 @@ public class ChooseAreaFragment extends Fragment{
             mAdapter.notifyDataSetChanged();
             mTitleText.setText(mSelectedCity.getCityName());
             mCurrentLevel = LEVEL_COUNTY;
-        }else {
+        } else {
             queryFromServer(mSelectedCity.getCityCode(), "county");
-
         }
     }
-    private void queryFromServer(final String code, final String type){
+
+    private void queryFromServer(final String code, final String type) {
         String address;
-        if (!TextUtils.isEmpty(code)){
-            Log.d("life","code");
+        if (!TextUtils.isEmpty(code)) {
+            Log.d("life", "code");
             address = "http://www.weather.com.cn/data/list3/city" + code +
                     ".xml";
-        }else{
-            Log.d("life","! code");
+        } else {
+            Log.d("life", "! code");
             address = "http://www.weather.com.cn/data/list3/city.xml";
         }
         showProgressDialog();
+        //MyProgressDialog.showProgressDialog(getActivity());
         HttpUtil.sendHttpRequest(address, new HttpCallbackListner() {
             @Override
             public void onFinish(String response) {
                 boolean result = false;
-                Log.d("life",type);
-                if ("province".equals(type)){
-                    Log.d("life","province");
+                Log.d("life", type);
+                if ("province".equals(type)) {
+                    Log.d("life", "province");
                     result = Utility.handleProvincesResponse(mWeatherDB, response);
-                }else if ("city".equals(type)){
+                } else if ("city".equals(type)) {
                     result = Utility.handleCitiesResponse(mWeatherDB, response, mSelectedProvince.getId());
-                }else if ("county".equals(type)){
+                } else if ("county".equals(type)) {
                     result = Utility.handleCountysResponse(mWeatherDB, response, mSelectedCity.getId());
                 }
-                if (result){
+                if (result) {
                     //runOnUiThread回到主线程处理逻辑
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //MyProgressDialog.closeProgressDialog();
                             closeProgressDialog();
-                            if ("province".equals(type)){
+                            if ("province".equals(type)) {
                                 queryProvinces();
-                            }else if ("city".equals(type)){
+                            } else if ("city".equals(type)) {
                                 queryCities();
-                            }else if ("county".equals(type)){
+                            } else if ("county".equals(type)) {
                                 queryCounties();
                             }
                         }
@@ -231,15 +258,14 @@ public class ChooseAreaFragment extends Fragment{
     }
 
     private void closeProgressDialog() {
-        Log.d("life","消失");
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
     }
+
     private void showProgressDialog() {
-        Log.d("life","showProgressDialog");
-        if(progressDialog == null) {
-            Log.d("life","正在加载中");
+        Log.d("life", "showProgressDialog");
+        if (progressDialog == null) {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("正在加载中····");
             progressDialog.setCanceledOnTouchOutside(false);
