@@ -1,6 +1,7 @@
 package com.bignerdranch.android.android_client_v1.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bignerdranch.android.android_client_v1.model.*;
 import com.bignerdranch.android.android_client_v1.model.WeatherDB;
