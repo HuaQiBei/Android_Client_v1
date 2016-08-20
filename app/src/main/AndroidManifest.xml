@@ -95,6 +95,12 @@
             android:label=""
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".view.WeatherActivity"
+            android:label=""
+            android:parentActivityName=".view.ChooseAreaActivity">
+        </activity>
+        <service android:name=".service.AutoUpdateService"/>
+        <receiver android:name=".receiver.AutoUpdateReceiver"/>
     </application>
-
 </manifest>
