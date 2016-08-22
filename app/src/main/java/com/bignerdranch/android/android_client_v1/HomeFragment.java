@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 
+import com.bignerdranch.android.android_client_v1.view.AddScenicPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 		jiudian.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent=new Intent(getActivity(),AddPolicyActivity.class);
+				Intent intent=new Intent(getActivity(), AddScenicPolicyActivity.class);
 				startActivity(intent);
 			}
 		});

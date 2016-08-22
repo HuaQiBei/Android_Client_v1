@@ -4,25 +4,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import android.text.StaticLayout;
 import android.util.Log;
+
+
+import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
 
 public class Conn2ServerImp implements Connect2Server {
 	private static final String TAG = "Conn2ServerImp";
@@ -58,6 +52,8 @@ public class Conn2ServerImp implements Connect2Server {
 		DataOutputStream out = new DataOutputStream(conn
 				.getOutputStream());
 
+		SetPostParams.setPostParam("userID","12");
+
 		SetPostParams.setPostParam("receivename",receivename);
 		SetPostParams.setPostParam("telephone",telephone);
 		SetPostParams.setPostParam("mailcode",mailcode);
@@ -80,6 +76,8 @@ public class Conn2ServerImp implements Connect2Server {
 		HttpURLConnection conn=initPost(urlSpec);
 		DataOutputStream out = new DataOutputStream(conn
 				.getOutputStream());
+
+		SetPostParams.setPostParam("userID","12");
 
 		SetPostParams.setPostParam("contactname",contactname);
 		SetPostParams.setPostParam("telephone",telephone);
@@ -112,6 +110,50 @@ public class Conn2ServerImp implements Connect2Server {
 
 	}
 
+	@Override
+	public String addScenicPolicy(ScenicPolicy policy) throws IOException, JSONException {
+
+		String str=null;
+		Log.d("test","in add Scenic policy!");
+
+		HttpURLConnection conn=initPost(urlSpec);
+		DataOutputStream out = new DataOutputStream(conn
+				.getOutputStream());
+	 JSONArray reqValue=new JSONArray().put(new JSONObject().put("scenicname", policy.getScenicname()).put("startdate",policy.getStartdate())
+	 .put("scenicweather",policy.getScenicweather()).put("enddate",policy.getEnddate()).put("policyID",policy.getPolicyID())
+			 .put("insureduty",policy.getInsureduty()).put("fee",policy.getFee()).put("userID",policy.getPolicyholder()));
+
+		Log.d("test",reqValue.toString());
+		SetPostParams.setPostParam("data",reqValue.toString());
+		SetPostParams.setPostParam("flag","addscenicpolicy");
+		out.writeBytes(SetPostParams.getResult().toString());
+		out.flush();
+		out.close();
+		str=new String(getPostReturn(conn));
+		return str;
+
+
+	}
+
+	@Override
+	public String addInsuredman(String insuredname, String insuredIDcard) throws IOException {
+
+		String str=null;
+		Log.d("test","in add Insuredman!");
+
+		HttpURLConnection conn=initPost(urlSpec);
+		DataOutputStream out = new DataOutputStream(conn
+				.getOutputStream());
+
+		SetPostParams.setPostParam("flag","addpolicy");
+		out.writeBytes(SetPostParams.getResult().toString());
+		out.flush();
+		out.close();
+		str=new String(getPostReturn(conn));
+		return str;
+
+	}
+
 	public HttpURLConnection initPost(String urlstr) throws IOException {
 
 		URL url = new URL(urlstr);
@@ -124,6 +166,7 @@ public class Conn2ServerImp implements Connect2Server {
 		connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
 		connection.connect();
 		return connection;
+
 	}
 
 	public byte[] getPostReturn(HttpURLConnection connection) throws IOException {
