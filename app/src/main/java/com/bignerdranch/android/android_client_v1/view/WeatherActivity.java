@@ -64,6 +64,9 @@ public class WeatherActivity extends Activity implements OnClickListener {
      */
     private View activit_weather;
 
+
+    public static final String WEATHER_KEY = "a358f27264244224b7da0d561f0d365d";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +96,17 @@ public class WeatherActivity extends Activity implements OnClickListener {
             publishText.setText("同步中...");
             weatherInfoLayout.setVisibility(View.INVISIBLE);
             cityNameText.setVisibility(View.INVISIBLE);
-            queryWeatherCode(countyCode);
+            //queryWeatherCode(countyCode);
+            String weatherCode = "CN101";
+            if (countyCode.matches("([0][1234])\\d{4}")) {
+                Log.d("life", "匹配");
+                weatherCode += countyCode.substring(0, 2) + countyCode.substring(4, 6) + "00";
+            } else
+                weatherCode += countyCode;
+            //countyCode.replaceAll("([0][1234])（\\d{2}）(\\d{2})","000000");
+            //weatherCode+=countyCode;
+            Log.d("life", weatherCode);
+            queryWeatherInfo(weatherCode);
         } else {
             // 没有县级代号时就直接显示本地天气
             Log.d("life", "没有县级代号" + countyCode);
@@ -136,7 +149,9 @@ public class WeatherActivity extends Activity implements OnClickListener {
      * 查询县级代号所对应的天气代号。
      */
     private void queryWeatherCode(String countyCode) {
+
         String address = "http://www.weather.com.cn/data/list3/city" + countyCode + ".xml";
+        Log.d("life", address);
         queryFromServer(address, "countyCode");
     }
 
@@ -144,7 +159,9 @@ public class WeatherActivity extends Activity implements OnClickListener {
      * 查询天气代号所对应的天气。
      */
     private void queryWeatherInfo(String weatherCode) {
-        String address = "http://www.weather.com.cn/data/cityinfo/" + weatherCode + ".html";
+        //String address = "http://www.weather.com.cn/data/cityinfo/" + weatherCode + ".html";
+        Log.d("life", weatherCode);
+        String address = "https://api.heweather.com/x3/weather?cityid=" + weatherCode + "&key=" + WeatherActivity.WEATHER_KEY;
         Log.d("life", address);
         queryFromServer(address, "weatherCode");
     }
@@ -162,7 +179,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
                         // 从服务器返回的数据中解析出天气代号
                         String[] array = response.split("\\|");
                         if (array != null && array.length == 2) {
-                            String weatherCode = array[1];
+                            String weatherCode = "CN101" + array[1];
 
                             queryWeatherInfo(weatherCode);
                         }
@@ -205,8 +222,6 @@ public class WeatherActivity extends Activity implements OnClickListener {
         currentDateText.setText(prefs.getString("current_date", ""));
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameText.setVisibility(View.VISIBLE);
-        Intent intent = new Intent(this, AutoUpdateService.class);
-        startService(intent);
     }
 
 }

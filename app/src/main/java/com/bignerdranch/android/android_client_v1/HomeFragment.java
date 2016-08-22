@@ -41,6 +41,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @ViewInject(R.id.index_home_rb3)
     private RadioButton rb3;
 
+    View view;
+
     private TextView jiudian;
 
     private GridView gridView1;
@@ -74,16 +76,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, null);
+        view = inflater.inflate(R.layout.fragment_home, null);
         ViewUtils.inject(this, view);   //注入控件
         //获取数据并显示
         //topCity.setText(SharedUtils.getCityName(getActivity()));
-        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        if (prefs.getBoolean("city_selected", false))
-            home_choose_area.setText(prefs.getString("city_name", ""));
         jiudian = (TextView) view.findViewById(R.id.jiudianxian);
         jiudian.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +104,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         //return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Log.d("life", "刷新view");
+        home_choose_area.setText(prefs.getString("city_name", "选择"));
     }
 
     @Override
