@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="0dp">
+<android.support.v7.widget.CardView
+    android:id="@+id/life_list_item_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="4dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/list_item_life_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/android_bigger" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/list_item_life_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="名称"/>
+            <TextView
+                android:id="@+id/list_item_life_price_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/star3"
+                android:layout_below="@id/list_item_life_title_text_view"
+                android:drawablePadding="3dp"
+                android:paddingTop="4dp"
+
+                tools:text="¥ 18/人" />
+            <TextView
+                android:id="@+id/list_item_life_category_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="2dp"
+                tools:text="面包西点"
+                android:layout_below="@id/list_item_life_price_text_view"/>
+
+            <TextView
+                android:id="@+id/list_item_life_distance_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+
+                android:layout_below="@id/list_item_life_price_text_view"
+                tools:text="1.6km" />
+        </RelativeLayout>
+    </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+</RelativeLayout>

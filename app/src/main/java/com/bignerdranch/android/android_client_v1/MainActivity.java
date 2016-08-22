@@ -1,8 +1,10 @@
 package com.bignerdranch.android.android_client_v1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -10,13 +12,16 @@ import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
+
 /**
- *
- *
  * @功能说明 自定义TabHost
- *
  */
 public class MainActivity extends AppCompatActivity {
+
+
+    private int mPolicyTitle;
+
     // 定义FragmentTabHost对象
     private FragmentTabHost mTabHost;
 
@@ -24,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private LayoutInflater layoutInflater;
 
     // 定义数组来存放Fragment界面
-    private Class fragmentArray[] = { HomeFragment.class,
+    private Class fragmentArray[] = {HomeFragment.class,
             LifeFragment.class, PolicyFragment.class,
-            MineFragment.class };
+            MineFragment.class};
 
     // 定义数组来存放按钮图片
     private int mImageViewArray[] = {
@@ -36,16 +41,24 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.main_tab_item_mine};
 
     // Tab选项卡的文字
-    private String mTextViewArray[] = { "主页", "生活",  "保单", "我的" };
+    private String mTextViewArray[] = {
+            "主页",
+            "生活",
+            "保单",
+            "我的"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Log.d("test", "MainActivity onCreate");
+        //  requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_main);
 
         initView();
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
     /**
@@ -87,5 +100,17 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(mTextViewArray[index]);
 
         return view;
+    }
+
+    public int getPolicyTitle() {
+        return mPolicyTitle;
+    }
+
+    public void setPolicyTitle(int policyTitle) {
+        mPolicyTitle = policyTitle;
+    }
+
+    public void setCurrentTabByTag(String tag) {
+        mTabHost.setCurrentTabByTag(tag);
     }
 }
