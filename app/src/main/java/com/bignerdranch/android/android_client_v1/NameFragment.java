@@ -7,9 +7,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-public class NameFragment extends Fragment {
+import java.util.HashMap;
 
+public class NameFragment extends Fragment implements View.OnClickListener{
+
+    private Button save;
+    private EditText input;
+    private String name;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +28,9 @@ public class NameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_name, container, false);
+        save = (Button)view.findViewById(R.id.name_save);
+        save.setOnClickListener(this);
+        input = (EditText)view.findViewById(R.id.name_input);
 
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
 
@@ -41,5 +52,19 @@ public class NameFragment extends Fragment {
         super.onResume();
     }
 
+    @Override
+    public void onClick(View v) {
+        if (input.length() == 0) {
+            Toast.makeText(getActivity(), "请输入昵称", Toast.LENGTH_SHORT).show();
+        }else {
+            name = input.getText().toString().trim();
+            HashMap<String, String> map = new HashMap<String, String>();
 
+            map.put("name", name);
+            map.put("user_id","1");          //用户ID
+            map.put("flag","alter_name");
+
+            new ConnectTask().execute(map);
+        }
+    }
 }

@@ -22,6 +22,7 @@
             android:layout_marginLeft="16dp"/>
 
         <EditText
+            android:id="@+id/name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
@@ -32,7 +33,7 @@
     <LinearLayout style="@style/common_horizontal_division_line_style" />
 
     <Button
-        android:id="@+id/crime_date"
+        android:id="@+id/name_save"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:textSize="20dp"

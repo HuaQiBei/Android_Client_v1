@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:weightSum="1">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/head">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="16dp"
+            android:text="头像"
+            android:padding="16dp"/>
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"/>
+
+        <ImageView
+            android:layout_toLeftOf="@id/photo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/head"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"/>
+    </RelativeLayout>
+
+    <LinearLayout style="@style/common_horizontal_division_line_style" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
+                  android:weightSum="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="16dp"
+            android:text="手机号"
+            android:padding="16dp"/>
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+    </LinearLayout>
+    <LinearLayout style="@style/common_horizontal_division_line_style" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
+                  android:weightSum="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="16dp"
+            android:text="邮箱"
+            android:padding="16dp"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <LinearLayout style="@style/common_horizontal_division_line_style" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+
+                  android:weightSum="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="16dp"
+            android:text="保单地址"
+            android:padding="16dp"/>
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <LinearLayout style="@style/common_horizontal_division_line_style" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/other">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="16dp"
+            android:text="添加其他联系人"
+            android:padding="16dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"/>
+    </RelativeLayout>
+    <LinearLayout style="@style/common_horizontal_division_line_style" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textSize="20dp"
+        android:textColor="#808080"
+        android:layout_gravity="center"
+        android:background="@drawable/button"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="保存"
+        android:layout_marginTop="30dp"/>
+</LinearLayout>

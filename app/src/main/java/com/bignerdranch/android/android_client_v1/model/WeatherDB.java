@@ -4,9 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-
-import com.bignerdranch.android.android_client_v1.Life;
 import com.bignerdranch.android.android_client_v1.db.WeatherOpenHelper;
 
 import java.util.ArrayList;

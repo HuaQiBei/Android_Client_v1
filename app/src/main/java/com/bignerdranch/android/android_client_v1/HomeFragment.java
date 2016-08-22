@@ -2,9 +2,11 @@ package com.bignerdranch.android.android_client_v1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+
+import com.baidu.location.LocationClient;
+import com.bignerdranch.android.android_client_v1.view.AddScenicPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
 import com.bignerdranch.android.android_client_v1.view.SearchAreaActivity;
 import com.lidroid.xutils.ViewUtils;
@@ -27,7 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 public class HomeFragment extends Fragment implements View.OnClickListener {
+
+
+    private LocationClient mLocationClient=null;
 
     @ViewInject(R.id.index_home_viewpager)
     private WrapContentHeightViewPager viewPager;
@@ -38,6 +48,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private RadioButton rb2;
     @ViewInject(R.id.index_home_rb3)
     private RadioButton rb3;
+
+    View view;
+
+    private TextView jiudian;
 
     private GridView gridView1;
     private GridView gridView2;
@@ -64,17 +78,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // TODO Auto-generated method stub  暂时不能用
         //checkGPSIsOpen();
     }
-
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mLocationClient = ((LocationApplication)getActivity().getApplication()).mLocationClient;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, null);
-        ViewUtils.inject(this, view);   //注入控件
-        //获取数据并显示
-        //topCity.setText(SharedUtils.getCityName(getActivity()));
-
+		view=inflater.inflate(R.layout.fragment_home, null);
+		ViewUtils.inject(this, view);   //注入控件
+		//获取数据并显示
+		//topCity.setText(SharedUtils.getCityName(getActivity()));
+        jiudian=(TextView) view.findViewById(R.id.jiudianxian);
+		jiudian.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(getActivity(), AddScenicPolicyActivity.class);
+				startActivity(intent);
+			}
+		});
 
         initGridView();
 
@@ -84,6 +109,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         TextView choose_area = (TextView) view.findViewById(R.id.home_choose_area);
         choose_area.setOnClickListener(this);
+        ImageView gps = (ImageView)view.findViewById(R.id.index_home_tip);
+        gps.setOnClickListener(this);
 
         /*搜索TextView*/
         TextView search_area = (TextView) view.findViewById(R.id.home_search_textview);
@@ -96,15 +123,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Log.d("life", "刷新view");
+        home_choose_area.setText(prefs.getString("city_name", "选择"));
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_choose_area:
                 Intent intent = new Intent(getActivity(), ChooseAreaActivity.class);
                 startActivity(intent);
+                Log.d("life", "点击");
+                break;
+            case R.id.index_home_tip:
+                mLocationClient.start();
+                if (mLocationClient != null&& mLocationClient.isStarted())
+                    mLocationClient.requestLocation();
                 break;
             case  R.id.home_search_textview:
                 intent = new Intent(getActivity(), SearchAreaActivity.class);
                 startActivity(intent);
+                break;
         }
     }
 
@@ -289,13 +333,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    //	@Override
-    //	public void onPause() {
-    //		// TODO Auto-generated method stub
-    //		super.onPause();
-    //		Log.e("jhd", "onPause");
-    //	}
-    //	@Override
+    @Override
     public void onStop() {
         // TODO Auto-generated method stub
         super.onStop();

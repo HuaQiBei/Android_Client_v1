@@ -15,11 +15,11 @@ public class AddressFragment extends Fragment {
     private View bt_addAddress;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_address, container, false);
-        bt_addAddress = v.findViewById(R.id.AddAddress);
-        bt_addressSave = v.findViewById(R.id.addressSave);
+        View v=inflater.inflate(R.layout.fragment_address,container,false);
+        bt_addAddress=v.findViewById(R.id.AddAddress);
 
-        bt_addressSave.setOnClickListener(new View.OnClickListener() {
+        bt_addressSave=v.findViewById(R.id.addressSave);
+        bt_addressSave.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MyInfoActivity.class);
