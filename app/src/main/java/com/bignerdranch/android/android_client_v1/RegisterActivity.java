@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,39 +16,59 @@ import java.util.HashMap;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.RegisterPage;
 
-public class PhoneFragment extends Fragment implements View.OnClickListener {
-   // private static final String APPKEY = "165330232451a";
-    //private static final String APPSECRET="478eaddde32096a52c888c7cbecd669f";
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+
     private static final String APPKEY = "164fb160b6716";
     private static final String APPSECRET="028b98c2a52546db6caa7be8de6c3b6d";
 
-    private Button save;
+    private Button login;
     private Button get_code;
-    private EditText new_phone;
+    private EditText input_name;
+    private EditText input_passw;
+    private EditText input_again;
+    private EditText input_phone;
     private EditText input_code;
-    private String phone;
+    private EditText label;
+    private String phone = "";
     int i = 30;
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+        setContentView(R.layout.activity_register);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_phone, container, false);
-        save = (Button) view.findViewById(R.id.phone_save);
-        save.setOnClickListener(this);
-        new_phone = (EditText) view.findViewById(R.id.phone_new);
-        get_code = (Button) view.findViewById(R.id.phone_get_code);
+        input_name = (EditText) findViewById(R.id.name);
+        input_passw = (EditText) findViewById(R.id.password);
+        input_again = (EditText) findViewById(R.id.again);
+        input_phone = (EditText) findViewById(R.id.phone);
+        input_code = (EditText) findViewById(R.id.code);
+        label = (EditText) findViewById(R.id.label);
+
+        get_code = (Button) findViewById(R.id.get_code);
         get_code.setOnClickListener(this);
-        input_code = (EditText) view.findViewById(R.id.phone_input_code);
+
+        login = (Button) findViewById(R.id.login);
+        login.setOnClickListener(this);
+
+        input_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String sname = input_name.getText().toString();
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("name", sname);
+                    map.put("flag", "checkname");
+                    new NameCheckTask().execute(map);
+
+                }
+
+            }
+        });
+
 
         // 启动短信验证sdk
-        SMSSDK.initSDK(getActivity(), APPKEY, APPSECRET);
+        SMSSDK.initSDK(this, APPKEY, APPSECRET);
         EventHandler eventHandler = new EventHandler(){
             @Override
             public void afterEvent(int event, int result, Object data) {
@@ -63,7 +81,6 @@ public class PhoneFragment extends Fragment implements View.OnClickListener {
         };
         //注册回调监听接口
         SMSSDK.registerEventHandler(eventHandler);
-        return view;
     }
 
     Handler handler = new Handler() {
@@ -84,20 +101,21 @@ public class PhoneFragment extends Fragment implements View.OnClickListener {
                     // 短信注册成功后，返回MainActivity,然后提示
                     Log.d("event","succ");
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
-                        Toast.makeText(getActivity(), "提交验证码成功",
+                        Toast.makeText(RegisterActivity.this, "提交验证码成功",
                                 Toast.LENGTH_SHORT).show();
                         //向服务器传送数据
                         HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("name", input_name.getText().toString());
+                        map.put("password", input_passw.getText().toString());
                         map.put("phone", phone);
-                        map.put("user_id", "1");          //用户ID
-                        map.put("flag", "alter_phone");
+                        map.put("flag", "register");
                         new ConnectTask().execute(map);
                         //跳转
-                        Intent intent = new Intent(getActivity(),
-                                MyInfoActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this,
+                                LoginActivity.class);
                         startActivity(intent);
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                        Toast.makeText(getActivity(), "正在获取验证码",
+                        Toast.makeText(RegisterActivity.this, "正在获取验证码",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         ((Throwable) data).printStackTrace();
@@ -107,28 +125,14 @@ public class PhoneFragment extends Fragment implements View.OnClickListener {
         }
     };
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.phone_save:
-                if (input_code.getText().length() == 0) {
-                    Toast.makeText(getActivity(),"请输入验证码", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    SMSSDK.submitVerificationCode("86", phone, input_code
-                                    .getText().toString());
-                }
-                break;
-            case R.id.phone_get_code:
-                if (new_phone.length() == 0) {
-                    Toast.makeText(getActivity(), "请输新手机号", Toast.LENGTH_SHORT).show();
+            case R.id.get_code:
+                if (input_phone.getText().length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "请输手机号", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    phone = new_phone.getText().toString().trim();
+                    phone = input_phone.getText().toString().trim();
                 }
                 // 1. 通过规则判断手机号
                 if (!judgePhoneNums(phone)) {
@@ -157,19 +161,38 @@ public class PhoneFragment extends Fragment implements View.OnClickListener {
                     }
                 }).start();
                 break;
+            case R.id.login:
+                //检测输入是否为空
+                if (input_name.getText().length() == 0) {
+                    Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                } else if (input_passw.getText().length() == 0) {
+                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                } else if (input_again.getText().length() == 0) {
+                    Toast.makeText(this, "请输入确认密码", Toast.LENGTH_SHORT).show();
+                } else if (!input_again.getText().toString().equals(input_passw.getText().toString())) {
+                    Toast.makeText(this, "确认密码与密码不一致", Toast.LENGTH_SHORT).show();
+                } else if (input_phone.getText().length() == 0) {
+                    Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
+                } else if (input_code.getText().length() == 0) {
+                    Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
+                } else {
+                    SMSSDK.submitVerificationCode("86", phone, input_code
+                            .getText().toString());
+                }
+                break;
         }
     }
-    /**
-     * 判断手机号码是否合理
-     *
-     * @param phoneNums
-     */
+        /**
+         * 判断手机号码是否合理
+         *
+         * @param phoneNums
+         */
     private boolean judgePhoneNums(String phoneNums) {
         if (isMatchLength(phoneNums, 11)
                 && isMobileNO(phoneNums)) {
             return true;
         }
-        Toast.makeText(getActivity(), "手机号码输入有误！",Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterActivity.this, "手机号码输入有误！",Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -208,4 +231,21 @@ public class PhoneFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
     }
 
+    class NameCheckTask extends ConnectTask {
+        //检测用户名是否已经存在
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                if (response.equals("already")) {
+                    label.setText("（用户名已存在）");
+                    input_name.setText("");
+                }else if (response.equals("ok")){
+                    label.setText("（该用户名可用）");
+                }
+            }
+        }
+    }
+
 }
+
+
