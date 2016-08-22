@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-		View view=inflater.inflate(R.layout.fragment_home, null);
+		view=inflater.inflate(R.layout.fragment_home, null);
 		ViewUtils.inject(this, view);   //注入控件
 		//获取数据并显示
 		//topCity.setText(SharedUtils.getCityName(getActivity()));
