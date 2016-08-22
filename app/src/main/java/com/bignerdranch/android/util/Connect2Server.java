@@ -1,6 +1,5 @@
 package com.bignerdranch.android.util;
 
-import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 

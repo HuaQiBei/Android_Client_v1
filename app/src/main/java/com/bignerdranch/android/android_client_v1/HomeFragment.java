@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 
+import com.baidu.location.LocationClient;
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -29,7 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 public class HomeFragment extends Fragment implements View.OnClickListener {
+
+
+    private LocationClient mLocationClient=null;
 
     @ViewInject(R.id.index_home_viewpager)
     private WrapContentHeightViewPager viewPager;
@@ -70,7 +76,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // TODO Auto-generated method stub  暂时不能用
         //checkGPSIsOpen();
     }
-
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        mLocationClient = ((LocationApplication)getActivity().getApplication()).mLocationClient;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,6 +109,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         TextView choose_area = (TextView) view.findViewById(R.id.home_choose_area);
         choose_area.setOnClickListener(this);
+        ImageView gps = (ImageView)view.findViewById(R.id.index_home_tip);
+        gps.setOnClickListener(this);
 
         return view;
 
@@ -123,6 +135,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), ChooseAreaActivity.class);
                 startActivity(intent);
                 Log.d("life", "点击");
+                break;
+            case R.id.index_home_tip:
+                mLocationClient.start();
+                if (mLocationClient != null&& mLocationClient.isStarted())
+                    mLocationClient.requestLocation();
                 break;
         }
     }
