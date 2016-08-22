@@ -150,14 +150,10 @@ public class Utility {
     //在util包下面有一个北京市天气数据的样例
     //这个JSON里面包含了非常多的天气相关的数据，但我们这里只获取基础信息就行了，有兴趣的可以继续扩展
     public synchronized static boolean handleWeatherResponse(Context context, String response) {//SharedPreferences.Editor editor
-        Log.d("life", "处理天气response");
         if (!TextUtils.isEmpty(response)) {
-            Log.d("life", "response不为空");
             try {
-                Log.d("life", "天气");
                 //先把JSON数据加载成数组，因为根部HeWeather data service 3.0后面是[符号，说明是以数组形式存放，只是这个数组里面只有一个元素
                 JSONArray jsonArray = new JSONObject(response).getJSONArray("HeWeather data service 3.0");
-                Log.d("life", "a" + jsonArray.length());
                 Log.d("life", jsonArray.toString());
                 //那么既然知道这个数组里面只有一个元素，所以我们直接取出第一个元素为JSONObject
                 JSONObject weather_info_all = jsonArray.getJSONObject(0);
