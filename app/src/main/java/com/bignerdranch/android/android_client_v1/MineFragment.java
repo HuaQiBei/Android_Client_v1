@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.sax.RootElement;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class MineFragment extends Fragment implements View.OnClickListener {
 
     private View user;
+    private View credit_card;
 
     private static final int REQUEST_POLICY = 1;
 
@@ -33,6 +36,25 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+
+        credit_card = view.findViewById(R.id.Credit_card);
+        credit_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BankcardActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.id_toolbar);
+        TextView tv = (TextView) view.findViewById(R.id.toolbar_text);
+        activity.setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+        tv.setText("我的");
+
+        //activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         view.findViewById(R.id.view_policy).setOnClickListener(this);
         view.findViewById(R.id.view_policy2).setOnClickListener(this);

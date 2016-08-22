@@ -18,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
+import com.bignerdranch.android.android_client_v1.view.SearchAreaActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -85,6 +85,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         TextView choose_area = (TextView) view.findViewById(R.id.home_choose_area);
         choose_area.setOnClickListener(this);
 
+        /*搜索TextView*/
+        TextView search_area = (TextView) view.findViewById(R.id.home_search_textview);
+        search_area.setOnClickListener(this);
+
         return view;
 
 
@@ -98,6 +102,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), ChooseAreaActivity.class);
                 startActivity(intent);
                 break;
+            case  R.id.home_search_textview:
+                intent = new Intent(getActivity(), SearchAreaActivity.class);
+                startActivity(intent);
         }
     }
 
