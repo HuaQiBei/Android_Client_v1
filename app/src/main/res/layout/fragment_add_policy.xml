@@ -237,7 +237,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:src="@drawable/ic_action_delete"
+                    android:src="@drawable/ico_action_delete"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
@@ -267,7 +267,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:src="@drawable/ic_action_delete"
+                    android:src="@drawable/ico_action_delete"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
@@ -348,7 +348,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:src="@drawable/ic_action_delete"
+                    android:src="@drawable/ico_action_delete"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
@@ -378,7 +378,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:src="@drawable/ic_action_delete"
+                    android:src="@drawable/ico_action_delete"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"

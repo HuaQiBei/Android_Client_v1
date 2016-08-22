@@ -27,7 +27,7 @@ public class PolicyFragment extends Fragment {
     private FragmentPagerAdapter mAdapter;
 
 
-    private int mTitle;//接收用户传过来的title
+    private int mTitle = -1;//接收用户传过来的title
 
 
     @Override
@@ -59,12 +59,11 @@ public class PolicyFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
+        mTitle = mViewPager.getCurrentItem();
         Log.d("life", "PolicyFragment onStop");
     }
 
     private void updateUI() {
-
         if (mAdapter == null) {
             Log.d("life", "mAdapter == null");
             initData();
@@ -73,7 +72,10 @@ public class PolicyFragment extends Fragment {
         }
         mViewPager.setAdapter(mAdapter);
         mTitle = ((MainActivity)getActivity()).getPolicyTitle();
-        mViewPager.setCurrentItem(mTitle);
+        if (mTitle > 0){
+            mViewPager.setCurrentItem(mTitle);
+            ((MainActivity)getActivity()).setPolicyTitle(-1);
+        }
     }
 
     private void initViews() {
