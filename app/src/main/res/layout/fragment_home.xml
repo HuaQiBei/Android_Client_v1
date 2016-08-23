@@ -30,6 +30,7 @@
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/home_search_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -41,7 +42,7 @@
             android:paddingRight="14dp"
             android:paddingTop="7dp"
             android:text="商户名，地点等...        "
-            android:textColor="@color/white" />
+            android:textColor="@color/gray" />
 
         <FrameLayout
             android:layout_width="wrap_content"

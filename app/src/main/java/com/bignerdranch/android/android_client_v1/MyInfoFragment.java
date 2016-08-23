@@ -1,9 +1,13 @@
 package com.bignerdranch.android.android_client_v1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +21,13 @@ public class MyInfoFragment extends Fragment {
     private View email;
     private View address;
     private View other;
+    private View logout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.getSupportActionBar().setTitle("我的资料");
+
     }
 
     @Override
@@ -34,9 +38,10 @@ public class MyInfoFragment extends Fragment {
         name = view.findViewById(R.id.name);
         reset = view.findViewById(R.id.reset);
         phone = view.findViewById(R.id.phone);
-        email =view.findViewById(R.id.email);
+        email = view.findViewById(R.id.email);
         address = view.findViewById(R.id.address);
         other = view.findViewById(R.id.other);
+        logout = view.findViewById(R.id.logout);
 
         head.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -88,6 +93,31 @@ public class MyInfoFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        logout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity()).edit();
+                editor.putBoolean("isLogin", false);
+                editor.apply();
+                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.id_toolbar);
+        activity.setSupportActionBar(toolbar);
+
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
+
         updateUI();
         return view;
     }

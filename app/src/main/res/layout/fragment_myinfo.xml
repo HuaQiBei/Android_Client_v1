@@ -5,6 +5,8 @@
               android:layout_height="match_parent"
               android:weightSum="1">
 
+    <include layout="@layout/toolbar_title" />
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -186,4 +188,16 @@
             android:layout_marginRight="20dp"/>
     </RelativeLayout>
     <LinearLayout style="@style/common_horizontal_division_line_style" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textSize="20dp"
+        android:textColor="#808080"
+        android:layout_gravity="center"
+        android:background="@drawable/button"
+        style="?android:attr/borderlessButtonStyle"
+        android:text="注销"
+        android:layout_marginTop="30dp"/>
 </LinearLayout>

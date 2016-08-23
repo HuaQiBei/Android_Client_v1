@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.baidu.location.LocationClient;
 import com.bignerdranch.android.android_client_v1.view.AddScenicPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
+import com.bignerdranch.android.android_client_v1.view.SearchAreaActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -111,6 +112,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ImageView gps = (ImageView)view.findViewById(R.id.index_home_tip);
         gps.setOnClickListener(this);
 
+        /*搜索TextView*/
+        TextView search_area = (TextView) view.findViewById(R.id.home_search_textview);
+        search_area.setOnClickListener(this);
+
         return view;
 
 
@@ -139,6 +144,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mLocationClient.start();
                 if (mLocationClient != null&& mLocationClient.isStarted())
                     mLocationClient.requestLocation();
+                break;
+            case  R.id.home_search_textview:
+                intent = new Intent(getActivity(), SearchAreaActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -326,6 +335,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onStop() {
+        // TODO Auto-generated method stub
         super.onStop();
         Log.d("test", "HomeFragment onStop");
     }

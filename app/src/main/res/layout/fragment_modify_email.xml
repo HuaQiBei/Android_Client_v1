@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
+    <include layout="@layout/toolbar_title" />
     <View  android:layout_height="1px"
            android:layout_width="match_parent"
            android:background="#dddddd"
