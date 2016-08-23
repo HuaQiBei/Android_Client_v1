@@ -1,7 +1,9 @@
 package com.bignerdranch.android.android_client_v1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,15 +21,11 @@ import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
  */
 public class MainActivity extends AppCompatActivity {
 
-
     private int mPolicyTitle;
-
     // 定义FragmentTabHost对象
     private FragmentTabHost mTabHost;
-
     // 定义一个布局
     private LayoutInflater layoutInflater;
-
     // 定义数组来存放Fragment界面
     private Class fragmentArray[] = {HomeFragment.class,
             LifeFragment.class, PolicyFragment.class,
@@ -53,7 +51,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("test", "MainActivity onCreate");
         //  requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!preferences.getBoolean("isLogin", false)) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_main);
 
         initView();
@@ -114,3 +118,10 @@ public class MainActivity extends AppCompatActivity {
         mTabHost.setCurrentTabByTag(tag);
     }
 }
+
+/*生成保单号
+    int r1=(int)(Math.random()*(10));//产生2个0-9的随机数
+    int r2=(int)(Math.random()*(10));
+    long now = System.currentTimeMillis();//一个13位的时间戳
+    String paymentID =String.valueOf(r1)+String.valueOf(r2)+String.valueOf(now);// 订单ID
+*/

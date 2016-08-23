@@ -142,10 +142,6 @@
         </activity>
         <activity android:name=".LoginActivity"
                   android:label="用户登陆">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity"
                   android:label="用户注册">
