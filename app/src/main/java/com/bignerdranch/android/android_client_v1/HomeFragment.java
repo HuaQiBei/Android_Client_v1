@@ -22,7 +22,9 @@ import android.widget.TextView;
 
 
 import com.baidu.location.LocationClient;
+import com.bignerdranch.android.android_client_v1.view.AddScenicPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
+import com.bignerdranch.android.android_client_v1.view.SearchAreaActivity;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -86,20 +88,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_home, null);
-        ViewUtils.inject(this, view);   //注入控件
-        //获取数据并显示
-        //topCity.setText(SharedUtils.getCityName(getActivity()));
-
-
-        jiudian = (TextView) view.findViewById(R.id.jiudianxian);
-        jiudian.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddPolicyActivity.class);
-                startActivity(intent);
-            }
-        });
+		view=inflater.inflate(R.layout.fragment_home, null);
+		ViewUtils.inject(this, view);   //注入控件
+		//获取数据并显示
+		//topCity.setText(SharedUtils.getCityName(getActivity()));
+        jiudian=(TextView) view.findViewById(R.id.jiudianxian);
+		jiudian.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(getActivity(), AddScenicPolicyActivity.class);
+				startActivity(intent);
+			}
+		});
 
         initGridView();
 
@@ -111,6 +111,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         choose_area.setOnClickListener(this);
         ImageView gps = (ImageView)view.findViewById(R.id.index_home_tip);
         gps.setOnClickListener(this);
+
+        /*搜索TextView*/
+        TextView search_area = (TextView) view.findViewById(R.id.home_search_textview);
+        search_area.setOnClickListener(this);
 
         return view;
 
@@ -140,6 +144,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mLocationClient.start();
                 if (mLocationClient != null&& mLocationClient.isStarted())
                     mLocationClient.requestLocation();
+                break;
+            case  R.id.home_search_textview:
+                intent = new Intent(getActivity(), SearchAreaActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -327,6 +335,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onStop() {
+        // TODO Auto-generated method stub
         super.onStop();
         Log.d("test", "HomeFragment onStop");
     }

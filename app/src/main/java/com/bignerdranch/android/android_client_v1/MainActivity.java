@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
@@ -17,9 +16,12 @@ import android.widget.TextView;
 import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
 
 /**
+ *
+ *
  * @功能说明 自定义TabHost
+ *
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private int mPolicyTitle;
     // 定义FragmentTabHost对象
@@ -27,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     // 定义一个布局
     private LayoutInflater layoutInflater;
     // 定义数组来存放Fragment界面
-    private Class fragmentArray[] = {HomeFragment.class,
+    private Class fragmentArray[] = { HomeFragment.class,
             LifeFragment.class, PolicyFragment.class,
-            MineFragment.class};
+            MineFragment.class };
 
     // 定义数组来存放按钮图片
     private int mImageViewArray[] = {
@@ -105,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
         return view;
     }
-
     public int getPolicyTitle() {
         return mPolicyTitle;
     }
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         mPolicyTitle = policyTitle;
     }
 
-    public void setCurrentTabByTag(String tag) {
+    public void setCurrentTabByTag(String tag){
         mTabHost.setCurrentTabByTag(tag);
     }
 }
