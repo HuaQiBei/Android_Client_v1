@@ -91,7 +91,7 @@ public class AddScenicPolicyFragment extends Fragment {
                 mAuthTask = new AddScenicPolicyTask(policy);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
-                Intent intent = new Intent(getActivity(),ContactActivity.class);
+                Intent intent = new Intent(getActivity(),MainActivity.class);
                 startActivity(intent);
             }
         });
