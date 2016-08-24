@@ -26,4 +26,7 @@
     <string name="Contacts_ID">身份证号</string>
     <string name="BankCard_title">银行卡</string>
     <string name="AddBankCard">添加银行卡</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
