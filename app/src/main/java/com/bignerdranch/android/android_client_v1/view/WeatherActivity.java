@@ -9,14 +9,12 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.android.android_client_v1.R;
-import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
 import com.bignerdranch.android.android_client_v1.util.HttpCallbackListner;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;

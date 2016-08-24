@@ -16,7 +16,7 @@ public class SearchAreaFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_choose_area, container, false);
+        View view = inflater.inflate(R.layout.activty_choose_area, container, false);
         return view;
     }
 }
