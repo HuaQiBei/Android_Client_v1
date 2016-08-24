@@ -1,8 +1,11 @@
 package com.bignerdranch.android.android_client_v1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button register;
     private EditText name;
     private EditText passw;
+    String sname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +47,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else if (passw.getText().length() == 0) {
                     Toast.makeText(this,"请输入密码", Toast.LENGTH_SHORT).show();
                 } else {
+                    sname = name.getText().toString();
                     HashMap<String, String> map = new HashMap<String, String>();
                     //提交的参数
-                    map.put("name", name.getText().toString());
+                    map.put("name", sname);
                     map.put("password", passw.getText().toString());
                     map.put("flag", "login");
 
@@ -73,6 +78,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this,"该用户不存在或输入密码错误", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(LoginActivity.this,"登陆成功", Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = PreferenceManager
+                            .getDefaultSharedPreferences(LoginActivity.this).edit();
+                    editor.putBoolean("isLogin", true);
+                    editor.putString("name", sname);
+                    editor.putInt("id", Integer.valueOf(response));
+                    Log.d("test",Integer.valueOf(response)+"");
+                    editor.apply();
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                 }

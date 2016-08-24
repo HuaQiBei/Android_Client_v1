@@ -60,7 +60,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     map.put("name", sname);
                     map.put("flag", "checkname");
                     new NameCheckTask().execute(map);
-
                 }
 
             }
@@ -236,6 +235,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
+                Log.d("test",response);
                 if (response.equals("already")) {
                     label.setText("（用户名已存在）");
                     input_name.setText("");

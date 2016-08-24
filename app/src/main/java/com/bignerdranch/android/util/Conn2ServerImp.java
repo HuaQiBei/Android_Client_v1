@@ -15,6 +15,19 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
+
+
+import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
+
+/**
+ * 对Conn2ServerImp类代码进行整理
+ * 以addScenicPolicy方法中的格式为模板编写
+ */
 public class Conn2ServerImp implements Connect2Server {
     private static final String TAG = "Conn2ServerImp";
     private static final String urlSpec = "http://172.27.207.3:8080/Server4android/Search.do";
@@ -112,22 +125,27 @@ public class Conn2ServerImp implements Connect2Server {
         String str = null;
         Log.d("test", "in add Scenic policy!");
 
-        HttpURLConnection conn = initPost(urlSpec);
-        DataOutputStream out = new DataOutputStream(conn
-                .getOutputStream());
-        JSONArray reqValue = new JSONArray().put(new JSONObject().put("scenicname", policy.getScenicname()).put("startdate", policy.getStartdate())
-                .put("scenicweather", policy.getScenicweather()).put("enddate", policy.getEnddate()).put("policyID", policy.getPolicyID())
-                .put("insureduty", policy.getInsureduty()).put("fee", policy.getFee()).put("userID", policy.getPolicyholder()));
-
-        Log.d("test", reqValue.toString());
-        SetPostParams.setPostParam("data", reqValue.toString());
-        SetPostParams.setPostParam("flag", "addscenicpolicy");
-        out.writeBytes(SetPostParams.getResult().toString());
-        out.flush();
-        out.close();
-        str = new String(getPostReturn(conn));
-        return str;
-
+		HttpURLConnection conn = initPost(urlSpec);
+		DataOutputStream out = new DataOutputStream(conn
+				.getOutputStream());
+		JSONArray reqValue = new JSONArray().put(
+				new JSONObject()
+						.put("scenicname", policy.getScenicname())
+						.put("startdate", policy.getStartdate())
+						.put("scenicweather", policy.getScenicweather())
+						.put("enddate", policy.getEnddate())
+						.put("policyID", policy.getPolicyID())
+						.put("insureduty", policy.getInsureduty())
+						.put("fee", policy.getFee())
+						.put("userID", policy.getPolicyholder()));
+		Log.d("test", reqValue.toString());
+		SetPostParams.setPostParam("data", reqValue.toString());
+		SetPostParams.setPostParam("flag", "addscenicpolicy");
+		out.writeBytes(SetPostParams.getResult().toString());
+		out.flush();
+		out.close();
+		str = new String(getPostReturn(conn));
+		return str;
 
     }
 
