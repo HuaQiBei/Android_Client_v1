@@ -12,14 +12,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Log;
+import java.net.URLDecoder;
 
 
 import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
@@ -73,6 +69,8 @@ public class Conn2ServerImp implements Connect2Server {
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
+        URLDecoder.decode(str,"utf-8");
+
         return str;
 
     }
@@ -150,6 +148,27 @@ public class Conn2ServerImp implements Connect2Server {
     }
 
     @Override
+    public String showScenicPolicy(int policyID) throws IOException, JSONException {
+        String str = null;
+        Log.d("test", "in add show Scenic Policy!");
+
+        HttpURLConnection conn = initPost(urlSpec);
+        DataOutputStream out = new DataOutputStream(conn
+                .getOutputStream());
+        SetPostParams.setPostParam("policyID",Integer.toString(policyID));
+        SetPostParams.setPostParam("flag", "showpolicy");
+        out.writeBytes(SetPostParams.getResult().toString());
+        out.flush();
+        out.close();
+        //str=new String(getPostReturn(conn));
+        str = new String(getPostReturn(conn));
+        Log.d("test","response:"+str);
+        return str;
+
+
+    }
+
+    @Override
     public String addInsuredman(String insuredname, String insuredIDcard) throws IOException {
 
         String str = null;
@@ -193,10 +212,10 @@ public class Conn2ServerImp implements Connect2Server {
                         ": with " +
                         urlSpec);
             }
-            int bytesRead = 0;
+           int bytesRead = 0;
             byte[] buffer = new byte[1024];
-            while ((bytesRead = in.read(buffer)) > 0) {
-                outter.write(buffer, 0, bytesRead);
+            while ((bytesRead=in.read(buffer))>0) {
+              outter.write(buffer,0,bytesRead);
             }
             outter.close();
             return outter.toByteArray();

@@ -31,7 +31,7 @@ android {
 
 }
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:cardview-v7:22.1.1'
     compile 'com.android.support:appcompat-v7:22.2.1'
@@ -42,4 +42,5 @@ dependencies {
     compile name: 'SMSSDKGUI-2.1.1', ext: 'aar'
     compile files('libs/BaiduLBS_Android.jar')
     compile files('libs/json.jar')
+    compile 'com.android.support:support-v4:22.1.1'
 }

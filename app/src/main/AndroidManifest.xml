@@ -182,6 +182,10 @@
         </activity>
         <activity android:name=".view.AddFlightPolicyActivity">
         </activity>
+        <activity
+            android:name=".view.ShowScenicPolicyActivity">
+        </activity>
+
     </application>
 
 </manifest>

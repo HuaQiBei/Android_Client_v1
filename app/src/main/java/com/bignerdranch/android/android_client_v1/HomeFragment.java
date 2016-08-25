@@ -53,6 +53,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private TextView jiudian;
 
+
     private GridView gridView1;
     private GridView gridView2;
     private GridView gridView3;
@@ -100,6 +101,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 				startActivity(intent);
 			}
 		});
+
 
         initGridView();
 
