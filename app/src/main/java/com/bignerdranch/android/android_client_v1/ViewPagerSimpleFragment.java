@@ -5,6 +5,7 @@ package com.bignerdranch.android.android_client_v1;
  */
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -19,6 +20,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
+import com.bignerdranch.android.util.Conn2ServerImp;
+import com.bignerdranch.android.util.Connect2Server;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class ViewPagerSimpleFragment extends Fragment {
@@ -26,6 +35,10 @@ public class ViewPagerSimpleFragment extends Fragment {
     private static final String BUNDLE_TITLE = "title";//设置bundle的key
     private RecyclerView mPolicyRecyclerView;
     private PolicyAdapter mPolicyAdapter;
+
+   PolicyHolder.ShowScenicPolicyTask mAuthTask=null;
+    public static String resultString;
+    public Connect2Server c2s=new Conn2ServerImp();
 
 
     View view = null;
@@ -138,6 +151,7 @@ public class ViewPagerSimpleFragment extends Fragment {
             mPolicyDetail = (TextView) itemView.findViewById(R.id.list_tv_PolicyDetail);
             mPolicyPrice = (TextView) itemView.findViewById(R.id.list_tv_PolicyPrice);
             mCheckPolicy = (Button) itemView.findViewById(R.id.list_bt_Policy);
+            mCheckPolicy.setOnClickListener(this);
             mApply = (Button) itemView.findViewById(R.id.list_bt_Apply);
             mCardView = (CardView) itemView.findViewById(R.id.mCardView);
         }
@@ -145,7 +159,108 @@ public class ViewPagerSimpleFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Toast.makeText(getActivity(), mPolicy.getPolicyNum() + " clicked!", Toast.LENGTH_SHORT).show();
+            switch (view.getId()){
+                case R.id.list_bt_Policy:
+
+                    int policyID=2;
+
+                    if (mAuthTask != null) {
+                        return;
+                    }
+                    Log.d("test","click the show detail button!");
+                    mAuthTask = new ShowScenicPolicyTask(policyID);//为后台传递参数
+                    mAuthTask.execute((Void) null);
+
+
+                    break;
+
+            }
+
         }
+//-----------------------------------
+
+
+    public class ShowScenicPolicyTask extends AsyncTask<Void, Void, String> {
+
+        int mPolicyID;
+
+        ShowScenicPolicyTask(int policyID) {
+            this.mPolicyID=policyID;
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            Log.d("test","in show policy in background!");
+            try {
+                // Simulate network access.
+                resultString = c2s.showScenicPolicy(mPolicyID);
+
+                Log.d("test","resultString="+resultString);
+
+                return resultString;
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Noting";
+
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            mAuthTask = null;
+            //showProgress(false);
+            if(result!=null){
+                Log.d("test","in to on PostExecute!");
+                Log.d("test",result);
+//                JSONArray respObjectArr = null;
+//                JSONObject respJsonObj=null;
+
+//                try {
+//                    respObjectArr = new JSONArray(result);
+//                    respJsonObj=respObjectArr.getJSONObject(0);
+//
+//                    scenicname.setText(respJsonObj.getString("scenicname"));
+//                    scenicweather.setText(respJsonObj.getString("scenicweather"));
+//                    startdate.setText(respJsonObj.getString("startdate"));
+//                    enddate.setText(respJsonObj.getString("enddate"));
+//                    insureduty.setText(respJsonObj.getString("insureduty"));
+//                    fee.setText(Double.toString(respJsonObj.getDouble("fee")));
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+
+                Intent intent=new Intent(getActivity(),ShowScenicPolicyActivity.class);
+                intent.putExtra("policydetail",resultString);
+                startActivity(intent);
+                Log.d("test","start show scenic policy activity sucessful!");
+////                Intent intent=new Intent(getActivity(),MainActivity.class);
+////                startActivity(intent);
+            } else {
+                Log.d("test","return nothing!");
+                //getActivity().finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            // showProgress(false);
+        }
+    }
+// --------------------------------------
+
+
+
+
+
+
 
         public void bindPolicy(Policy Policy) {
             mPolicy = Policy;

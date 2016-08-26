@@ -189,6 +189,10 @@
             android:parentActivityName=".MainActivity">
 
         </activity>
+        <activity
+            android:name=".view.ShowScenicPolicyActivity">
+        </activity>
+
     </application>
 
 </manifest>
