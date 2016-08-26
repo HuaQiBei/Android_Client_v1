@@ -37,6 +37,14 @@ public class FlightPolicy {
         this.policyID = policyID;
     }
 
+    public int getPolicyHolder() {
+        return policyHolder;
+    }
+
+    public void setPolicyHolder(int policyHolder) {
+        this.policyHolder = policyHolder;
+    }
+
     public String getFlightDate() {
         return mFlightDate;
     }
