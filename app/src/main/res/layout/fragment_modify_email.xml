@@ -1,55 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
     >
-    <include layout="@layout/toolbar_title" />
-    <View  android:layout_height="1px"
-           android:layout_width="match_parent"
-           android:background="#dddddd"
-           android:paddingTop="15dp"
-        />
-    <RelativeLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:paddingTop="20dp"
-       >
 
+    <include layout="@layout/toolbar_title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dddddd"
+        android:paddingTop="15dp"
+        />
+    <LinearLayout style="@style/common_horizontal_division_line_style"
+                  android:layout_marginTop="20dp"
+                  android:layout_marginBottom="5dp"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:weightSum="1"
+                  android:layout_marginTop="5dp">
         <TextView
-            android:id="@+id/tv"
-            android:paddingTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/New_Email"
-            android:textSize="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            style="@style/Font20"
+            android:layout_marginLeft="16dp"/>
 
         <EditText
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:ems="10"
             android:id="@+id/newEmail"
-            android:layout_toRightOf="@+id/tv" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:background="@null"/>
+    </LinearLayout>
+    <LinearLayout style="@style/common_horizontal_division_line_style"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginTop="5dp"/>
 
-    </RelativeLayout>
-    <View  android:layout_height="1px"
-           android:layout_width="match_parent"
-           android:background="#dddddd"
-
-        />
     <Button
+        android:id="@+id/emailSave"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/Save"
-        android:id="@+id/emailSave"
-        android:textColor="#808080"
-        android:background="@drawable/button"
-        style="?android:attr/borderlessButtonStyle"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/button"
+        android:text="@string/Save"
+        android:textColor="#fff"
         android:textSize="20dp"/>
 
 </LinearLayout>

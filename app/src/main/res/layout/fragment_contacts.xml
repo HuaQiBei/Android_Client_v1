@@ -98,7 +98,7 @@
             android:layout_gravity="center"
             android:background="@drawable/button"
             android:text="@string/Save"
-            android:textColor="#808080"
+            android:textColor="#fff"
             android:textSize="20dp"
             />
     </LinearLayout>

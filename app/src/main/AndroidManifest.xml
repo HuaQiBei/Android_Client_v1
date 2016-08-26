@@ -61,7 +61,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="0aE6s2HO0G1iUmuXsVjkykFK54jXwvOv"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -126,6 +127,7 @@
         <activity
             android:name=".LifeDetailActivity"
             android:label="生活详情"
+
             android:parentActivityName=".LifeDetailActivity">
         </activity>
         <activity
@@ -180,7 +182,12 @@
             android:name=".view.SearchAreaActivity"
             android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".view.AddFlightPolicyActivity">
+        <activity
+            android:name=".view.AddFlightPolicyActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:label="航空延误险"
+            android:parentActivityName=".MainActivity">
+
         </activity>
     </application>
 

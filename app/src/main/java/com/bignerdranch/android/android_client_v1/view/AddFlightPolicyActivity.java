@@ -8,6 +8,6 @@ public class AddFlightPolicyActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new AddScenicPolicyFragment();
+        return new AddFlightPolicyFragment();
     }
 }
