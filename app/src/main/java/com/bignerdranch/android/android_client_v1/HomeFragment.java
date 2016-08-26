@@ -20,8 +20,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-
 import com.baidu.location.LocationClient;
+import com.bignerdranch.android.android_client_v1.view.AddFlightPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.AddScenicPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
 import com.bignerdranch.android.android_client_v1.view.SearchAreaActivity;
@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     View view;
 
     private TextView jiudian;
+
 
     private GridView gridView1;
     private GridView gridView2;
@@ -101,6 +102,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 			}
 		});
 
+
         initGridView();
 
         Log.d("test", "HomeFragment onCreateView");
@@ -115,6 +117,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         /*搜索TextView*/
         TextView search_area = (TextView) view.findViewById(R.id.home_search_textview);
         search_area.setOnClickListener(this);
+
+        View flight_policy = view.findViewById(R.id.list_one);
+        flight_policy.setOnClickListener(this);
 
         return view;
 
@@ -148,6 +153,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case  R.id.home_search_textview:
                 intent = new Intent(getActivity(), SearchAreaActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.list_one:
+                intent = new Intent(getActivity(), AddFlightPolicyActivity.class);
+                startActivity(intent);
+                Log.d("list_one", "点击");
                 break;
         }
     }

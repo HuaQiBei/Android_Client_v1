@@ -124,7 +124,7 @@
         android:textSize="18dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:textColor="#808080"
+        android:textColor="#fff"
         android:background="@drawable/button"
         style="?android:attr/borderlessButtonStyle"
         android:layout_gravity="center_horizontal"/>
