@@ -1,10 +1,15 @@
-package com.bignerdranch.android.android_client_v1.model;
+package com.bignerdranch.android.android_client_v1.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import com.bignerdranch.android.android_client_v1.db.WeatherOpenHelper;
+import android.util.Log;
+
+import com.bignerdranch.android.android_client_v1.model.AllCity;
+import com.bignerdranch.android.android_client_v1.model.City;
+import com.bignerdranch.android.android_client_v1.model.County;
+import com.bignerdranch.android.android_client_v1.model.Province;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,5 +163,59 @@ public class WeatherDB {
             } while (cursor.moveToNext());
         }
         return list;
+    }
+
+    //保存一个城市对象数据到数据库
+    public void saveAllCity(AllCity city) {
+        if (city != null) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("CITY_NAME_EN", city.getCity_name_en());
+            contentValues.put("CITY_NAME_CH", city.getCity_name_ch());
+            contentValues.put("CITY_CODE", city.getCity_code());
+            db.insert("AllCITY", null, contentValues);
+        }
+    }
+
+    //更新状态为已有数据
+    public void updateDataState() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("state", 1);
+        db.update("data_state", contentValues, null, null);
+    }
+
+    //检查是否是第一次安装（0-是 1-否）
+    public int checkDataState() {
+        int data_state = -1;
+        Cursor cursor = db.query("data_state", null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                data_state = cursor.getInt(cursor.getColumnIndex("STATE"));
+            } while (cursor.moveToNext());
+        }
+        if (cursor != null)
+            cursor.close();
+        Log.d("policy",data_state+" 0代表没All城市");
+
+        return data_state;
+    }
+
+
+    //根据名称获取某一个或多个匹配的城市
+    public AllCity loadCitiesByName(String name) {
+        List<AllCity> cities = new ArrayList<>();
+        Cursor cursor = db.query("ALLCITY", null, "CITY_NAME_CH like ?", new String[]{name + "%"}, null, null, "CITY_CODE");
+        while (cursor.moveToNext()) {
+            AllCity city = new AllCity();
+            city.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+            city.setCity_name_en(cursor.getString(cursor.getColumnIndex("CITY_NAME_EN")));
+            city.setCity_name_ch(cursor.getString(cursor.getColumnIndex("CITY_NAME_CH")));
+            city.setCity_code(cursor.getString(cursor.getColumnIndex("CITY_CODE")));
+            cities.add(city);
+        }
+        if (cursor != null)
+            cursor.close();
+        Log.d("policy",cities.get(0).getCity_name_ch());
+        return cities.get(0);
     }
 }
