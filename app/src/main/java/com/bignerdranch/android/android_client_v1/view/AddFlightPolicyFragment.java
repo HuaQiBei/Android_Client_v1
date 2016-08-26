@@ -44,12 +44,7 @@ public class AddFlightPolicyFragment extends Fragment {
 
     private WeatherDB mWeatherDB;//数据库操作对象
 
-    private EditText mFlightData;
-    private EditText mFilghtId;
-    private EditText mFilghtRoute;
-    private EditText mFilghtTime;
-    private EditText mFilghtWeather;
-    private TextView mFilght;
+
     private AddFlightPolicyTask mAuthTask = null;
     public static String resultString;
     public Connect2Server c2s = new Conn2ServerImp();
@@ -126,7 +121,7 @@ public class AddFlightPolicyFragment extends Fragment {
                         public void run() {
                             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                             Log.d("policy", prefs.getString("txt_d", "变化前") + "转" + prefs.getString("txt_n", "变化后"));
-                            mFilghtWeather.setText(prefs.getString("txt_d", "变化前") + "转" + prefs.getString("txt_n", "变化后"));//设置天气
+                            mFlightWeather.setText(prefs.getString("txt_d", "变化前") + "转" + prefs.getString("txt_n", "变化后"));//设置天气
                         }
                     });
                 }
@@ -137,7 +132,7 @@ public class AddFlightPolicyFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mFilghtWeather.setText("查询天气失败");
+                        mFlightWeather.setText("查询天气失败");
                     }
                 });
             }
@@ -176,11 +171,6 @@ public class AddFlightPolicyFragment extends Fragment {
     }
     private int coverage = 0;
     private int[] flag = {0, 0, 0};
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
