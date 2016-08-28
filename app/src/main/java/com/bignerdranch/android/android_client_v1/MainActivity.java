@@ -2,6 +2,7 @@ package com.bignerdranch.android.android_client_v1;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTabHost;
@@ -12,8 +13,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
+import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
+import com.bignerdranch.android.util.Conn2ServerImp;
+import com.bignerdranch.android.util.Connect2Server;
+
+import org.json.JSONException;
 
 /**
  *
@@ -22,6 +30,12 @@ import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
  *
  */
 public class MainActivity extends AppCompatActivity{
+
+    private FindAllPolicyTask mAuthTask=null;
+    // public static String resultString;
+    public Connect2Server c2s=new Conn2ServerImp();
+
+
 
     private int mPolicyTitle;
     // 定义FragmentTabHost对象
@@ -60,7 +74,19 @@ public class MainActivity extends AppCompatActivity{
 //            finish();
 //            return;
 //        }
+
         setContentView(R.layout.activity_main);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int userID=preferences.getInt("id",0);
+        if(userID==0)
+            Toast.makeText(this, "没取到用户ID", Toast.LENGTH_SHORT).show();
+        if (mAuthTask != null) {
+            return;
+        }
+        Log.d("test","click the commit button!");
+        mAuthTask = new FindAllPolicyTask(userID);//为后台传递参数
+        mAuthTask.execute((Void) null);
 
         initView();
         Intent intent = new Intent(this, AutoUpdateService.class);
@@ -118,6 +144,71 @@ public class MainActivity extends AppCompatActivity{
     public void setCurrentTabByTag(String tag){
         mTabHost.setCurrentTabByTag(tag);
     }
+
+
+
+//-----------------------------------
+
+
+    public class FindAllPolicyTask extends AsyncTask<Void, Void, String> {
+
+        int mUserID;
+
+        FindAllPolicyTask(int userID) {
+            this.mUserID=userID;
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            Log.d("test","in show policy in background!");
+            try {
+                // Simulate network access.
+                String resultString = c2s.findAllPolicy(mUserID);
+
+                Log.d("test","find all policy String="+resultString);
+
+                return resultString;
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Noting";
+
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            mAuthTask = null;
+            //showProgress(false);
+            if(result!=null){
+                Log.d("test","in to on PostExecute!");
+                try {
+                    PolicyLab policyList = PolicyLab.get(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("test","save all policy sucessful!");
+            } else {
+                Log.d("test","return nothing!");
+                //getActivity().finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            // showProgress(false);
+        }
+    }
+// --------------------------------------
+
+
+
+
+
 }
 
 /*生成保单号

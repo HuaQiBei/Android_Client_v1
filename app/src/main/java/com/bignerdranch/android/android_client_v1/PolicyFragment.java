@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PolicyFragment extends Fragment implements View.OnClickListener{
+public class PolicyFragment extends Fragment {
 
     private View view = null;
 
@@ -102,4 +102,5 @@ public class PolicyFragment extends Fragment implements View.OnClickListener{
             }
         };
     }
+
 }

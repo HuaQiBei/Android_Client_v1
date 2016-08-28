@@ -25,6 +25,8 @@ public class SetPostParams {
     public static String getResult() {
         return result.substring(1);
     }
-
+    public static void dismiss() {
+        result="";
+    }
 
 }

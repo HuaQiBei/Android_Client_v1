@@ -4,6 +4,7 @@ package com.bignerdranch.android.android_client_v1;
  * Created by Elvira on 2016/8/10.
  */
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,8 +37,10 @@ public class ViewPagerSimpleFragment extends Fragment {
     private RecyclerView mPolicyRecyclerView;
     private PolicyAdapter mPolicyAdapter;
 
-   PolicyHolder.ShowScenicPolicyTask mAuthTask=null;
-    public static String resultString;
+    private static ProgressDialog dialog;
+
+    private PolicyHolder.ShowScenicPolicyTask mShowPolciTask=null;
+   // public static String resultString;
     public Connect2Server c2s=new Conn2ServerImp();
 
 
@@ -143,6 +146,7 @@ public class ViewPagerSimpleFragment extends Fragment {
         private Button mApply;
         private CardView mCardView;
 
+
         public PolicyHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -162,14 +166,25 @@ public class ViewPagerSimpleFragment extends Fragment {
             switch (view.getId()){
                 case R.id.list_bt_Policy:
 
+                    if(dialog==null){
+                        dialog=new ProgressDialog(getActivity());
+                       // dialog=new ProgressDialog(SearchActivity.this);
+                    }
+                    dialog.setTitle("请耐心等待");
+                    dialog.setMessage("查询中...");
+                    dialog.setCancelable(false);
+                    dialog.show();
+
+
+
                     int policyID=2;
 
-                    if (mAuthTask != null) {
+                    if (mShowPolciTask != null) {
                         return;
                     }
                     Log.d("test","click the show detail button!");
-                    mAuthTask = new ShowScenicPolicyTask(policyID);//为后台传递参数
-                    mAuthTask.execute((Void) null);
+                    mShowPolciTask = new ShowScenicPolicyTask(policyID);//为后台传递参数
+                    mShowPolciTask.execute((Void) null);
 
 
                     break;
@@ -195,9 +210,9 @@ public class ViewPagerSimpleFragment extends Fragment {
             Log.d("test","in show policy in background!");
             try {
                 // Simulate network access.
-                resultString = c2s.showScenicPolicy(mPolicyID);
+                String resultString = c2s.showScenicPolicy(mPolicyID);
 
-                Log.d("test","resultString="+resultString);
+                Log.d("test","showpolicyresultString="+resultString);
 
                 return resultString;
 
@@ -211,37 +226,16 @@ public class ViewPagerSimpleFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final String result) {
-            mAuthTask = null;
+            mShowPolciTask = null;
             //showProgress(false);
             if(result!=null){
                 Log.d("test","in to on PostExecute!");
-                Log.d("test",result);
-//                JSONArray respObjectArr = null;
-//                JSONObject respJsonObj=null;
-
-//                try {
-//                    respObjectArr = new JSONArray(result);
-//                    respJsonObj=respObjectArr.getJSONObject(0);
-//
-//                    scenicname.setText(respJsonObj.getString("scenicname"));
-//                    scenicweather.setText(respJsonObj.getString("scenicweather"));
-//                    startdate.setText(respJsonObj.getString("startdate"));
-//                    enddate.setText(respJsonObj.getString("enddate"));
-//                    insureduty.setText(respJsonObj.getString("insureduty"));
-//                    fee.setText(Double.toString(respJsonObj.getDouble("fee")));
-//
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
-
+               // Log.d("test",result);
+                dialog.dismiss();
                 Intent intent=new Intent(getActivity(),ShowScenicPolicyActivity.class);
-                intent.putExtra("policydetail",resultString);
+                intent.putExtra("policydetail",result);
                 startActivity(intent);
                 Log.d("test","start show scenic policy activity sucessful!");
-////                Intent intent=new Intent(getActivity(),MainActivity.class);
-////                startActivity(intent);
             } else {
                 Log.d("test","return nothing!");
                 //getActivity().finish();
@@ -250,7 +244,7 @@ public class ViewPagerSimpleFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
+            mShowPolciTask = null;
             // showProgress(false);
         }
     }
