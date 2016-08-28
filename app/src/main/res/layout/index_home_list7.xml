@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white" >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@color/white"
+              tools:showIn="@layout/fragment_home">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="5dp"
+        android:id="@+id/list_one">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -21,11 +24,6 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/android_bigger" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_reservation" />
         </FrameLayout>
 
         <LinearLayout
@@ -36,7 +34,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -46,10 +45,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView
@@ -105,11 +100,6 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/android_bigger" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_booking" />
         </FrameLayout>
 
         <LinearLayout
@@ -130,10 +120,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView
@@ -189,11 +175,6 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/android_bigger" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_dianping_chosen" />
         </FrameLayout>
 
         <LinearLayout
@@ -214,10 +195,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView
@@ -273,11 +250,6 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/android_bigger" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_coupon" />
         </FrameLayout>
 
         <LinearLayout
@@ -298,10 +270,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView

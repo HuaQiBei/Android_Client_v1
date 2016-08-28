@@ -160,6 +160,9 @@
 <color name="green_title">#4FD09E</color>
 
     <color name="blue_ico">#2977C3</color>
+    <color name="text_line">#772977C3</color>
+    <color name="theme_light">#EDF3F8</color>
+
 
     <color name="home_search_bg">#fff</color>
     <color name="normal_bg_color">#f0f0f0</color>

@@ -2,6 +2,7 @@ package com.bignerdranch.android.util;
 
 import android.util.Log;
 
+import com.bignerdranch.android.android_client_v1.model.FlightPolicy;
 import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
 
 import org.json.JSONArray;
@@ -12,7 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -186,14 +186,43 @@ public class Conn2ServerImp implements Connect2Server {
                 .getOutputStream());
 
         SetPostParams.setPostParam("flag", "addpolicy");
-
         out.writeBytes(SetPostParams.getResult().toString());
-        SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
         return str;
 
+    }
+
+    @Override
+    public String addFlightPolicy(FlightPolicy policy) throws IOException, JSONException {
+
+        String str = null;
+        Log.d("test", "in add Flight policy!");
+
+        HttpURLConnection conn = initPost(urlSpec);
+        DataOutputStream out = new DataOutputStream(conn
+                .getOutputStream());
+        JSONArray reqValue = new JSONArray().put(
+                new JSONObject()
+                        .put("policyID", policy.getPolicyID())
+                        .put("mFlightDate", policy.getFlightDate())
+                        .put("mFlightId", policy.getFlightId())
+                        .put("mFlightRoute", policy.getFlightWeather())
+                        .put("mFlightTime", policy.getFlightTime())
+                        .put("mFlightWeather", policy.getFlightWeather())
+                        .put("mFlightCheckBox", policy.getFlightCheckBox())
+                        .put("mFlightCoverage", policy.getFlightCoverage())
+                        .put("mFlightFee", policy.getFlightFee())
+                        .put("userID", policy.getPolicyHolder()));
+        Log.d("test", reqValue.toString());
+        SetPostParams.setPostParam("data", reqValue.toString());
+        SetPostParams.setPostParam("flag", "addflightpolicy");
+        out.writeBytes(SetPostParams.getResult().toString());
+        out.flush();
+        out.close();
+        str = new String(getPostReturn(conn));
+        return str;
     }
 
     @Override
@@ -242,10 +271,10 @@ public class Conn2ServerImp implements Connect2Server {
                         ": with " +
                         urlSpec);
             }
-           int bytesRead = 0;
+            int bytesRead = 0;
             byte[] buffer = new byte[1024];
-            while ((bytesRead=in.read(buffer))>0) {
-              outter.write(buffer,0,bytesRead);
+            while ((bytesRead = in.read(buffer)) > 0) {
+                outter.write(buffer, 0, bytesRead);
             }
             outter.close();
             return outter.toByteArray();

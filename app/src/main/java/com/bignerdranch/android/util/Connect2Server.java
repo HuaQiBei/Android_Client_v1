@@ -16,4 +16,6 @@ public interface Connect2Server {
 	    public String showScenicPolicy(int policyID) throws IOException, JSONException;
 		public String addInsuredman(String insuredname,String insuredIDcard) throws IOException;
 		public String findAllPolicy(int userID) throws IOException, JSONException;
+	    public String addFlightPolicy(FlightPolicy policy) throws IOException, JSONException;
+
 }

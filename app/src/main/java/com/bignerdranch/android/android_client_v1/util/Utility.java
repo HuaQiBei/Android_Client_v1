@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bignerdranch.android.android_client_v1.model.*;
-import com.bignerdranch.android.android_client_v1.model.WeatherDB;
+import com.bignerdranch.android.android_client_v1.db.WeatherDB;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -228,9 +228,9 @@ public class Utility {
                 String temp2 = weather_info_now_forecast_tmp.getString("max");
 
                 //cond是当前的实际天气描述，获取方法和tmp是一样的
-                JSONObject weather_info_now_forecast_cond = weather_info_now_forecast.getJSONObject("cond");
-                String weatherDesp = weather_info_now_forecast_cond.getString("txt_d");//天气情况前
-                //editor.putString("txt_n", weather_info_now_forecast_cond.getString("txt_n"));//天气情况后
+                JSONObject weather_info_forecast_cond = weather_info_now_forecast.getJSONObject("cond");
+                String weatherDesp = weather_info_forecast_cond.getString("txt_d");//天气情况前
+                //editor.putString("txt_n", weather_info_forecast_cond.getString("txt_n"));//天气情况后
 
                 //最后提交
                 saveWeatherInfo(context, cityName, weatherCode, temp1, temp2,
@@ -239,6 +239,99 @@ public class Utility {
                 Log.d("life", "Utility JSONException");
                 e.printStackTrace();
             }
+        }
+        return false;
+    }
+
+    public synchronized static boolean handleWeatherResponse(Context context, String response, String date) {//SharedPreferences.Editor editor
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                //先把JSON数据加载成数组，因为根部HeWeather data service 3.0后面是[符号，说明是以数组形式存放，只是这个数组里面只有一个元素
+                JSONArray jsonArray = new JSONObject(response).getJSONArray("HeWeather data service 3.0");
+
+                //那么既然知道这个数组里面只有一个元素，所以我们直接取出第一个元素为JSONObject
+                JSONObject weather_info_all = jsonArray.getJSONObject(0);
+
+                //关于天气的所有信息都是在daily_forecast名称下面，仔细查看，发现，daily_forecast后面是[符号，说明，这也是一个JSON数组
+                //所以先根据名称获取JSONArray对象
+                JSONArray weather_info_daily_forecast = weather_info_all.getJSONArray("daily_forecast");
+                //我们发现，[]里面是由很多个像下面这样的元素组成的
+                /*
+                {
+                    "astro": {
+                        "sr": "04:49",
+                        "ss": "19:47"
+                    },
+                    "cond": {
+                        "code_d": "302",
+                        "code_n": "302",
+                        "txt_d": "雷阵雨",
+                        "txt_n": "雷阵雨"
+                    },
+                    "date": "2016-06-30",
+                    "hum": "30",
+                    "pcpn": "0.2",
+                    "pop": "39",
+                    "pres": "1002",
+                    "tmp": {
+                        "max": "31",
+                        "min": "22"
+                    },
+                    "vis": "10",
+                    "wind": {
+                          "deg": "204",
+                          "dir": "无持续风向",
+                          "sc": "微风",
+                          "spd": "4"
+                    }
+                },
+                */
+                for (int i = 0; i < 7; i++) {
+                    if (weather_info_daily_forecast.getJSONObject(i).getString("date").equals(date)){
+                        JSONObject weather_info_now_forecast = weather_info_daily_forecast.getJSONObject(i);
+                        Log.d("policy", weather_info_now_forecast.getString("date"));
+                        //cond是当前的实际天气描述，获取方法和tmp是一样的
+                        JSONObject weather_info_forecast_cond = weather_info_now_forecast.getJSONObject("cond");
+                        SharedPreferences.Editor editor = PreferenceManager
+                                .getDefaultSharedPreferences(context).edit();
+                        editor.putString("txt_d", weather_info_forecast_cond.getString("txt_d"));//天气情况前
+                        editor.putString("txt_n", weather_info_forecast_cond.getString("txt_n"));//天气情况后
+                        editor.apply();
+                        break;
+                    }
+
+                }
+            } catch (JSONException e) {
+                Log.d("life", "Utility JSONException");
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    //处理从服务器获取的数据
+    public synchronized static boolean handleAllCityResponse(WeatherDB weatherDB, String response) {
+        Log.d("policy","handleAllCityResponse");
+
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                //城市信息JSON比较简单，这里不做详细的解析分析
+                JSONArray jsonArray = new JSONObject(response).getJSONArray("city_info");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject city_info = jsonArray.getJSONObject(i);
+                    AllCity city = new AllCity();
+                    String city_name_ch = city_info.getString("city");
+                    String city_name_en = "";
+                    String city_code = city_info.getString("id");
+                    city.setCity_code(city_code);
+                    city.setCity_name_en(city_name_en);
+                    city.setCity_name_ch(city_name_ch);
+                    weatherDB.saveAllCity(city);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
         }
         return false;
     }

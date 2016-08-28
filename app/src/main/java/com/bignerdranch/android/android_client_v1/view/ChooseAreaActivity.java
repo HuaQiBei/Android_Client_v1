@@ -20,8 +20,8 @@ import com.bignerdranch.android.android_client_v1.R;
 import com.bignerdranch.android.android_client_v1.model.City;
 import com.bignerdranch.android.android_client_v1.model.County;
 import com.bignerdranch.android.android_client_v1.model.Province;
-import com.bignerdranch.android.android_client_v1.model.WeatherDB;
-import com.bignerdranch.android.android_client_v1.util.HttpCallbackListner;
+import com.bignerdranch.android.android_client_v1.db.WeatherDB;
+import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
 
@@ -208,7 +208,7 @@ public class ChooseAreaActivity extends Activity {
         }
         showProgressDialog();
         //MyProgressDialog.showProgressDialog(this);
-        HttpUtil.sendHttpRequest(address, new HttpCallbackListner() {
+        HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 boolean result = false;
