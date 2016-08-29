@@ -17,6 +17,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 
+
+import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
+
 /**
  * 对Conn2ServerImp类代码进行整理
  * 以addScenicPolicy方法中的格式为模板编写
@@ -62,7 +65,9 @@ public class Conn2ServerImp implements Connect2Server {
         SetPostParams.setPostParam("district", district);
         SetPostParams.setPostParam("detaildis", detaildis);
         SetPostParams.setPostParam("flag", "addaddress");
+        Log.d("test", "address required:"+SetPostParams.getResult().toString());
         out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
@@ -88,6 +93,7 @@ public class Conn2ServerImp implements Connect2Server {
         SetPostParams.setPostParam("IDcard", IDcard);
         SetPostParams.setPostParam("flag", "addcontact");
         out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
@@ -107,6 +113,7 @@ public class Conn2ServerImp implements Connect2Server {
         SetPostParams.setPostParam("newemail", newemail);
         SetPostParams.setPostParam("flag", "modifyemail");
         out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
@@ -137,10 +144,34 @@ public class Conn2ServerImp implements Connect2Server {
 		SetPostParams.setPostParam("data", reqValue.toString());
 		SetPostParams.setPostParam("flag", "addscenicpolicy");
 		out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
 		out.flush();
 		out.close();
 		str = new String(getPostReturn(conn));
 		return str;
+
+    }
+
+    @Override
+    public String showScenicPolicy(int policyID) throws IOException, JSONException {
+        String str = null;
+        Log.d("test", "in show Scenic Policy!");
+
+        HttpURLConnection conn = initPost(urlSpec);
+        DataOutputStream out = new DataOutputStream(conn
+                .getOutputStream());
+        SetPostParams.setPostParam("policyID",Integer.toString(policyID));
+        SetPostParams.setPostParam("flag", "showpolicy");
+        Log.d("test", "policy required:"+SetPostParams.getResult().toString());
+        out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
+        out.flush();
+        out.close();
+        //str=new String(getPostReturn(conn));
+        str = new String(getPostReturn(conn));
+        Log.d("test","response:"+str);
+        return str;
+
 
     }
 
@@ -192,6 +223,27 @@ public class Conn2ServerImp implements Connect2Server {
         out.close();
         str = new String(getPostReturn(conn));
         return str;
+    }
+
+    @Override
+    public String findAllPolicy(int userID) throws IOException, JSONException {
+        String str = null;
+        Log.d("test", "in find all Policy!");
+
+        HttpURLConnection conn = initPost(urlSpec);
+        DataOutputStream out = new DataOutputStream(conn
+                .getOutputStream());
+        SetPostParams.setPostParam("userID",Integer.toString(userID));
+        SetPostParams.setPostParam("flag", "findallpolicy");
+        Log.d("test", "policy required:"+SetPostParams.getResult().toString());
+        out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
+        out.flush();
+        out.close();
+        str = new String(getPostReturn(conn));
+        Log.d("test","response:"+str);
+        return str;
+
     }
 
     public HttpURLConnection initPost(String urlstr) throws IOException {
