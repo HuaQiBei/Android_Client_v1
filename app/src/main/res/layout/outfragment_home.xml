@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/home_choose_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="10dp"
             android:drawableRight="@drawable/home_more_arrow_down"
+            android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:padding="5dp"
             android:text="选择"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:padding="11dp"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/home_search_textview"
@@ -42,11 +42,11 @@
             android:paddingRight="14dp"
             android:paddingTop="7dp"
             android:text="保险，订单……"
-            android:textColor="@color/gray"/>
+            android:textColor="@color/gray" />
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" >
 
             <ImageView
                 android:id="@+id/index_home_tips_arrow"
@@ -54,72 +54,60 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
                 android:src="@drawable/home_title_tips_arrow"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageView
+                android:clickable="true"
                 android:id="@+id/index_home_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:clickable="true"
-                android:src="@drawable/home_ico_city"/>
+                android:src="@drawable/home_ico_city" />
         </FrameLayout>
     </LinearLayout>
 
 
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
 
         <com.bignerdranch.android.android_client_v1.VerticalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
-                <LinearLayout
-                    android:id="@+id/view_pager_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
-
-                <LinearLayout
-                    android:id="@+id/viewGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-25px"
-                    android:gravity="center"
-                    android:orientation="horizontal"/>
-
+                <include layout="@layout/outindex_home_list1" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="18dp"/>
+                    android:layout_height="18dp" />
 
-                <include layout="@layout/index_home_list4"/>
+                <include layout="@layout/index_home_list4" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="18dp"/>
+                    android:layout_height="18dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:text="猜你喜欢"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
 
-                <include layout="@layout/index_home_list7"/>
+                <include layout="@layout/index_home_list7" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""/>
+                    android:text="" />
             </LinearLayout>
         </com.bignerdranch.android.android_client_v1.VerticalScrollView>
         <!-- title shadow -->
@@ -127,10 +115,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:background="@drawable/title_shadow_shape"/>
+            android:background="@drawable/title_shadow_shape" />
 
 
     </FrameLayout>
+
 
 
 </LinearLayout>
