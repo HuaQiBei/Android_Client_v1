@@ -76,7 +76,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             String mailcodestr=mailcode.getText().toString();
             String districtstr=district.getText().toString();
             String detaildisstr=detaildis.getText().toString();
-            if (mAddAddewssTask != null) {
+            if (mAuthTask != null) {
                 return;
             }
             showProgress(true);
@@ -108,9 +108,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             Log.d("test","in to do addaddress in background!");
             try {
                 // Simulate network access.
-                String result = c2s.addAddress(mReceivenamestr,mTelephonestr,mMailcodestr,mDistrictstr,mDetaildisstr);
-                Log.d("test","addressresult="+result);
-                return result;
+                resultString = c2s.addAddress(mReceivenamestr,mTelephonestr,mMailcodestr,mDistrictstr,mDetaildisstr);
+                Log.d("test","resultString="+resultString);
+                return resultString;
 
 
             } catch (Exception e) {
@@ -122,12 +122,12 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
         @Override
         protected void onPostExecute(final String result) {
-            mAddAddewssTask = null;
+            mAuthTask = null;
             showProgress(false);
             Log.d("test","in to on PostExecute!");
 
             if (result!=null) {
-             //   Log.d("test",result);
+                Log.d("test",result);
                 Intent intent=new Intent(getActivity(),MyInfoActivity.class);
                 startActivity(intent);
 
@@ -139,7 +139,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
         @Override
         protected void onCancelled() {
-            mAddAddewssTask = null;
+            mAuthTask = null;
             showProgress(false);
         }
     }

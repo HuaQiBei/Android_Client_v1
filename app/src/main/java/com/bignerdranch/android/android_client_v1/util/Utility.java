@@ -297,9 +297,8 @@ public class Utility {
                         editor.putString("txt_d", weather_info_forecast_cond.getString("txt_d"));//天气情况前
                         editor.putString("txt_n", weather_info_forecast_cond.getString("txt_n"));//天气情况后
                         editor.apply();
-                        break;
+                        return true;
                     }
-
                 }
             } catch (JSONException e) {
                 Log.d("life", "Utility JSONException");

@@ -30,6 +30,8 @@ import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.bignerdranch.android.android_client_v1.MainActivity;
@@ -39,11 +41,14 @@ import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddFlightPolicyFragment extends Fragment {
 
     private WeatherDB mWeatherDB;//数据库操作对象
 
+    private ArrayList<String> par;
 
     private AddFlightPolicyTask mAuthTask = null;
     public static String resultString;
@@ -82,12 +87,10 @@ public class AddFlightPolicyFragment extends Fragment {
             queryCitiesFromServer();
         }
 
-        ArrayList<String> par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
+        par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
         Log.d("policy", par.get(0));//航班号
         Log.d("policy", par.get(1));//起点
         Log.d("policy", par.get(2));//终点
-
-        queryWeatherInfo(par.get(1), "2016-08-27");
     }
 
     /**TODO
@@ -99,7 +102,7 @@ public class AddFlightPolicyFragment extends Fragment {
     private void queryWeatherInfo(String cityName, String date/*日期用字符串?Date?*/) {
         String weatherCode = mWeatherDB.loadCitiesByName(cityName).getCity_code();
 
-        Log.d("policy", "cityName" + cityName + "weatherCode" + weatherCode);
+        Log.d("policy", "cityName" + cityName + "date" + date);
         String address = "https://api.heweather.com/x3/weather?cityid=" + weatherCode + "&key=" + WeatherActivity.WEATHER_KEY;
         Log.d("policy", address);
         queryFromServer(address, "weatherCode", date);
@@ -169,6 +172,7 @@ public class AddFlightPolicyFragment extends Fragment {
             }
         });
     }
+
     private int coverage = 0;
     private int[] flag = {0, 0, 0};
 
@@ -254,7 +258,17 @@ public class AddFlightPolicyFragment extends Fragment {
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 Calendar c = Calendar.getInstance();
                                 c.set(year, monthOfYear, dayOfMonth);
-                                mFlightDate.setText(DateFormat.format("yyy-MM-dd", c));
+                                CharSequence date = DateFormat.format("yyy-MM-dd", c);
+                                mFlightDate.setText(date);
+                                try {
+                                    if (inSevenDays(date)) {
+                                        queryWeatherInfo(par.get(1), date + "");
+                                    }else {
+                                        mFlightWeather.setText("暂无天气预报");
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         },
                         c.get(Calendar.YEAR),
@@ -391,5 +405,23 @@ public class AddFlightPolicyFragment extends Fragment {
             mAuthTask = null;
             // showProgress(false);
         }
+    }
+
+    public boolean inSevenDays(CharSequence date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        Date date1 = simpleDateFormat.parse(date + "");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        Calendar now = Calendar.getInstance();
+        Log.d("debug", calendar + " " + now);
+        long hours = (calendar.getTimeInMillis() - now.getTimeInMillis()) / (60 * 60 * 1000);
+        long days = (hours + 24) / 24;
+
+        Log.d("debug", days + "");
+        if (days > 6) {
+            Toast.makeText(getContext(), "无法预报天气", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
