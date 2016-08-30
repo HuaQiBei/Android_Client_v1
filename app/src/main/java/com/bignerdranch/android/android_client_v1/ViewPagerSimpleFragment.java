@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -83,6 +84,7 @@ public class ViewPagerSimpleFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_policy_list, container, false);
         }
         mPolicyRecyclerView = (RecyclerView) view.findViewById(R.id.policy_recycler_view);
+        initItemAnimator(mPolicyRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         mPolicyRecyclerView.setLayoutManager(linearLayoutManager);
@@ -319,5 +321,9 @@ public class ViewPagerSimpleFragment extends Fragment {
         public int getItemCount() {
             return mPolicys.size();
         }
+    }
+
+    private void initItemAnimator(RecyclerView recyclerView){
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 }

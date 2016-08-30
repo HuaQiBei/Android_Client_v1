@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,6 +104,12 @@ public class MainActivity extends AppCompatActivity{
         // 实例化TabHost对象，得到TabHost
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+
+        //去分割线
+        final TabWidget tabWidget = mTabHost.getTabWidget();
+        //tabWidget.setStripEnabled(false);
+        tabWidget.setDividerDrawable(null);
+
 
         // 得到fragment的个数
         int count = fragmentArray.length;

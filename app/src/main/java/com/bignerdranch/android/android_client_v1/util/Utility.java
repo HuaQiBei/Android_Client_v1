@@ -312,11 +312,13 @@ public class Utility {
     //处理从服务器获取的数据
     public synchronized static boolean handleAllCityResponse(WeatherDB weatherDB, String response) {
         Log.d("policy","handleAllCityResponse");
-
         if (!TextUtils.isEmpty(response)) {
             try {
                 //城市信息JSON比较简单，这里不做详细的解析分析
                 JSONArray jsonArray = new JSONObject(response).getJSONArray("city_info");
+                if (jsonArray.length() > 0){
+                    Log.d("debug", "查询全部城市成功");
+                }
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject city_info = jsonArray.getJSONObject(i);
                     AllCity city = new AllCity();

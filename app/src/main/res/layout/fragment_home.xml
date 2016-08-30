@@ -91,22 +91,28 @@
                 <LinearLayout
                     android:id="@+id/viewGroup"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-25px"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="-20dp"
                     android:gravity="center"
                     android:orientation="horizontal"/>
 
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="18dp"/>
+                    android:layout_height="18dp"
+                    style="@style/Blank"/>
 
                 <include layout="@layout/index_home_list4"/>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="18dp"/>
-
+                    android:layout_height="18dp"
+                    style="@style/Blank"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/normal_bg_color"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,10 +122,11 @@
 
                 <include layout="@layout/index_home_list7"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    style="@style/Blank"
+                    />
             </LinearLayout>
         </com.bignerdranch.android.android_client_v1.VerticalScrollView>
         <!-- title shadow -->
