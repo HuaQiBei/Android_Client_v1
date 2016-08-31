@@ -5,8 +5,10 @@ package com.bignerdranch.android.android_client_v1.view;
  */
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,14 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bignerdranch.android.android_client_v1.ContactActivity;
 import com.bignerdranch.android.android_client_v1.MainActivity;
 import com.bignerdranch.android.android_client_v1.MyInfoActivity;
 import com.bignerdranch.android.android_client_v1.R;
+import com.bignerdranch.android.android_client_v1.model.BasePolicy;
+import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
+
+import org.json.JSONException;
 
 /**
  * Created by Administrator on 2016/8/10.
@@ -78,7 +85,12 @@ public class AddScenicPolicyFragment extends Fragment {
                 String insuredutystr=insureduty.getText().toString();
                 String feestr=fee.getText().toString();
 
-                ScenicPolicy policy = new ScenicPolicy(12345,startdatestr,enddatestr,12,Double.parseDouble(feestr),scenicnamestr,scenicweatherstr,insuredutystr);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                int userID=preferences.getInt("id",0);
+                if(userID==0){
+                    Log.d("test","没取到用户ID");
+                }
+                ScenicPolicy policy = new ScenicPolicy(12349,startdatestr,enddatestr,userID,Double.parseDouble(feestr),scenicnamestr,scenicweatherstr,insuredutystr,"生效中");
 
 
 //                String insurednamestr=insuredname.getText().toString();
@@ -87,12 +99,12 @@ public class AddScenicPolicyFragment extends Fragment {
                 if (mAuthTask != null) {
                     return;
                 }
-                Log.d("test","click the commit button!");
+                Log.d("test","click the scenic commit button!");
                 mAuthTask = new AddScenicPolicyTask(policy);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
-                Intent intent = new Intent(getActivity(),MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(),MainActivity.class);
+//                startActivity(intent);
             }
         });
         return v;
@@ -134,6 +146,13 @@ public class AddScenicPolicyFragment extends Fragment {
 
             if (result!=null) {
                 Log.d("test",result);
+                try {
+                    PolicyLab policyList = PolicyLab.get(result);
+                    BasePolicy newPolicy=new BasePolicy(mScenicPolicy.getFee(),mScenicPolicy.getPolicyID(),"景区意外险","生效中",mScenicPolicy.getScenicname());
+                    policyList.addPolicy(newPolicy);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Intent intent=new Intent(getActivity(),MainActivity.class);
                 startActivity(intent);
 

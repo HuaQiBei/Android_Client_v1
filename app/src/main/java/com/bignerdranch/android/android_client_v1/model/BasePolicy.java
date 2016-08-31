@@ -9,9 +9,22 @@ public class BasePolicy {
     private String mPolicyName;
     private String mState;
     private String mPolicyDetail;
-    public BasePolicy(){
+
+    @Override
+    public String toString() {
+        return "BasePolicy{" +
+                "mPolicyID=" + mPolicyID +
+                ", mFee=" + mFee +
+                ", mPolicyName='" + mPolicyName + '\'' +
+                ", mState='" + mState + '\'' +
+                ", mPolicyDetail='" + mPolicyDetail + '\'' +
+                '}';
+    }
+
+    public BasePolicy() {
         super();
     }
+
     public BasePolicy(double mFee, int mPolicyID, String mPolicyName, String mState, String mPolicyDetail) {
         this.mFee = mFee;
         this.mPolicyID = mPolicyID;

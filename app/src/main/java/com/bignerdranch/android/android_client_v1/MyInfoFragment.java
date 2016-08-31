@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bignerdranch.android.android_client_v1.model.PolicyLab;
+
 public class MyInfoFragment extends Fragment {
 
     private View head;
@@ -43,64 +45,65 @@ public class MyInfoFragment extends Fragment {
         other = view.findViewById(R.id.other);
         logout = view.findViewById(R.id.logout);
 
-        head.setOnClickListener(new View.OnClickListener(){
+        head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),HeadActivity.class);
+                Intent intent = new Intent(getActivity(), HeadActivity.class);
                 startActivity(intent);
             }
         });
-        name.setOnClickListener(new View.OnClickListener(){
+        name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),NameActivity.class);
+                Intent intent = new Intent(getActivity(), NameActivity.class);
                 startActivity(intent);
             }
         });
-        reset.setOnClickListener(new View.OnClickListener(){
+        reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ResetActivity.class);
+                Intent intent = new Intent(getActivity(), ResetActivity.class);
                 startActivity(intent);
 
             }
         });
-        phone.setOnClickListener(new View.OnClickListener(){
+        phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),PhoneActivity.class);
+                Intent intent = new Intent(getActivity(), PhoneActivity.class);
                 startActivity(intent);
             }
         });
-        email.setOnClickListener(new View.OnClickListener(){
+        email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ModifyEmailActivity.class);
+                Intent intent = new Intent(getActivity(), ModifyEmailActivity.class);
                 startActivity(intent);
             }
         });
-        address.setOnClickListener(new View.OnClickListener(){
+        address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),AddressActivity.class);
+                Intent intent = new Intent(getActivity(), AddressActivity.class);
                 startActivity(intent);
             }
         });
-        other.setOnClickListener(new View.OnClickListener(){
+        other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ContactActivity.class);
+                Intent intent = new Intent(getActivity(), ContactActivity.class);
                 startActivity(intent);
             }
         });
-        logout.setOnClickListener(new View.OnClickListener(){
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor editor = PreferenceManager
                         .getDefaultSharedPreferences(getActivity()).edit();
                 editor.putBoolean("isLogin", false);
                 editor.apply();
-                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                PolicyLab.dismiss();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -127,6 +130,7 @@ public class MyInfoFragment extends Fragment {
         super.onResume();
         updateUI();
     }
+
     private void updateUI() {
 
     }

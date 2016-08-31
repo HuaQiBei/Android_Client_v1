@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bignerdranch.android.android_client_v1.model.BasePolicy;
+import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
@@ -39,9 +41,9 @@ public class ViewPagerSimpleFragment extends Fragment {
 
     private static ProgressDialog dialog;
 
-    private PolicyHolder.ShowScenicPolicyTask mShowPolciTask=null;
-   // public static String resultString;
-    public Connect2Server c2s=new Conn2ServerImp();
+    private PolicyHolder.ShowScenicPolicyTask mShowPolciTask = null;
+    // public static String resultString;
+    public Connect2Server c2s = new Conn2ServerImp();
 
 
     View view = null;
@@ -86,7 +88,11 @@ public class ViewPagerSimpleFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         mPolicyRecyclerView.setLayoutManager(linearLayoutManager);
-        updateUI();
+        try {
+            updateUI();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return view;
     }
 
@@ -95,7 +101,11 @@ public class ViewPagerSimpleFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("test ", "ViewPagerSimpleFragment onResume()");
-        updateUI();
+        try {
+            updateUI();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -116,9 +126,18 @@ public class ViewPagerSimpleFragment extends Fragment {
         Log.d("test ", "ViewPagerSimpleFragment onPause()");
     }
 
-    private void updateUI() {
-        PolicyList policyList = PolicyList.get(getActivity());
-        List<Policy> Policys;
+    private void updateUI() throws JSONException {
+//        PolicyList policyList = PolicyList.get(getActivity());
+//        List<Policy> Policys;
+//        if (mTitle.equals("全部")) {
+//            Policys = policyList.getPolicys();
+//            Log.d("test ", "给我输出全部");
+//        } else {
+//            Policys = policyList.getPolicys(mTitle);
+//            Log.d("test ", "给我输出" + mTitle);
+//        }
+        PolicyLab policyList = PolicyLab.get("");
+        List<BasePolicy> Policys;
         if (mTitle.equals("全部")) {
             Policys = policyList.getPolicys();
             Log.d("test ", "给我输出全部");
@@ -137,7 +156,7 @@ public class ViewPagerSimpleFragment extends Fragment {
     }
 
     private class PolicyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Policy mPolicy;
+        private BasePolicy mPolicy;
         private TextView mPolicyKind;
         private TextView mPolicyState;
         private TextView mPolicyPrice;
@@ -162,13 +181,13 @@ public class ViewPagerSimpleFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mPolicy.getPolicyNum() + " clicked!", Toast.LENGTH_SHORT).show();
-            switch (view.getId()){
+            Toast.makeText(getActivity(), mPolicy.getPolicyID() + " clicked!", Toast.LENGTH_SHORT).show();
+            switch (view.getId()) {
                 case R.id.list_bt_Policy:
 
-                    if(dialog==null){
-                        dialog=new ProgressDialog(getActivity());
-                       // dialog=new ProgressDialog(SearchActivity.this);
+                    if (dialog == null) {
+                        dialog = new ProgressDialog(getActivity());
+                        // dialog=new ProgressDialog(SearchActivity.this);
                     }
                     dialog.setTitle("请耐心等待");
                     dialog.setMessage("查询中...");
@@ -176,13 +195,12 @@ public class ViewPagerSimpleFragment extends Fragment {
                     dialog.show();
 
 
-
-                    int policyID=2;
+                    int policyID = 2;
 
                     if (mShowPolciTask != null) {
                         return;
                     }
-                    Log.d("test","click the show detail button!");
+                    Log.d("test", "click the show detail button!");
                     mShowPolciTask = new ShowScenicPolicyTask(policyID);//为后台传递参数
                     mShowPolciTask.execute((Void) null);
 
@@ -195,86 +213,81 @@ public class ViewPagerSimpleFragment extends Fragment {
 //-----------------------------------
 
 
-    public class ShowScenicPolicyTask extends AsyncTask<Void, Void, String> {
+        public class ShowScenicPolicyTask extends AsyncTask<Void, Void, String> {
 
-        int mPolicyID;
+            int mPolicyID;
 
-        ShowScenicPolicyTask(int policyID) {
-            this.mPolicyID=policyID;
+            ShowScenicPolicyTask(int policyID) {
+                this.mPolicyID = policyID;
 
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            Log.d("test","in show policy in background!");
-            try {
-                // Simulate network access.
-                String resultString = c2s.showScenicPolicy(mPolicyID);
-
-                Log.d("test","showpolicyresultString="+resultString);
-
-                return resultString;
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            return "Noting";
 
-        }
+            @Override
+            protected String doInBackground(Void... params) {
+                // TODO: attempt authentication against a network service.
+                Log.d("test", "in show policy in background!");
+                try {
+                    // Simulate network access.
+                    String resultString = c2s.showScenicPolicy(mPolicyID);
 
-        @Override
-        protected void onPostExecute(final String result) {
-            mShowPolciTask = null;
-            //showProgress(false);
-            if(result!=null){
-                Log.d("test","in to on PostExecute!");
-               // Log.d("test",result);
-                dialog.dismiss();
-                Intent intent=new Intent(getActivity(),ShowScenicPolicyActivity.class);
-                intent.putExtra("policydetail",result);
-                startActivity(intent);
-                Log.d("test","start show scenic policy activity sucessful!");
-            } else {
-                Log.d("test","return nothing!");
-                //getActivity().finish();
+                    Log.d("test", "showpolicyresultString=" + resultString);
+
+                    return resultString;
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return "Noting";
+
+            }
+
+            @Override
+            protected void onPostExecute(final String result) {
+                mShowPolciTask = null;
+                //showProgress(false);
+                if (result != null) {
+                    Log.d("test", "in to on PostExecute!");
+                    // Log.d("test",result);
+                    dialog.dismiss();
+                    Intent intent = new Intent(getActivity(), ShowScenicPolicyActivity.class);
+                    intent.putExtra("policydetail", result);
+                    startActivity(intent);
+                    Log.d("test", "start show scenic policy activity sucessful!");
+                } else {
+                    Log.d("test", "return nothing!");
+                    //getActivity().finish();
+                }
+            }
+
+            @Override
+            protected void onCancelled() {
+                mShowPolciTask = null;
+                // showProgress(false);
             }
         }
-
-        @Override
-        protected void onCancelled() {
-            mShowPolciTask = null;
-            // showProgress(false);
-        }
-    }
 // --------------------------------------
 
 
-
-
-
-
-
-        public void bindPolicy(Policy Policy) {
+        public void bindPolicy(BasePolicy Policy) {
             mPolicy = Policy;
 
-            mPolicyKind.setText(mPolicy.getKind());
-            mPolicyState.setText(mPolicy.getPolicyState());
-            mPolicyDetail.setText(mPolicy.getPolicyNum() + mPolicy.getTitle());
-            mPolicyPrice.setText(mPolicy.getPrice());
+            mPolicyKind.setText(mPolicy.getPolicyName());
+            mPolicyState.setText(mPolicy.getState());
+            mPolicyDetail.setText(mPolicy.getPolicyDetail());
+            mPolicyPrice.setText("" + mPolicy.getFee());
             mApply.setVisibility(View.GONE);
-            switch (mPolicy.getPolicyState()){
-                case "待支付":{
+            switch (mPolicy.getState()) {
+                case "待支付": {
                     mCheckPolicy.setText("去支付");
                     break;
                 }
-                case "生效中":{
+                case "生效中": {
                     mApply.setText("申请理赔");
                     mApply.setVisibility(View.VISIBLE);
                     break;
                 }
-                case "理赔中":{
+                case "理赔中": {
                     mApply.setText("查看进度");
                     mApply.setVisibility(View.VISIBLE);
                     break;
@@ -294,9 +307,9 @@ public class ViewPagerSimpleFragment extends Fragment {
 
     private class PolicyAdapter extends RecyclerView.Adapter<PolicyHolder> {
 
-        private List<Policy> mPolicys;
+        private List<BasePolicy> mPolicys;
 
-        public PolicyAdapter(List<Policy> Policys) {
+        public PolicyAdapter(List<BasePolicy> Policys) {
             mPolicys = Policys;
         }
 
@@ -311,7 +324,7 @@ public class ViewPagerSimpleFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(PolicyHolder holder, int position) {
-            Policy Policy = mPolicys.get(position);
+            BasePolicy Policy = mPolicys.get(position);
             holder.bindPolicy(Policy);
         }
 

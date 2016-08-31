@@ -18,15 +18,15 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Boolean > {
+public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Boolean> {
     String response;
 
     @Override
     protected Boolean doInBackground(HashMap<String, String>... params) {
-        Log.d("test","in to do in background!");
+        Log.d("test", "in to do fangzhixun in background!");
         try {
             response = postParams(params[0]);
-            Log.d("test",response);
+            Log.d("test", response);
         } catch (Exception e) {
             return false;
         }
@@ -34,15 +34,17 @@ public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Bool
     }
 
     @Override
-    protected void onProgressUpdate(String... values) {}
+    protected void onProgressUpdate(String... values) {
+    }
 
     @Override
-    protected void onPostExecute(Boolean result) {}
+    protected void onPostExecute(Boolean result) {
+    }
 
     public String postParams(HashMap<String, String> params) throws IOException {
 
         StringBuilder response = new StringBuilder();
-        String urlSpec = "http://172.27.207.10:8080/Server4android/Search.do";
+        String urlSpec = "http://172.27.207.3:8080/Server4android/Search.do";//"http://172.27.207.10:8080/Server4android/Search.do";
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
@@ -50,7 +52,7 @@ public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Bool
         connection.setRequestMethod("POST");
         connection.setUseCaches(false);
         connection.setInstanceFollowRedirects(true);
-        connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
         DataOutputStream out = new DataOutputStream(connection
                 .getOutputStream());
@@ -61,10 +63,10 @@ public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Bool
         Iterator i = params.entrySet().iterator();
 
         while (i.hasNext()) {
-            Map.Entry entry = (java.util.Map.Entry)i.next();
-            content.append("&"+entry.getKey()+"="+entry.getValue());
+            Map.Entry entry = (java.util.Map.Entry) i.next();
+            content.append("&" + entry.getKey() + "=" + entry.getValue());
         }
-        Log.d("test",content.substring(1));
+        Log.d("test", content.substring(1));
         out.writeBytes(content.substring(1));
 
         out.flush();
@@ -76,14 +78,14 @@ public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Bool
                     InputStreamReader(connection.getInputStream()));
             String line;
             response = new StringBuilder();
-            while ((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 response.append(line);
             }
             reader.close();
             connection.disconnect();
-        }catch (Exception e) {
-            e.printStackTrace(); }
-        finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             connection.disconnect();
         }
         return response.toString();

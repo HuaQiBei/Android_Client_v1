@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bignerdranch.android.android_client_v1.db.WeatherDB;
+import com.bignerdranch.android.android_client_v1.model.BasePolicy;
+import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
@@ -38,6 +40,8 @@ import com.bignerdranch.android.android_client_v1.model.FlightPolicy;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
+import org.json.JSONException;
+
 import java.util.Calendar;
 
 public class AddFlightPolicyFragment extends Fragment {
@@ -45,14 +49,13 @@ public class AddFlightPolicyFragment extends Fragment {
     private WeatherDB mWeatherDB;//数据库操作对象
 
 
-    private AddFlightPolicyTask mAuthTask = null;
+    private AddFlightPolicyTask mFlightTask = null;
     public static String resultString;
     public Connect2Server c2s = new Conn2ServerImp();
 
     private EditText mFlightDate;
     private EditText mFlightId;
     private EditText mFlightRoute;
-    private EditText mFlightTime;
     private EditText mFlightWeather;
     private Button mFlightGetWeather;
     private CheckBox mOneHour;
@@ -62,6 +65,7 @@ public class AddFlightPolicyFragment extends Fragment {
     private TextView mFlightFee;
     private View add_flightPolicy_OK;
     private static final String ARG_FLIGHT_DAILAY_POLICY = "flight_policy";
+    private ArrayList<String> par;
 
     public static AddFlightPolicyFragment newInstance(ArrayList<String> par) {
         Bundle args = new Bundle();
@@ -82,12 +86,11 @@ public class AddFlightPolicyFragment extends Fragment {
             queryCitiesFromServer();
         }
 
-        ArrayList<String> par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
+        par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
         Log.d("policy", par.get(0));//航班号
         Log.d("policy", par.get(1));//起点
         Log.d("policy", par.get(2));//终点
 
-        queryWeatherInfo(par.get(1), "2016-08-27");
     }
 
     /**TODO
@@ -169,6 +172,7 @@ public class AddFlightPolicyFragment extends Fragment {
             }
         });
     }
+
     private int coverage = 0;
     private int[] flag = {0, 0, 0};
 
@@ -178,8 +182,9 @@ public class AddFlightPolicyFragment extends Fragment {
 
         mFlightDate = (EditText) v.findViewById(R.id.flight_date);
         mFlightId = (EditText) v.findViewById(R.id.flight_id);
+        mFlightId.setText(par.get(0));
         mFlightRoute = (EditText) v.findViewById(R.id.flight_route);
-        mFlightTime = (EditText) v.findViewById(R.id.flight_time);
+        mFlightRoute.setText(par.get(1) + " " + par.get(2));
         mFlightWeather = (EditText) v.findViewById(R.id.flight_weather);
         mFlightGetWeather = (Button) v.findViewById(R.id.get_flight_weather);
         mOneHour = (CheckBox) v.findViewById(R.id.one_hour_checked);
@@ -196,33 +201,28 @@ public class AddFlightPolicyFragment extends Fragment {
         add_flightPolicy_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("test", "click the flight commit button!");
                 String flight_date_str = mFlightDate.getText().toString();
                 String flight_id_str = mFlightId.getText().toString();
-                String flight_time_str = mFlightTime.getText().toString();
                 String flight_route_str = mFlightRoute.getText().toString();
                 String flight_weather_str = mFlightWeather.getText().toString();
                 int flight_cb_str = flag[0] + flag[1] + flag[2];
                 String flight_coverage_str = mFlightCoverage.getText().toString();
                 String policyfee_str = mFlightFee.getText().toString();
-
                 FlightPolicy policy = new FlightPolicy(
-                        1233333, 1111,
-                        flight_date_str, Integer.parseInt(flight_id_str),
-                        flight_route_str, flight_time_str, flight_weather_str, flight_cb_str,
+                        77, 13,
+                        flight_date_str, flight_id_str,
+                        flight_route_str, flight_weather_str, flight_cb_str,
                         Integer.parseInt(flight_coverage_str), Double.parseDouble(policyfee_str)
-                );
+                        , "生效中");
 
-
-                if (mAuthTask != null) {
+                if (mFlightTask != null) {
                     return;
                 }
-                Log.d("test", "click the commit button!");
-                mAuthTask = new AddFlightPolicyTask(policy);//为后台传递参数
-                mAuthTask.execute((Void) null);
+                mFlightTask = new AddFlightPolicyTask(policy);//为后台传递参数
+                mFlightTask.execute((Void) null);
 
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -353,12 +353,12 @@ public class AddFlightPolicyFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Log.d("test", "in to do addpolicy in background!");
+            Log.d("test", "in to do add flight policy in background!");
             try {
                 // Simulate network access.
                 resultString = c2s.addFlightPolicy(mFlightPolicy);
 
-                Log.d("test", "resultString=" + resultString);
+                Log.d("test", "航班延误险的resultString=" + resultString);
                 return resultString;
 
 
@@ -371,12 +371,21 @@ public class AddFlightPolicyFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final String result) {
-            mAuthTask = null;
+            mFlightTask = null;
             //showProgress(false);
             Log.d("test", "in to on PostExecute!");
 
             if (result != null) {
                 Log.d("test", result);
+                try {
+                    PolicyLab policyList = PolicyLab.get(result);
+                    BasePolicy newPolicy = new BasePolicy(mFlightPolicy.getFlightFee(), mFlightPolicy.getPolicyID(), "航班延误险", "生效中", mFlightPolicy.getFlightRoute());
+                    policyList.addPolicy(newPolicy);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
 
@@ -388,7 +397,7 @@ public class AddFlightPolicyFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
+            mFlightTask = null;
             // showProgress(false);
         }
     }

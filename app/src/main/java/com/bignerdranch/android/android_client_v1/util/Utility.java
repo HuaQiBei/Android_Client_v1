@@ -255,6 +255,7 @@ public class Utility {
                 //关于天气的所有信息都是在daily_forecast名称下面，仔细查看，发现，daily_forecast后面是[符号，说明，这也是一个JSON数组
                 //所以先根据名称获取JSONArray对象
                 JSONArray weather_info_daily_forecast = weather_info_all.getJSONArray("daily_forecast");
+                Log.d("life", "预报" + weather_info_daily_forecast);
                 //我们发现，[]里面是由很多个像下面这样的元素组成的
                 /*
                 {
@@ -287,7 +288,7 @@ public class Utility {
                 },
                 */
                 for (int i = 0; i < 7; i++) {
-                    if (weather_info_daily_forecast.getJSONObject(i).getString("date").equals(date)){
+                    if (weather_info_daily_forecast.getJSONObject(i).getString("date").equals(date)) {
                         JSONObject weather_info_now_forecast = weather_info_daily_forecast.getJSONObject(i);
                         Log.d("policy", weather_info_now_forecast.getString("date"));
                         //cond是当前的实际天气描述，获取方法和tmp是一样的
@@ -311,7 +312,7 @@ public class Utility {
 
     //处理从服务器获取的数据
     public synchronized static boolean handleAllCityResponse(WeatherDB weatherDB, String response) {
-        Log.d("policy","handleAllCityResponse");
+        Log.d("policy", "handleAllCityResponse");
 
         if (!TextUtils.isEmpty(response)) {
             try {
