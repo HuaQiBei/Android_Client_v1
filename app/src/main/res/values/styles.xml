@@ -55,4 +55,7 @@
         <item name="android:background">@drawable/edittext_bg</item>
         <item name="android:height">30dp</item>
     </style>
+    <style name="Blank">
+        <item name="android:background">#eeeeee</item>
+    </style>
 </resources>

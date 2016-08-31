@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <com.bignerdranch.android.android_client_v1.WrapContentHeightViewPager
+    <com.bignerdranch.android.android_client_v1.out.WrapContentHeightViewPager
         android:id="@+id/index_home_viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@color/white" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray" />
 
     <RadioGroup
         android:id="@+id/index_home_radiogroup"

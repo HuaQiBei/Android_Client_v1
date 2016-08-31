@@ -298,7 +298,7 @@ public class Utility {
                         editor.putString("txt_d", weather_info_forecast_cond.getString("txt_d"));//天气情况前
                         editor.putString("txt_n", weather_info_forecast_cond.getString("txt_n"));//天气情况后
                         editor.apply();
-                        break;
+                        return true;
                     }
 
                 }
@@ -318,6 +318,9 @@ public class Utility {
             try {
                 //城市信息JSON比较简单，这里不做详细的解析分析
                 JSONArray jsonArray = new JSONObject(response).getJSONArray("city_info");
+                if (jsonArray.length() > 0){
+                    Log.d("debug", "查询全部城市成功");
+                }
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject city_info = jsonArray.getJSONObject(i);
                     AllCity city = new AllCity();
