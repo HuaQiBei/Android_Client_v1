@@ -23,7 +23,7 @@ public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Bool
 
     @Override
     protected Boolean doInBackground(HashMap<String, String>... params) {
-        Log.d("test", "in to do fangzhixun in background!");
+        Log.d("test", "in to do fang zhi xun in background!");
         try {
             response = postParams(params[0]);
             Log.d("test", response);
@@ -56,7 +56,7 @@ public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Bool
 
         DataOutputStream out = new DataOutputStream(connection
                 .getOutputStream());
-
+        Log.d("test", "初始化呢完成!");
 
         StringBuilder content = new StringBuilder();
 

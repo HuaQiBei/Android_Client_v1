@@ -155,14 +155,15 @@ public class Conn2ServerImp implements Connect2Server {
     }
 
     @Override
-    public String showScenicPolicy(int policyID) throws IOException, JSONException {
+    public String showScenicPolicy(int policyID,String policyName) throws IOException, JSONException {
         String str = null;
-        Log.d("test", "in show Scenic Policy!");
+        Log.d("test", "in show Policy!");
 
         HttpURLConnection conn = initPost(urlSpec);
         DataOutputStream out = new DataOutputStream(conn
                 .getOutputStream());
         SetPostParams.setPostParam("policyID", Integer.toString(policyID));
+        SetPostParams.setPostParam("policyName",policyName);
         SetPostParams.setPostParam("flag", "showpolicy");
         Log.d("test", "policy required:" + SetPostParams.getResult().toString());
         out.writeBytes(SetPostParams.getResult().toString());

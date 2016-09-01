@@ -1,5 +1,6 @@
 package com.bignerdranch.android.android_client_v1;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -24,6 +25,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText name;
     private EditText passw;
     String sname;
+    private static ProgressDialog dialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     map.put("flag", "login");
 
                     new LoginTask().execute(map);
+                    if (dialog == null) {
+                        dialog = new ProgressDialog(this);
+                        // dialog=new ProgressDialog(SearchActivity.this);
+                    }
+                    dialog.setTitle("请耐心等待");
+                    dialog.setMessage("查询中...");
+                    dialog.setCancelable(false);
+                    dialog.show();
                 }
                 break;
             case R.id.register:
@@ -73,6 +85,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //执行完后更新UI
         @Override
         protected void onPostExecute(Boolean result) {
+            Log.d("test","on post Execute!");
+            dialog.dismiss();
             if (result) {
                 if (response.equals("null")) {
                     Toast.makeText(LoginActivity.this,"该用户不存在或输入密码错误", Toast.LENGTH_SHORT).show();

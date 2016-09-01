@@ -43,6 +43,7 @@ import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -54,8 +55,9 @@ public class AddFlightPolicyFragment extends Fragment {
 
 
     private AddFlightPolicyTask mFlightTask = null;
-    public static String resultString;
+    public  String resultString;
     public Connect2Server c2s = new Conn2ServerImp();
+    JSONObject delayRate;
 
     private EditText mFlightDate;
     private EditText mFlightId;
@@ -70,10 +72,12 @@ public class AddFlightPolicyFragment extends Fragment {
     private View add_flightPolicy_OK;
     private static final String ARG_FLIGHT_DAILAY_POLICY = "flight_policy";
     private ArrayList<String> par;
+    private String delayData;
 
-    public static AddFlightPolicyFragment newInstance(ArrayList<String> par) {
+    public static AddFlightPolicyFragment newInstance(ArrayList<String> par,String data) {
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_FLIGHT_DAILAY_POLICY, par);
+        args.putString("data",data);
         AddFlightPolicyFragment fragment = new AddFlightPolicyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -91,6 +95,13 @@ public class AddFlightPolicyFragment extends Fragment {
         }
 
         par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
+        delayData=getArguments().getString("data");
+        try {
+            delayRate = new JSONObject(delayData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("delay",delayData);
         Log.d("policy", par.get(0));//航班号
         Log.d("policy", par.get(1));//起点
         Log.d("policy", par.get(2));//终点
@@ -290,7 +301,11 @@ public class AddFlightPolicyFragment extends Fragment {
                 } else {
                     flag[0] = 0;
                 }
-                update();
+                try {
+                    update();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -302,7 +317,11 @@ public class AddFlightPolicyFragment extends Fragment {
                 } else {
                     flag[1] = 0;
                 }
-                update();
+                try {
+                    update();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -314,34 +333,45 @@ public class AddFlightPolicyFragment extends Fragment {
                 } else {
                     flag[2] = 0;
                 }
-                update();
+                try {
+                    update();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
-    public void update() {
+    public void update() throws JSONException {
         switch (flag[0] + flag[1] + flag[2]) {
             case 1:
                 mFlightCoverage.setText("200");
+                mFlightFee.setText(delayRate.getString("12"));
                 break;
             case 2:
                 mFlightCoverage.setText("400");
+                mFlightFee.setText(delayRate.getString("13"));
                 break;
             case 3:
                 mFlightCoverage.setText("600");
+                mFlightFee.setText(delayRate.getString("17"));
                 break;
             case 4:
                 mFlightCoverage.setText("200");
+                mFlightFee.setText(delayRate.getString("14"));
                 break;
             case 5:
                 mFlightCoverage.setText("200");
+                mFlightFee.setText(delayRate.getString("15"));
                 break;
             case 6:
                 mFlightCoverage.setText("400");
+                mFlightFee.setText(delayRate.getString("16"));
                 break;
             case 7:
                 mFlightCoverage.setText("600");
+                mFlightFee.setText(delayRate.getString("18"));
                 break;
             default:
                 mFlightCoverage.setText("0");

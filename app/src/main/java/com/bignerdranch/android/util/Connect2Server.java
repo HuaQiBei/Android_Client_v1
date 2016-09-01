@@ -19,7 +19,7 @@ public interface Connect2Server {
 
     public String addScenicPolicy(ScenicPolicy policy) throws IOException, JSONException;
 
-    public String showScenicPolicy(int policyID) throws IOException, JSONException;
+    public String showScenicPolicy(int policyID,String policyName) throws IOException, JSONException;
 
     public String addInsuredman(String insuredname, String insuredIDcard) throws IOException;
 
