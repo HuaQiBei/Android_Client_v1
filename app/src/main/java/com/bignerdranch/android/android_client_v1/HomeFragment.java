@@ -1,6 +1,5 @@
 package com.bignerdranch.android.android_client_v1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,10 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.ViewGroup.LayoutParams;
 
 import com.baidu.location.LocationClient;
 import com.bignerdranch.android.android_client_v1.view.AddFlightPolicyActivity;
@@ -95,6 +94,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         View flight_policy = view.findViewById(R.id.list_one);
         flight_policy.setOnClickListener(this);
 
+        View scenic_policy = view.findViewById(R.id.scenic_policy);
+        scenic_policy.setOnClickListener(this);
         return view;
     }
 
@@ -130,6 +131,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 Log.d("list_one", "点击");
                 break;
+            case R.id.scenic_policy:
+                intent = new Intent(getActivity(), AddScenicPolicyActivity.class);
+                startActivity(intent);
+                Log.d("scenic_policy", "点击");
         }
     }
 

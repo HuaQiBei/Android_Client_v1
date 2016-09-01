@@ -1,15 +1,13 @@
 package com.bignerdranch.android.android_client_v1.view;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -22,29 +20,28 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bignerdranch.android.android_client_v1.MainActivity;
+import com.bignerdranch.android.android_client_v1.R;
 import com.bignerdranch.android.android_client_v1.db.WeatherDB;
 import com.bignerdranch.android.android_client_v1.model.BasePolicy;
+import com.bignerdranch.android.android_client_v1.model.FlightPolicy;
 import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
-import com.bignerdranch.android.android_client_v1.MainActivity;
-import com.bignerdranch.android.android_client_v1.R;
-import com.bignerdranch.android.android_client_v1.model.FlightPolicy;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -69,6 +66,7 @@ public class AddFlightPolicyFragment extends Fragment {
     private CheckBox mCancelFlight;
     private TextView mFlightCoverage;
     private TextView mFlightFee;
+    private ImageView mAdd;
     private View add_flightPolicy_OK;
     private static final String ARG_FLIGHT_DAILAY_POLICY = "flight_policy";
     private ArrayList<String> par;
@@ -201,7 +199,6 @@ public class AddFlightPolicyFragment extends Fragment {
         mFlightRoute = (EditText) v.findViewById(R.id.flight_route);
         mFlightRoute.setText(par.get(1) + " " + par.get(2));
         mFlightWeather = (EditText) v.findViewById(R.id.flight_weather);
-        mFlightGetWeather = (Button) v.findViewById(R.id.get_flight_weather);
         mOneHour = (CheckBox) v.findViewById(R.id.one_hour_checked);
         mFourHours = (CheckBox) v.findViewById(R.id.four_hour_checked);
         mCancelFlight = (CheckBox) v.findViewById(R.id.flight_cancel_checked);
@@ -212,6 +209,23 @@ public class AddFlightPolicyFragment extends Fragment {
         getDate();
         calculatePolicyCoverage();
 
+        mAdd = (ImageView) v.findViewById(R.id.addFlightPolicyMan);
+        final ViewGroup group = (ViewGroup) v.findViewById(R.id.insured_list);
+        mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                view = inflater.inflate(R.layout.item_insured, null);
+                final View finalView = view;
+                view.findViewById(R.id.delete_insured_person).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        group.removeView(finalView);
+                    }
+                });
+                group.addView(view);
+            }
+        });
 
         add_flightPolicy_OK.setOnClickListener(new View.OnClickListener() {
             @Override
