@@ -42,6 +42,7 @@ public class Conn2ServerImp implements Connect2Server {
         SetPostParams.setPostParam("password", password);
         SetPostParams.setPostParam("flag", "login");
         out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
@@ -65,13 +66,13 @@ public class Conn2ServerImp implements Connect2Server {
         SetPostParams.setPostParam("district", district);
         SetPostParams.setPostParam("detaildis", detaildis);
         SetPostParams.setPostParam("flag", "addaddress");
-        Log.d("test", "address required:"+SetPostParams.getResult().toString());
+        Log.d("test", "address required:" + SetPostParams.getResult().toString());
         out.writeBytes(SetPostParams.getResult().toString());
         SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
-        URLDecoder.decode(str,"utf-8");
+        URLDecoder.decode(str, "utf-8");
 
         return str;
 
@@ -127,49 +128,51 @@ public class Conn2ServerImp implements Connect2Server {
         String str = null;
         Log.d("test", "in add Scenic policy!");
 
-		HttpURLConnection conn = initPost(urlSpec);
-		DataOutputStream out = new DataOutputStream(conn
-				.getOutputStream());
-		JSONArray reqValue = new JSONArray().put(
-				new JSONObject()
-						.put("scenicname", policy.getScenicname())
-						.put("startdate", policy.getStartdate())
-						.put("scenicweather", policy.getScenicweather())
-						.put("enddate", policy.getEnddate())
-						.put("policyID", policy.getPolicyID())
-						.put("insureduty", policy.getInsureduty())
-						.put("fee", policy.getFee())
-						.put("userID", policy.getPolicyholder()));
-		Log.d("test", reqValue.toString());
-		SetPostParams.setPostParam("data", reqValue.toString());
-		SetPostParams.setPostParam("flag", "addscenicpolicy");
-		out.writeBytes(SetPostParams.getResult().toString());
+        HttpURLConnection conn = initPost(urlSpec);
+        DataOutputStream out = new DataOutputStream(conn
+                .getOutputStream());
+        JSONArray reqValue = new JSONArray().put(
+                new JSONObject()
+                        .put("scenicname", policy.getScenicname())
+                        .put("startdate", policy.getStartdate())
+                        .put("scenicweather", policy.getScenicweather())
+                        .put("enddate", policy.getEnddate())
+                        .put("policyID", policy.getPolicyID())
+                        .put("insureduty", policy.getInsureduty())
+                        .put("fee", policy.getFee())
+                        .put("userID", policy.getPolicyholder())
+                        .put("state", policy.getState()));
+        Log.d("test", reqValue.toString());
+        SetPostParams.setPostParam("data", reqValue.toString());
+        SetPostParams.setPostParam("flag", "addscenicpolicy");
+        out.writeBytes(SetPostParams.getResult().toString());
         SetPostParams.dismiss();
-		out.flush();
-		out.close();
-		str = new String(getPostReturn(conn));
-		return str;
+        out.flush();
+        out.close();
+        str = new String(getPostReturn(conn));
+        return str;
 
     }
 
     @Override
-    public String showScenicPolicy(int policyID) throws IOException, JSONException {
+    public String showScenicPolicy(int policyID,String policyName) throws IOException, JSONException {
         String str = null;
-        Log.d("test", "in show Scenic Policy!");
+        Log.d("test", "in show Policy!");
 
         HttpURLConnection conn = initPost(urlSpec);
         DataOutputStream out = new DataOutputStream(conn
                 .getOutputStream());
-        SetPostParams.setPostParam("policyID",Integer.toString(policyID));
+        SetPostParams.setPostParam("policyID", Integer.toString(policyID));
+        SetPostParams.setPostParam("policyName",policyName);
         SetPostParams.setPostParam("flag", "showpolicy");
-        Log.d("test", "policy required:"+SetPostParams.getResult().toString());
+        Log.d("test", "policy required:" + SetPostParams.getResult().toString());
         out.writeBytes(SetPostParams.getResult().toString());
         SetPostParams.dismiss();
         out.flush();
         out.close();
         //str=new String(getPostReturn(conn));
         str = new String(getPostReturn(conn));
-        Log.d("test","response:"+str);
+        Log.d("test", "response:" + str);
         return str;
 
 
@@ -187,6 +190,7 @@ public class Conn2ServerImp implements Connect2Server {
 
         SetPostParams.setPostParam("flag", "addpolicy");
         out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
@@ -208,17 +212,19 @@ public class Conn2ServerImp implements Connect2Server {
                         .put("policyID", policy.getPolicyID())
                         .put("mFlightDate", policy.getFlightDate())
                         .put("mFlightId", policy.getFlightId())
-                        .put("mFlightRoute", policy.getFlightWeather())
-                        .put("mFlightTime", policy.getFlightTime())
+                        .put("mFlightRoute", policy.getFlightRoute())
                         .put("mFlightWeather", policy.getFlightWeather())
                         .put("mFlightCheckBox", policy.getFlightCheckBox())
                         .put("mFlightCoverage", policy.getFlightCoverage())
                         .put("mFlightFee", policy.getFlightFee())
-                        .put("userID", policy.getPolicyHolder()));
+                        .put("userID", policy.getPolicyHolder())
+                        .put("state", policy.getmState()));
         Log.d("test", reqValue.toString());
         SetPostParams.setPostParam("data", reqValue.toString());
         SetPostParams.setPostParam("flag", "addflightpolicy");
+        Log.d("test", "add flight policy required:" + SetPostParams.getResult().toString());
         out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
@@ -233,18 +239,19 @@ public class Conn2ServerImp implements Connect2Server {
         HttpURLConnection conn = initPost(urlSpec);
         DataOutputStream out = new DataOutputStream(conn
                 .getOutputStream());
-        SetPostParams.setPostParam("userID",Integer.toString(userID));
+        SetPostParams.setPostParam("userID", Integer.toString(userID));
         SetPostParams.setPostParam("flag", "findallpolicy");
-        Log.d("test", "policy required:"+SetPostParams.getResult().toString());
+        Log.d("test", "policy required:" + SetPostParams.getResult().toString());
         out.writeBytes(SetPostParams.getResult().toString());
         SetPostParams.dismiss();
         out.flush();
         out.close();
         str = new String(getPostReturn(conn));
-        Log.d("test","response:"+str);
+        Log.d("test", "response:" + str);
         return str;
 
     }
+
 
     public HttpURLConnection initPost(String urlstr) throws IOException {
 
@@ -282,5 +289,29 @@ public class Conn2ServerImp implements Connect2Server {
             connection.disconnect();
         }
     }
+
+    @Override
+    public String findDelayRate(String flightCode, String startCity, String endCity) throws IOException, JSONException {
+        String str = null;
+        Log.d("test", "in find delay rate!");
+
+        HttpURLConnection conn = initPost(urlSpec);
+        DataOutputStream out = new DataOutputStream(conn
+                .getOutputStream());
+        SetPostParams.setPostParam("flightCode", flightCode);
+        SetPostParams.setPostParam("startCity", startCity);
+        SetPostParams.setPostParam("endCity", endCity);
+        SetPostParams.setPostParam("flag", "finddelayrate");
+        Log.d("test", "find delay rate required:" + SetPostParams.getResult().toString());
+        out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
+        out.flush();
+        out.close();
+        str = new String(getPostReturn(conn));
+        Log.d("test", "response:" + str);
+        return str;
+
+    }
+
 
 }

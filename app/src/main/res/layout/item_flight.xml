@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
+        android:foreground="?attr/selectableItemBackground"
         card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="0dp">
@@ -91,8 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="出发地"
-                        />
+                        android:text="出发地"/>
 
                     <EditText
                         android:id="@+id/flight_start_city"

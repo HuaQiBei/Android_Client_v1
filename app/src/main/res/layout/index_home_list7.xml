@@ -5,7 +5,7 @@
               android:layout_height="wrap_content"
               android:orientation="vertical"
               android:background="@color/white"
-              tools:showIn="@layout/fragment_home">
+              tools:showIn="@layout/outfragment_home">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/android_bigger" />
+                android:src="@drawable/ic_flight_144" />
 
         </FrameLayout>
 
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/android_bigger" />
+                android:src="@drawable/ic_scenicspot_144" />
 
         </FrameLayout>
 

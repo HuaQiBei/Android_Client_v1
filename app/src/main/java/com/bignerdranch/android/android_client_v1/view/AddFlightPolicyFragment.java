@@ -26,10 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bignerdranch.android.android_client_v1.db.WeatherDB;
+import com.bignerdranch.android.android_client_v1.model.BasePolicy;
+import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.bignerdranch.android.android_client_v1.MainActivity;
@@ -38,21 +42,26 @@ import com.bignerdranch.android.android_client_v1.model.FlightPolicy;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddFlightPolicyFragment extends Fragment {
 
     private WeatherDB mWeatherDB;//数据库操作对象
 
 
-    private AddFlightPolicyTask mAuthTask = null;
-    public static String resultString;
+    private AddFlightPolicyTask mFlightTask = null;
+    public  String resultString;
     public Connect2Server c2s = new Conn2ServerImp();
+    JSONObject delayRate;
 
     private EditText mFlightDate;
     private EditText mFlightId;
     private EditText mFlightRoute;
-    private EditText mFlightTime;
     private EditText mFlightWeather;
     private Button mFlightGetWeather;
     private CheckBox mOneHour;
@@ -62,10 +71,13 @@ public class AddFlightPolicyFragment extends Fragment {
     private TextView mFlightFee;
     private View add_flightPolicy_OK;
     private static final String ARG_FLIGHT_DAILAY_POLICY = "flight_policy";
+    private ArrayList<String> par;
+    private String delayData;
 
-    public static AddFlightPolicyFragment newInstance(ArrayList<String> par) {
+    public static AddFlightPolicyFragment newInstance(ArrayList<String> par,String data) {
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_FLIGHT_DAILAY_POLICY, par);
+        args.putString("data",data);
         AddFlightPolicyFragment fragment = new AddFlightPolicyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -82,12 +94,18 @@ public class AddFlightPolicyFragment extends Fragment {
             queryCitiesFromServer();
         }
 
-        ArrayList<String> par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
+        par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
+        delayData=getArguments().getString("data");
+        try {
+            delayRate = new JSONObject(delayData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("delay",delayData);
         Log.d("policy", par.get(0));//航班号
         Log.d("policy", par.get(1));//起点
         Log.d("policy", par.get(2));//终点
 
-        queryWeatherInfo(par.get(1), "2016-08-27");
     }
 
     /**TODO
@@ -99,7 +117,7 @@ public class AddFlightPolicyFragment extends Fragment {
     private void queryWeatherInfo(String cityName, String date/*日期用字符串?Date?*/) {
         String weatherCode = mWeatherDB.loadCitiesByName(cityName).getCity_code();
 
-        Log.d("policy", "cityName" + cityName + "weatherCode" + weatherCode);
+        Log.d("policy", "cityName" + cityName + "date" + date);
         String address = "https://api.heweather.com/x3/weather?cityid=" + weatherCode + "&key=" + WeatherActivity.WEATHER_KEY;
         Log.d("policy", address);
         queryFromServer(address, "weatherCode", date);
@@ -169,6 +187,7 @@ public class AddFlightPolicyFragment extends Fragment {
             }
         });
     }
+
     private int coverage = 0;
     private int[] flag = {0, 0, 0};
 
@@ -178,8 +197,9 @@ public class AddFlightPolicyFragment extends Fragment {
 
         mFlightDate = (EditText) v.findViewById(R.id.flight_date);
         mFlightId = (EditText) v.findViewById(R.id.flight_id);
+        mFlightId.setText(par.get(0));
         mFlightRoute = (EditText) v.findViewById(R.id.flight_route);
-        mFlightTime = (EditText) v.findViewById(R.id.flight_time);
+        mFlightRoute.setText(par.get(1) + " " + par.get(2));
         mFlightWeather = (EditText) v.findViewById(R.id.flight_weather);
         mFlightGetWeather = (Button) v.findViewById(R.id.get_flight_weather);
         mOneHour = (CheckBox) v.findViewById(R.id.one_hour_checked);
@@ -196,33 +216,28 @@ public class AddFlightPolicyFragment extends Fragment {
         add_flightPolicy_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("test", "click the flight commit button!");
                 String flight_date_str = mFlightDate.getText().toString();
                 String flight_id_str = mFlightId.getText().toString();
-                String flight_time_str = mFlightTime.getText().toString();
                 String flight_route_str = mFlightRoute.getText().toString();
                 String flight_weather_str = mFlightWeather.getText().toString();
                 int flight_cb_str = flag[0] + flag[1] + flag[2];
                 String flight_coverage_str = mFlightCoverage.getText().toString();
                 String policyfee_str = mFlightFee.getText().toString();
-
                 FlightPolicy policy = new FlightPolicy(
-                        1233333, 1111,
-                        flight_date_str, Integer.parseInt(flight_id_str),
-                        flight_route_str, flight_time_str, flight_weather_str, flight_cb_str,
+                        77, 13,
+                        flight_date_str, flight_id_str,
+                        flight_route_str, flight_weather_str, flight_cb_str,
                         Integer.parseInt(flight_coverage_str), Double.parseDouble(policyfee_str)
-                );
+                        , "生效中");
 
-
-                if (mAuthTask != null) {
+                if (mFlightTask != null) {
                     return;
                 }
-                Log.d("test", "click the commit button!");
-                mAuthTask = new AddFlightPolicyTask(policy);//为后台传递参数
-                mAuthTask.execute((Void) null);
+                mFlightTask = new AddFlightPolicyTask(policy);//为后台传递参数
+                mFlightTask.execute((Void) null);
 
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
+
             }
         });
 
@@ -254,7 +269,17 @@ public class AddFlightPolicyFragment extends Fragment {
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 Calendar c = Calendar.getInstance();
                                 c.set(year, monthOfYear, dayOfMonth);
-                                mFlightDate.setText(DateFormat.format("yyy-MM-dd", c));
+                                CharSequence date = DateFormat.format("yyy-MM-dd", c);
+                                mFlightDate.setText(date);
+                                try {
+                                    if (inSevenDays(date)) {
+                                        queryWeatherInfo(par.get(1), date + "");
+                                    }else {
+                                        mFlightWeather.setText("暂无天气预报");
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         },
                         c.get(Calendar.YEAR),
@@ -276,7 +301,11 @@ public class AddFlightPolicyFragment extends Fragment {
                 } else {
                     flag[0] = 0;
                 }
-                update();
+                try {
+                    update();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -288,7 +317,11 @@ public class AddFlightPolicyFragment extends Fragment {
                 } else {
                     flag[1] = 0;
                 }
-                update();
+                try {
+                    update();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -300,34 +333,45 @@ public class AddFlightPolicyFragment extends Fragment {
                 } else {
                     flag[2] = 0;
                 }
-                update();
+                try {
+                    update();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
-    public void update() {
+    public void update() throws JSONException {
         switch (flag[0] + flag[1] + flag[2]) {
             case 1:
                 mFlightCoverage.setText("200");
+                mFlightFee.setText(delayRate.getString("12"));
                 break;
             case 2:
                 mFlightCoverage.setText("400");
+                mFlightFee.setText(delayRate.getString("13"));
                 break;
             case 3:
                 mFlightCoverage.setText("600");
+                mFlightFee.setText(delayRate.getString("17"));
                 break;
             case 4:
                 mFlightCoverage.setText("200");
+                mFlightFee.setText(delayRate.getString("14"));
                 break;
             case 5:
                 mFlightCoverage.setText("200");
+                mFlightFee.setText(delayRate.getString("15"));
                 break;
             case 6:
                 mFlightCoverage.setText("400");
+                mFlightFee.setText(delayRate.getString("16"));
                 break;
             case 7:
                 mFlightCoverage.setText("600");
+                mFlightFee.setText(delayRate.getString("18"));
                 break;
             default:
                 mFlightCoverage.setText("0");
@@ -353,12 +397,12 @@ public class AddFlightPolicyFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Log.d("test", "in to do addpolicy in background!");
+            Log.d("test", "in to do add flight policy in background!");
             try {
                 // Simulate network access.
                 resultString = c2s.addFlightPolicy(mFlightPolicy);
 
-                Log.d("test", "resultString=" + resultString);
+                Log.d("test", "航班延误险的resultString=" + resultString);
                 return resultString;
 
 
@@ -371,12 +415,21 @@ public class AddFlightPolicyFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final String result) {
-            mAuthTask = null;
+            mFlightTask = null;
             //showProgress(false);
             Log.d("test", "in to on PostExecute!");
 
             if (result != null) {
                 Log.d("test", result);
+                try {
+                    PolicyLab policyList = PolicyLab.get(result);
+                    BasePolicy newPolicy = new BasePolicy(mFlightPolicy.getFlightFee(), mFlightPolicy.getPolicyID(), "航班延误险", "生效中", mFlightPolicy.getFlightRoute());
+                    policyList.addPolicy(newPolicy);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
 
@@ -388,8 +441,26 @@ public class AddFlightPolicyFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
+            mFlightTask = null;
             // showProgress(false);
         }
+    }
+
+    public boolean inSevenDays(CharSequence date) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        Date date1 = simpleDateFormat.parse(date + "");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date1);
+        Calendar now = Calendar.getInstance();
+        Log.d("debug", calendar + " " + now);
+        long hours = (calendar.getTimeInMillis() - now.getTimeInMillis()) / (60 * 60 * 1000);
+        long days = (hours + 24) / 24;
+
+        Log.d("debug", days + "");
+        if (days > 6) {
+            Toast.makeText(getContext(), "无法预报天气", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

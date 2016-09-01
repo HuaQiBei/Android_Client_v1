@@ -1,5 +1,7 @@
 package com.bignerdranch.android.android_client_v1.model;
 
+import android.util.Log;
+
 /**
  * Created by Elvira on 2016/8/26.
  */
@@ -8,25 +10,33 @@ public class FlightPolicy {
     private int policyID;
     private int policyHolder;
     private String mFlightDate;
-    private int mFlightId;
+    private String mFlightId;
     private String mFlightRoute;
-    private String mFlightTime;
     private String mFlightWeather;
     private int mFlightCheckBox;
     private int mFlightCoverage;
     private double mFlightFee;
+    private String mState;
 
-    public FlightPolicy(int policyID, int policyHolder, String flightDate, int flightId, String flightRoute, String flightTime, String flightWeather, int flightCheckBox, int flightCoverage, double flightFee) {
+    public String getmState() {
+        return mState;
+    }
+
+    public void setmState(String mState) {
+        this.mState = mState;
+    }
+
+    public FlightPolicy(int policyID, int policyHolder, String flightDate, String flightId, String flightRoute, String flightWeather, int flightCheckBox, int flightCoverage, double flightFee, String state) {
         this.policyID = policyID;
         this.policyHolder = policyHolder;
         this.mFlightDate = flightDate;
         this.mFlightId = flightId;
         this.mFlightRoute = flightRoute;
-        this.mFlightTime = flightTime;
         this.mFlightWeather = flightWeather;
         this.mFlightCheckBox = flightCheckBox;
         this.mFlightCoverage = flightCoverage;
         this.mFlightFee = flightFee;
+        this.mState = state;
     }
 
     public int getPolicyID() {
@@ -53,11 +63,11 @@ public class FlightPolicy {
         mFlightDate = flightDate;
     }
 
-    public int getFlightId() {
+    public String getFlightId() {
         return mFlightId;
     }
 
-    public void setFlightId(int flightId) {
+    public void setFlightId(String flightId) {
         mFlightId = flightId;
     }
 
@@ -69,13 +79,6 @@ public class FlightPolicy {
         mFlightRoute = flightRoute;
     }
 
-    public String getFlightTime() {
-        return mFlightTime;
-    }
-
-    public void setFlightTime(String flightTime) {
-        mFlightTime = flightTime;
-    }
 
     public String getFlightWeather() {
         return mFlightWeather;

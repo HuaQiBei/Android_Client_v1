@@ -108,9 +108,9 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             Log.d("test","in to do addaddress in background!");
             try {
                 // Simulate network access.
-                String result = c2s.addAddress(mReceivenamestr,mTelephonestr,mMailcodestr,mDistrictstr,mDetaildisstr);
-                Log.d("test","addressresult="+result);
-                return result;
+                String resultString = c2s.addAddress(mReceivenamestr,mTelephonestr,mMailcodestr,mDistrictstr,mDetaildisstr);
+                Log.d("test","resultString="+resultString);
+                return resultString;
 
 
             } catch (Exception e) {
@@ -127,7 +127,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
             Log.d("test","in to on PostExecute!");
 
             if (result!=null) {
-             //   Log.d("test",result);
+                Log.d("test",result);
                 Intent intent=new Intent(getActivity(),MyInfoActivity.class);
                 startActivity(intent);
 

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,17 +25,13 @@ import com.bignerdranch.android.util.Connect2Server;
 import org.json.JSONException;
 
 /**
- *
- *
  * @功能说明 自定义TabHost
- *
  */
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
-    private FindAllPolicyTask mAuthTask=null;
+    private FindAllPolicyTask mAuthTask = null;
     // public static String resultString;
-    public Connect2Server c2s=new Conn2ServerImp();
-
+    public Connect2Server c2s = new Conn2ServerImp();
 
 
     private int mPolicyTitle;
@@ -43,9 +40,9 @@ public class MainActivity extends AppCompatActivity{
     // 定义一个布局
     private LayoutInflater layoutInflater;
     // 定义数组来存放Fragment界面
-    private Class fragmentArray[] = { HomeFragment.class,
+    private Class fragmentArray[] = {HomeFragment.class,
             LifeFragment.class, PolicyFragment.class,
-            MineFragment.class };
+            MineFragment.class};
 
     // 定义数组来存放按钮图片
     private int mImageViewArray[] = {
@@ -67,24 +64,23 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Log.d("test", "MainActivity onCreate");
         //  requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        if (!preferences.getBoolean("isLogin", false)) {
-//            Intent intent = new Intent(this, LoginActivity.class);
-//            startActivity(intent);
-//            finish();
-//            return;
-//        }
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!preferences.getBoolean("isLogin", false)) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         setContentView(R.layout.activity_main);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int userID=preferences.getInt("id",0);
-        if(userID==0)
+        int userID = preferences.getInt("id", 0);
+        if (userID == 0)
             Toast.makeText(this, "没取到用户ID", Toast.LENGTH_SHORT).show();
         if (mAuthTask != null) {
             return;
         }
-        Log.d("test","click the commit button!");
+        Log.d("test", "Main auto exe!");
         mAuthTask = new FindAllPolicyTask(userID);//为后台传递参数
         mAuthTask.execute((Void) null);
 
@@ -103,6 +99,12 @@ public class MainActivity extends AppCompatActivity{
         // 实例化TabHost对象，得到TabHost
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+
+        //去分割线
+        final TabWidget tabWidget = mTabHost.getTabWidget();
+        //tabWidget.setStripEnabled(false);
+        tabWidget.setDividerDrawable(null);
+
 
         // 得到fragment的个数
         int count = fragmentArray.length;
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity{
 
         return view;
     }
+
     public int getPolicyTitle() {
         return mPolicyTitle;
     }
@@ -141,10 +144,9 @@ public class MainActivity extends AppCompatActivity{
         mPolicyTitle = policyTitle;
     }
 
-    public void setCurrentTabByTag(String tag){
+    public void setCurrentTabByTag(String tag) {
         mTabHost.setCurrentTabByTag(tag);
     }
-
 
 
 //-----------------------------------
@@ -155,19 +157,19 @@ public class MainActivity extends AppCompatActivity{
         int mUserID;
 
         FindAllPolicyTask(int userID) {
-            this.mUserID=userID;
+            this.mUserID = userID;
 
         }
 
         @Override
         protected String doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Log.d("test","in show policy in background!");
+            Log.d("test", "in find all policy in background!");
             try {
                 // Simulate network access.
                 String resultString = c2s.findAllPolicy(mUserID);
 
-                Log.d("test","find all policy String="+resultString);
+                Log.d("test", "find all policy String=" + resultString);
 
                 return resultString;
 
@@ -183,16 +185,18 @@ public class MainActivity extends AppCompatActivity{
         protected void onPostExecute(final String result) {
             mAuthTask = null;
             //showProgress(false);
-            if(result!=null){
-                Log.d("test","in to on PostExecute!");
+            if (result != null) {
+                Log.d("test", "in to on find all policy PostExecute!");
                 try {
                     PolicyLab policyList = PolicyLab.get(result);
+                    Log.d("test", "单例大小：" + policyList.getPolicys().toString());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("test","save all policy sucessful!");
+                Log.d("test", "save all policy sucessful!");
             } else {
-                Log.d("test","return nothing!");
+                Log.d("test", "return nothing!");
                 //getActivity().finish();
             }
         }
@@ -204,9 +208,6 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 // --------------------------------------
-
-
-
 
 
 }
