@@ -105,7 +105,6 @@ public class AddScenicPolicyFragment extends Fragment {
                 String insuredutystr = insureduty.getText().toString();
                 String feestr = fee.getText().toString();
 
-                ScenicPolicy policy = new ScenicPolicy(12345, startdatestr, enddatestr, 12, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insuredutystr);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 int userID=preferences.getInt("id",0);
                 if(userID==0){
