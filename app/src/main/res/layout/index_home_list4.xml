@@ -40,7 +40,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支付宝5秒买单"/>
+                    android:text="入住无忧"/>
             </LinearLayout>
 
             <ImageView
@@ -80,7 +80,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="折后满21减20"/>
+                    android:text="再也不担心等位了"/>
             </LinearLayout>
 
             <ImageView
@@ -112,6 +112,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/query_policy"
                 >
                 <ImageView
                     android:layout_width="16dp"

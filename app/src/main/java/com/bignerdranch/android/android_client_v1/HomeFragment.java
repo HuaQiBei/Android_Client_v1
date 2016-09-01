@@ -83,8 +83,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         Log.d("test", "HomeFragment onCreateView");
 
-        TextView choose_area = (TextView) view.findViewById(R.id.home_choose_area);
-        choose_area.setOnClickListener(this);
+        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
+        home_choose_area.setOnClickListener(this);
+
         ImageView gps = (ImageView) view.findViewById(R.id.index_home_tip);
         gps.setOnClickListener(this);
 
@@ -95,18 +96,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         View flight_policy = view.findViewById(R.id.list_one);
         flight_policy.setOnClickListener(this);
 
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
+        View query_policy = view.findViewById(R.id.query_policy);
+        query_policy.setOnClickListener(this);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Log.d("life", "刷新view");
         home_choose_area.setText(prefs.getString("city_name", "选择"));
+
+        return view;
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -129,6 +129,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent = new Intent(getActivity(), AddFlightPolicyActivity.class);
                 startActivity(intent);
                 Log.d("list_one", "点击");
+                break;
+            case R.id.query_policy:
+                ((MainActivity) getActivity()).setCurrentTabByTag("保单");
                 break;
         }
     }

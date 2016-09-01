@@ -4,15 +4,46 @@
             android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/item_night_running"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <include layout="@layout/item_flight"/>
+            <TextView
+                android:id="@+id/flight_delay"
+                style="@style/Font16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="航班延误险"/>
 
-        <include layout="@layout/item_scenic_spot"/>
+            <TextView
+                android:id="@+id/scenic_spot"
+                style="@style/Font16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="景区意外险"/>
+
+            <TextView
+                android:id="@+id/night_running"
+                style="@style/Font16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="夜跑险"/>
+        </LinearLayout>
+
+        <!--<include layout="@layout/item_night_running"/>-->
+
+        <!--<include layout="@layout/item_flight"/>-->
+
+        <!--<include layout="@layout/item_scenic_spot"/>-->
 
     </LinearLayout>
 </ScrollView>

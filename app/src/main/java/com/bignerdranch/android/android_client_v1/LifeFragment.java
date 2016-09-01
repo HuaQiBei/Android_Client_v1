@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.android.android_client_v1.view.AddFlightPolicyActivity;
@@ -44,6 +45,8 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
     private TextView mScenicSpotIntroduce;
     private Button mAddScenicSpotPolicyButton;
 
+    LinearLayout parent;
+
     private Connect2Server c2s = new Conn2ServerImp();
     private GetDelayRateTask mAuthTask = null;
 
@@ -60,65 +63,27 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        mLocation = (TextView) view.findViewById(R.id.location);
-        mWeather = (TextView) view.findViewById(R.id.weather);
-        mTemperature = (TextView) view.findViewById(R.id.temperature);
-        mAddNightRunningPolicyButton = (Button) view.findViewById(R.id.add_night_running_policy_button);
-
-        //TODO 设置当前位置，暂时填城市
-        mLocation.setText(prefs.getString("city_name", ""));
-        mTemperature.setText(prefs.getString("temp1", "") + "℃~" + prefs.getString("temp2", "") + "℃");
-        mWeather.setText(prefs.getString("weather_desp", ""));
-
-
-        mFlightNo = (EditText) view.findViewById(R.id.flight_no);
-        mFlightStartCity = (EditText) view.findViewById(R.id.flight_start_city);
-        mFlightEndCity = (EditText) view.findViewById(R.id.flight_end_city);
-        mDelayRate = (TextView) view.findViewById(R.id.flight_delay_rate);
-        mAddFlightPolicyButton = (Button) view.findViewById(R.id.add_flight_policy_button);
-
-        mScenicSpot = (TextView) view.findViewById(R.id.scenic_spot_name);
-        mScenicSpotIntroduce = (TextView) view.findViewById(R.id.scenic_spot_introduce);
-        mAddScenicSpotPolicyButton = (Button) view.findViewById(R.id.add_flight_policy_button);
-
-        mScenicSpot.setText("");//TODO 根据定位得到的景区名称 要加景区描述吗？
-
-        mFlightEndCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String flightNo = mFlightNo.getText().toString();
-                    String flightStartCity = mFlightStartCity.getText().toString();
-                    String flightEndCity = mFlightEndCity.getText().toString();
-                    /**
-                     * TODO
-                     * 去查询输入对应航班的延误率
-                     * 然后显示在mDelayRate
-                     */
-
-                    if (mAuthTask != null) {
-                        return;
-                    }
-                    Log.d("test", "end city focus changed!");//"MU5693","北京首都","上海");//
-                    mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
-                    mAuthTask.execute((Void) null);
-
-
-                }
-
-            }
-        });
-
-        mAddNightRunningPolicyButton.setOnClickListener(this);
-        mAddFlightPolicyButton.setOnClickListener(this);
-        mAddScenicSpotPolicyButton.setOnClickListener(this);
+        (view.findViewById(R.id.flight_delay)).setOnClickListener(this);
+        (view.findViewById(R.id.scenic_spot)).setOnClickListener(this);
+        (view.findViewById(R.id.night_running)).setOnClickListener(this);
+        parent = (LinearLayout) view.findViewById(R.id.parent);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.flight_delay:
+                if (getView().findViewById(R.id.add_flight_policy_button) == null)
+                    parent.addView(flightDelayView());
+                break;
+            case R.id.scenic_spot:
+                if (getView().findViewById(R.id.add_scenic_spot_policy_button) == null)
+                    parent.addView(scenicSpotView());
+                break;
+            case R.id.night_running:
+                if (getView().findViewById(R.id.add_night_running_policy_button) == null)
+                    parent.addView(nightRunningView());
+                break;
             case R.id.add_night_running_policy_button:
 
                 /**
@@ -203,6 +168,76 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
             mAuthTask = null;
             // showProgress(false);
         }
+    }
+
+    private View nightRunningView() {
+        //TODO 动态增加卡片
+        // LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.item_night_running, null);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        mLocation = (TextView) view.findViewById(R.id.location);
+        mWeather = (TextView) view.findViewById(R.id.weather);
+        mTemperature = (TextView) view.findViewById(R.id.temperature);
+        mAddNightRunningPolicyButton = (Button) view.findViewById(R.id.add_night_running_policy_button);
+
+        //TODO 设置当前位置，暂时填城市
+        mLocation.setText(prefs.getString("city_name", ""));
+        mTemperature.setText(prefs.getString("temp1", "") + "℃~" + prefs.getString("temp2", "") + "℃");
+        mWeather.setText(prefs.getString("weather_desp", ""));
+        mAddNightRunningPolicyButton.setOnClickListener(this);
+        //view.setLayoutParams(lp);
+        return view;
+    }
+
+    private View flightDelayView() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.item_flight, null);
+        mFlightNo = (EditText) view.findViewById(R.id.flight_no);
+        mFlightStartCity = (EditText) view.findViewById(R.id.flight_start_city);
+        mFlightEndCity = (EditText) view.findViewById(R.id.flight_end_city);
+        mDelayRate = (TextView) view.findViewById(R.id.flight_delay_rate);
+        mAddFlightPolicyButton = (Button) view.findViewById(R.id.add_flight_policy_button);
+        mFlightEndCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String flightNo = mFlightNo.getText().toString();
+                    String flightStartCity = mFlightStartCity.getText().toString();
+                    String flightEndCity = mFlightEndCity.getText().toString();
+                    /**
+                     * TODO
+                     * 去查询输入对应航班的延误率
+                     * 然后显示在mDelayRate
+                     */
+
+                    if (mAuthTask != null) {
+                        return;
+                    }
+                    Log.d("test", "end city focus changed!");//"MU5693","北京首都","上海");//
+                    mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
+                    mAuthTask.execute((Void) null);
+
+
+                }
+
+            }
+        });
+        mAddFlightPolicyButton.setOnClickListener(this);
+        return view;
+    }
+
+    private View scenicSpotView() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.item_scenic_spot, null);
+        mScenicSpot = (TextView) view.findViewById(R.id.scenic_spot_name);
+        mScenicSpotIntroduce = (TextView) view.findViewById(R.id.scenic_spot_introduce);
+        mAddScenicSpotPolicyButton = (Button) view.findViewById(R.id.add_scenic_spot_policy_button);
+        mScenicSpot.setText("显示景区名称");
+        mScenicSpotIntroduce.setText("//TODO 根据定位得到的景区名称 要加景区描述吗？");//TODO 根据定位得到的景区名称 要加景区描述吗？
+        mAddScenicSpotPolicyButton.setOnClickListener(this);
+        return view;
     }
 
 }
