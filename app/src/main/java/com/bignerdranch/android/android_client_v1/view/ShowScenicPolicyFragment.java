@@ -4,11 +4,11 @@ package com.bignerdranch.android.android_client_v1.view;
  * Created by Administrator on 2016/8/22.
  */
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bignerdranch.android.android_client_v1.ContactActivity;
-import com.bignerdranch.android.android_client_v1.MainActivity;
-import com.bignerdranch.android.android_client_v1.MyInfoActivity;
 import com.bignerdranch.android.android_client_v1.R;
-import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
-import com.bignerdranch.android.util.Conn2ServerImp;
-import com.bignerdranch.android.util.Connect2Server;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +81,18 @@ public class ShowScenicPolicyFragment extends Fragment {
 
 //        insuredname=(TextView) v.findViewById(R.id.insuredman);
 //        insuredIDcard=(TextView) v.findViewById(R.id.insuredmanIDCard);
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
 
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.id_toolbar);
+        activity.setSupportActionBar(toolbar);
+
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
         return v;
     }
 }

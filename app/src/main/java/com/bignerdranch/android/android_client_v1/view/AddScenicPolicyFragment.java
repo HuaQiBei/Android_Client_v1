@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -150,6 +152,19 @@ public class AddScenicPolicyFragment extends Fragment {
 //                startActivity(intent);
             }
         });
+
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.id_toolbar);
+        activity.setSupportActionBar(toolbar);
+
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.finish();
+            }
+        });
         return v;
     }
 
@@ -158,6 +173,7 @@ public class AddScenicPolicyFragment extends Fragment {
     private void getDate() {
         final Calendar c = Calendar.getInstance();
         final Calendar start = Calendar.getInstance();
+        final Calendar end = Calendar.getInstance();
         startdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +196,9 @@ public class AddScenicPolicyFragment extends Fragment {
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }*/
+                                if (end.getTimeInMillis() < start.getTimeInMillis()) {
+                                    enddate.setText("");
+                                }
                             }
                         },
                         c.get(Calendar.YEAR),
@@ -190,6 +209,7 @@ public class AddScenicPolicyFragment extends Fragment {
             }
         });
         final Calendar d = Calendar.getInstance();
+
         enddate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,10 +218,13 @@ public class AddScenicPolicyFragment extends Fragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                Calendar end = Calendar.getInstance();
+
                                 end.set(year, monthOfYear, dayOfMonth);
                                 CharSequence date = DateFormat.format("yyy-MM-dd", end);
                                 enddate.setText(date);
+                                if (end.getTimeInMillis() < start.getTimeInMillis()) {
+                                    enddate.setText("");
+                                }
                             }
                         },
                         d.get(Calendar.YEAR),
@@ -211,6 +234,10 @@ public class AddScenicPolicyFragment extends Fragment {
                 dialog.show();
             }
         });
+
+        if (end.getTimeInMillis() < start.getTimeInMillis()) {
+            enddate.setText("");
+        }
     }
     private int coverage = 0;
     private int[] flag = {0, 0};
