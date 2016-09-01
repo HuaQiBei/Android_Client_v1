@@ -13,6 +13,7 @@
         android:id="@+id/mCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="#ffffff"
         android:layout_margin="8dp"
         card_view:cardElevation="1px"
         card_view:cardCornerRadius="4dp"

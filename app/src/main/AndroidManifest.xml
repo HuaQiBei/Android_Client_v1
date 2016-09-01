@@ -177,6 +177,7 @@
             android:name=".view.AddScenicPolicyActivity"
             android:label=""
             android:parentActivityName=".MainActivity">
+
         </activity>
         <activity
             android:name=".view.SearchAreaActivity"

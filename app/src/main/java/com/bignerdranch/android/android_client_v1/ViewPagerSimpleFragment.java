@@ -183,7 +183,7 @@ public class ViewPagerSimpleFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mPolicy.getPolicyID() + " clicked!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), mPolicy.getPolicyID() + mPolicy.getPolicyName() + " clicked!", Toast.LENGTH_SHORT).show();
             switch (view.getId()) {
                 case R.id.list_bt_Policy:
 
@@ -197,13 +197,14 @@ public class ViewPagerSimpleFragment extends Fragment {
                     dialog.show();
 
 
-                    int policyID = 2;
+                    int policyID = mPolicy.getPolicyID();
+                    String policyName = mPolicy.getPolicyName();
 
                     if (mShowPolciTask != null) {
                         return;
                     }
                     Log.d("test", "click the show detail button!");
-                    mShowPolciTask = new ShowScenicPolicyTask(policyID);//为后台传递参数
+                    mShowPolciTask = new ShowScenicPolicyTask(policyID, policyName);//为后台传递参数
                     mShowPolciTask.execute((Void) null);
 
 
@@ -218,9 +219,11 @@ public class ViewPagerSimpleFragment extends Fragment {
         public class ShowScenicPolicyTask extends AsyncTask<Void, Void, String> {
 
             int mPolicyID;
+            String mPolicyName;
 
-            ShowScenicPolicyTask(int policyID) {
+            ShowScenicPolicyTask(int policyID, String policyName) {
                 this.mPolicyID = policyID;
+                this.mPolicyName = policyName;
 
             }
 
@@ -230,7 +233,7 @@ public class ViewPagerSimpleFragment extends Fragment {
                 Log.d("test", "in show policy in background!");
                 try {
                     // Simulate network access.
-                    String resultString = c2s.showScenicPolicy(mPolicyID);
+                    String resultString = c2s.showScenicPolicy(mPolicyID, mPolicyName);
 
                     Log.d("test", "showpolicyresultString=" + resultString);
 
@@ -252,10 +255,16 @@ public class ViewPagerSimpleFragment extends Fragment {
                     Log.d("test", "in to on PostExecute!");
                     // Log.d("test",result);
                     dialog.dismiss();
-                    Intent intent = new Intent(getActivity(), ShowScenicPolicyActivity.class);
-                    intent.putExtra("policydetail", result);
-                    startActivity(intent);
-                    Log.d("test", "start show scenic policy activity sucessful!");
+                    if (mPolicyName.equals("景区意外险")) {
+                        Intent intent = new Intent(getActivity(), ShowScenicPolicyActivity.class);
+                        intent.putExtra("policydetail", result);
+                        startActivity(intent);
+                        Log.d("test", "start show scenic policy activity sucessful!");
+                    } else if (mPolicyName.equals("航班延误险")) {
+
+                    } else {
+                        Toast.makeText(getActivity(), "没找到匹配保单类型", Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     Log.d("test", "return nothing!");
                     //getActivity().finish();
@@ -295,10 +304,7 @@ public class ViewPagerSimpleFragment extends Fragment {
                     break;
                 }
                 default:
-
             }
-
-
         }
     }
 
@@ -336,7 +342,7 @@ public class ViewPagerSimpleFragment extends Fragment {
         }
     }
 
-    private void initItemAnimator(RecyclerView recyclerView){
+    private void initItemAnimator(RecyclerView recyclerView) {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 }

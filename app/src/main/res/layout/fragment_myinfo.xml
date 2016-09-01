@@ -192,9 +192,9 @@
     <Button
         android:id="@+id/logout"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:textColor="#808080"
+        android:textColor="#fff"
         android:layout_gravity="center"
         android:background="@drawable/button"
         style="?android:attr/borderlessButtonStyle"

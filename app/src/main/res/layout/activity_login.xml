@@ -5,11 +5,11 @@
               android:layout_height="match_parent">
 
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
                   android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginTop="30dp"
+                  android:layout_marginTop="240dp"
                   android:weightSum="1"
                   android:layout_marginLeft="30dp"
                   android:layout_marginRight="30dp">
@@ -82,9 +82,9 @@
         <Button
             android:id="@+id/login"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textColor="#808080"
+            android:textColor="#fff"
             android:background="@drawable/button"
             style="?android:attr/borderlessButtonStyle"
             android:text="登陆"
@@ -92,9 +92,9 @@
         <Button
             android:id="@+id/register"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textColor="#808080"
+            android:textColor="#fff"
             android:layout_marginLeft="25dp"
             android:layout_gravity="center"
             android:background="@drawable/button"

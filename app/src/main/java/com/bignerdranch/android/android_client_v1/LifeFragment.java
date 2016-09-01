@@ -49,6 +49,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
 
     private Connect2Server c2s = new Conn2ServerImp();
     private GetDelayRateTask mAuthTask = null;
+    public String data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,7 +97,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                 par.add(mFlightNo.getText().toString());
                 par.add(mFlightStartCity.getText().toString());
                 par.add(mFlightEndCity.getText().toString());
-                Intent intent = AddFlightPolicyActivity.newIntent(getActivity(), par);
+                Intent intent = AddFlightPolicyActivity.newIntent(getActivity(), par,data);
                 startActivity(intent);
                 break;
             case R.id.add_scenic_spot_policy_button:
@@ -153,6 +154,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                     JSONObject delayRate = new JSONObject(result);
                     mDelayRate.setText(
                             "延误1小时以上：" + delayRate.getString("9") + "\n延误4小时以上：" + delayRate.getString("10") + "\n航班取消：" + delayRate.getString("11"));
+                    data=result;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
