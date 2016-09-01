@@ -63,7 +63,6 @@ public class AddFlightPolicyFragment extends Fragment {
     private EditText mFlightId;
     private EditText mFlightRoute;
     private EditText mFlightWeather;
-    private Button mFlightGetWeather;
     private CheckBox mOneHour;
     private CheckBox mFourHours;
     private CheckBox mCancelFlight;
@@ -201,7 +200,6 @@ public class AddFlightPolicyFragment extends Fragment {
         mFlightRoute = (EditText) v.findViewById(R.id.flight_route);
         mFlightRoute.setText(par.get(1) + " " + par.get(2));
         mFlightWeather = (EditText) v.findViewById(R.id.flight_weather);
-        mFlightGetWeather = (Button) v.findViewById(R.id.get_flight_weather);
         mOneHour = (CheckBox) v.findViewById(R.id.one_hour_checked);
         mFourHours = (CheckBox) v.findViewById(R.id.four_hour_checked);
         mCancelFlight = (CheckBox) v.findViewById(R.id.flight_cancel_checked);
