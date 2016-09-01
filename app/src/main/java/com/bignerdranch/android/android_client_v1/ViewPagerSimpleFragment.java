@@ -25,10 +25,6 @@ import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 public class ViewPagerSimpleFragment extends Fragment {
@@ -236,6 +232,8 @@ public class ViewPagerSimpleFragment extends Fragment {
                 intent.putExtra("policydetail",result);
                 startActivity(intent);
                 Log.d("test","start show scenic policy activity sucessful!");
+////                Intent intent=new Intent(getActivity(),MainActivity.class);
+////                startActivity(intent);
             } else {
                 Log.d("test","return nothing!");
                 //getActivity().finish();
