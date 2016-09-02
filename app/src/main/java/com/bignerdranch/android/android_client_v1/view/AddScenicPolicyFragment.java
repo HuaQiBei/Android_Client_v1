@@ -71,12 +71,22 @@ public class AddScenicPolicyFragment extends Fragment {
     private TextView mCoverage;
 
 
+    private static final String ARG_SCENIC_SPOT = "scenic_policy";
+
     //    private TextView insuredname;
 //    private TextView insuredIDcard;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    public static AddScenicPolicyFragment newInstance(ArrayList<String> par) {
+        Bundle args = new Bundle();
+        args.putStringArrayList(ARG_SCENIC_SPOT, par);
+        AddScenicPolicyFragment fragment = new AddScenicPolicyFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -128,12 +138,13 @@ public class AddScenicPolicyFragment extends Fragment {
                 String insuredutystr = insureduty.getText().toString();
                 String feestr = fee.getText().toString();
 
+
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 int userID=preferences.getInt("id",0);
                 if(userID==0){
                     Log.d("test","没取到用户ID");
                 }
-                ScenicPolicy policy = new ScenicPolicy(12349,startdatestr,enddatestr,userID,Double.parseDouble(feestr),scenicnamestr,scenicweatherstr,insuredutystr,"生效中");
+                ScenicPolicy policy = new ScenicPolicy(100,startdatestr,enddatestr,userID,Double.parseDouble(feestr),scenicnamestr,scenicweatherstr,insuredutystr,"生效中");
 
 
 //                String insurednamestr=insuredname.getText().toString();
@@ -311,7 +322,7 @@ public class AddScenicPolicyFragment extends Fragment {
                 // Simulate network access.
                 resultString = c2s.addScenicPolicy(mScenicPolicy);
 
-                Log.d("test","resultString="+resultString);
+                Log.d("test","add scenic policy resultString="+resultString);
                 return resultString;
 
 
@@ -331,6 +342,7 @@ public class AddScenicPolicyFragment extends Fragment {
             if (result!=null) {
                 Log.d("test",result);
                 try {
+                    mScenicPolicy.setPolicyID(Integer.parseInt(result));
                     PolicyLab policyList = PolicyLab.get(result);
                     BasePolicy newPolicy=new BasePolicy(mScenicPolicy.getFee(),mScenicPolicy.getPolicyID(),"景区意外险","生效中",mScenicPolicy.getScenicname());
                     policyList.addPolicy(newPolicy);

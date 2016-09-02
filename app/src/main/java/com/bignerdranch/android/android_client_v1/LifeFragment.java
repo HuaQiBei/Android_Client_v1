@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.android.android_client_v1.view.AddFlightPolicyActivity;
+import com.bignerdranch.android.android_client_v1.view.AddScenicPolicyActivity;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
@@ -44,8 +45,11 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
     private TextView mScenicSpot;
     private TextView mScenicSpotIntroduce;
     private Button mAddScenicSpotPolicyButton;
+    private ArrayList<String> par;
 
     LinearLayout parent;
+
+    Intent intent;
 
     private Connect2Server c2s = new Conn2ServerImp();
     private GetDelayRateTask mAuthTask = null;
@@ -93,11 +97,11 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                  */
                 break;
             case R.id.add_flight_policy_button:
-                ArrayList<String> par = new ArrayList<>();
+                par = new ArrayList<>();
                 par.add(mFlightNo.getText().toString());
                 par.add(mFlightStartCity.getText().toString());
                 par.add(mFlightEndCity.getText().toString());
-                Intent intent = AddFlightPolicyActivity.newIntent(getActivity(), par,data);
+                intent = AddFlightPolicyActivity.newIntent(getActivity(), par,data);
                 startActivity(intent);
                 break;
             case R.id.add_scenic_spot_policy_button:
@@ -105,6 +109,10 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                  * TODO
                  * 景区意外险的Activity
                  */
+                par = new ArrayList<>();
+                par.add(mScenicSpot.getText().toString());
+                intent = AddScenicPolicyActivity.newIntent(getActivity(), par);
+                startActivity(intent);
                 break;
         }
 
