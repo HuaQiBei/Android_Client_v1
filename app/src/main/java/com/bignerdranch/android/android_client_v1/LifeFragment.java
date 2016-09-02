@@ -77,7 +77,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
 
     private void zhisuibao() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        switch (prefs.getInt("cardId", 0)) {
+        switch (prefs.getInt("cardId", 0)) {// TODO 用完重置cardId
             case 1:
                 //航班
                 if (getView().findViewById(R.id.add_flight_policy_button) == null)
@@ -276,7 +276,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
         mFlightNo = (EditText) view.findViewById(R.id.flight_no);
         mFlightNo.setText(flightNo);
         mFlightStartCity = (EditText) view.findViewById(R.id.flight_start_city);
-        mFlightEndCity.setText(flightStartCity);
+        mFlightStartCity.setText(flightStartCity);
         mFlightEndCity = (EditText) view.findViewById(R.id.flight_end_city);
         mFlightEndCity.setText(flightEndCity);
         mDelayRate = (TextView) view.findViewById(R.id.flight_delay_rate);

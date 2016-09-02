@@ -97,8 +97,6 @@
 
         <service android:name=".service.LocationService" ></service>
 
-        <activity android:name=".service.DWActivity">
-        </activity>
         <activity android:name=".MainActivity"
                   android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>

@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SDKInitializer.initialize(getApplicationContext());
+//        SDKInitializer.initialize(getApplicationContext());
         Log.d("test", "MainActivity onCreate");
         //  requestWindowFeature(Window.FEATURE_NO_TITLE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
