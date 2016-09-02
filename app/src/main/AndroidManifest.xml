@@ -61,8 +61,9 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="0aE6s2HO0G1iUmuXsVjkykFK54jXwvOv"/>
 
-        <activity android:name=".MainActivity"
-                  android:windowSoftInputMode="adjustPan|stateHidden">
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -175,14 +176,9 @@
 
         <activity
             android:name=".view.AddScenicPolicyActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="景区意外险"
-            android:parentActivityName=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity
             android:name=".view.SearchAreaActivity"
@@ -190,9 +186,9 @@
         </activity>
         <activity
             android:name=".view.AddFlightPolicyActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="航空延误险"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
         <activity
