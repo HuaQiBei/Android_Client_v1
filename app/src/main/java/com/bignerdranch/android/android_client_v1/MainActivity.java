@@ -31,6 +31,8 @@ import com.bignerdranch.android.util.Connect2Server;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+
 /**
  * @功能说明 自定义TabHost
  */
@@ -108,6 +110,17 @@ public class MainActivity extends AppCompatActivity {
         initView();
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
+
+        ArrayList<String> par = getIntent().getStringArrayListExtra("flight_policy");
+        if (par != null) {
+            setCurrentTabByTag("生活");
+            preferences.edit()
+                    .putInt("cardId", 1)
+                    .putString("flightNo", par.get(0))
+                    .putString("flightStartCity", par.get(1))
+                    .putString("flightEndCity", par.get(2))
+                    .apply();
+        }
         int from = getIntent().getIntExtra("who",0);//获取调用该activity的activity类型
         if ( from == 1) {   //来自景区通知的调用
             String scenic_spot_city = getIntent().getStringExtra("city");

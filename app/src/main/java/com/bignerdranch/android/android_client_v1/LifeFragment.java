@@ -72,6 +72,27 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
         (view.findViewById(R.id.scenic_spot)).setOnClickListener(this);
         (view.findViewById(R.id.night_running)).setOnClickListener(this);
         parent = (LinearLayout) view.findViewById(R.id.parent);
+        zhisuibao();
+    }
+
+    private void zhisuibao() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        switch (prefs.getInt("cardId", 0)) {
+            case 1:
+                //航班
+                if (getView().findViewById(R.id.add_flight_policy_button) == null)
+                    parent.addView(flightDelayView("", "", ""));
+                break;
+            case 2:
+                //景区
+                break;
+            case 3:
+                //夜跑
+                break;
+            default:
+                return;
+        }
+        Log.d("policy", prefs.getString("txt_d", "变化前") + "转" + prefs.getString("txt_n", "变化后"));
     }
 
     @Override
@@ -101,7 +122,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                 par.add(mFlightNo.getText().toString());
                 par.add(mFlightStartCity.getText().toString());
                 par.add(mFlightEndCity.getText().toString());
-                intent = AddFlightPolicyActivity.newIntent(getActivity(), par,data);
+                intent = AddFlightPolicyActivity.newIntent(getActivity(), par, data);
                 startActivity(intent);
                 break;
             case R.id.add_scenic_spot_policy_button:
@@ -163,7 +184,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                     JSONObject delayRate = new JSONObject(result);
                     mDelayRate.setText(
                             "延误1小时以上：" + delayRate.getString("9") + "\n延误4小时以上：" + delayRate.getString("10") + "\n航班取消：" + delayRate.getString("11"));
-                    data=result;
+                    data = result;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -203,6 +224,43 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
     }
 
     private View flightDelayView() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.item_flight, null);
+        mFlightNo = (EditText) view.findViewById(R.id.flight_no);
+        mFlightStartCity = (EditText) view.findViewById(R.id.flight_start_city);
+        mFlightEndCity = (EditText) view.findViewById(R.id.flight_end_city);
+        mDelayRate = (TextView) view.findViewById(R.id.flight_delay_rate);
+        mAddFlightPolicyButton = (Button) view.findViewById(R.id.add_flight_policy_button);
+        mFlightEndCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    String flightNo = mFlightNo.getText().toString();
+                    String flightStartCity = mFlightStartCity.getText().toString();
+                    String flightEndCity = mFlightEndCity.getText().toString();
+                    /**
+                     * TODO
+                     * 去查询输入对应航班的延误率
+                     * 然后显示在mDelayRate
+                     */
+
+                    if (mAuthTask != null) {
+                        return;
+                    }
+                    Log.d("test", "end city focus changed!");//"MU5693","北京首都","上海");//
+                    mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
+                    mAuthTask.execute((Void) null);
+
+
+                }
+
+            }
+        });
+        mAddFlightPolicyButton.setOnClickListener(this);
+        return view;
+    }
+
+    private View flightDelayView(String a, String b, String c) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.item_flight, null);
         mFlightNo = (EditText) view.findViewById(R.id.flight_no);
