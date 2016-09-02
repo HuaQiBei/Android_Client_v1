@@ -111,6 +111,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                  */
                 par = new ArrayList<>();
                 par.add(mScenicSpot.getText().toString());
+                par.add("华阴");//TODO 景区城市
                 intent = AddScenicPolicyActivity.newIntent(getActivity(), par);
                 startActivity(intent);
                 break;

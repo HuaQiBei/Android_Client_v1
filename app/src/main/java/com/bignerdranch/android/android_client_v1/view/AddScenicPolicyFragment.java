@@ -43,6 +43,7 @@ import org.json.JSONException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -78,7 +79,7 @@ public class AddScenicPolicyFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mWeatherDB = WeatherDB.getInstance(getActivity());//获取数据库处理对象
     }
 
     public static AddScenicPolicyFragment newInstance(ArrayList<String> par) {
@@ -97,6 +98,7 @@ public class AddScenicPolicyFragment extends Fragment {
         bt_add_scenicPolicy_OK = v.findViewById(R.id.add_scenicPolicy_OK);
 
         scenicname = (EditText) v.findViewById(R.id.scenicName);
+        scenicname.setText(getArguments().getStringArrayList(ARG_SCENIC_SPOT).get(0));
         scenicweather = (EditText) v.findViewById(R.id.scenicWeather);
         startdate = (EditText) v.findViewById(R.id.scenicStartDate);
         enddate = (EditText) v.findViewById(R.id.scenicEndDate);
@@ -140,11 +142,11 @@ public class AddScenicPolicyFragment extends Fragment {
 
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                int userID=preferences.getInt("id",0);
-                if(userID==0){
-                    Log.d("test","没取到用户ID");
+                int userID = preferences.getInt("id", 0);
+                if (userID == 0) {
+                    Log.d("test", "没取到用户ID");
                 }
-                ScenicPolicy policy = new ScenicPolicy(100,startdatestr,enddatestr,userID,Double.parseDouble(feestr),scenicnamestr,scenicweatherstr,insuredutystr,"生效中");
+                ScenicPolicy policy = new ScenicPolicy(100, startdatestr, enddatestr, userID, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insuredutystr, "生效中");
 
 
 //                String insurednamestr=insuredname.getText().toString();
@@ -153,7 +155,7 @@ public class AddScenicPolicyFragment extends Fragment {
                 if (mAuthTask != null) {
                     return;
                 }
-                Log.d("test","click the scenic commit button!");
+                Log.d("test", "click the scenic commit button!");
                 mAuthTask = new AddScenicPolicyTask(policy);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
@@ -178,7 +180,6 @@ public class AddScenicPolicyFragment extends Fragment {
     }
 
 
-
     private void getDate() {
         final Calendar c = Calendar.getInstance();
         final Calendar start = Calendar.getInstance();
@@ -195,16 +196,15 @@ public class AddScenicPolicyFragment extends Fragment {
                                 start.set(year, monthOfYear, dayOfMonth);
                                 CharSequence date = DateFormat.format("yyy-MM-dd", start);
                                 startdate.setText(date);
-
-/*                                try {
+                                try {
                                     if (inSevenDays(date)) {
-                                        queryWeatherInfo("上海", date + "");
-                                    }else {
+                                        queryWeatherInfo(getArguments().getStringArrayList(ARG_SCENIC_SPOT).get(1), date + "");
+                                    } else {
                                         scenicweather.setText("暂无天气预报");
                                     }
                                 } catch (ParseException e) {
                                     e.printStackTrace();
-                                }*/
+                                }
                                 if (end.getTimeInMillis() < start.getTimeInMillis()) {
                                     enddate.setText("");
                                 }
@@ -248,8 +248,10 @@ public class AddScenicPolicyFragment extends Fragment {
             enddate.setText("");
         }
     }
+
     private int coverage = 0;
     private int[] flag = {0, 0};
+
     /*计算保额*/
     private void calculatePolicyCoverage() {
         mAccident.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -317,12 +319,12 @@ public class AddScenicPolicyFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Log.d("test","in to do addpolicy in background!");
+            Log.d("test", "in to do addpolicy in background!");
             try {
                 // Simulate network access.
                 resultString = c2s.addScenicPolicy(mScenicPolicy);
 
-                Log.d("test","add scenic policy resultString="+resultString);
+                Log.d("test", "add scenic policy resultString=" + resultString);
                 return resultString;
 
 
@@ -337,23 +339,23 @@ public class AddScenicPolicyFragment extends Fragment {
         protected void onPostExecute(final String result) {
             mAuthTask = null;
             //showProgress(false);
-            Log.d("test","in to on PostExecute!");
+            Log.d("test", "in to on PostExecute!");
 
-            if (result!=null) {
-                Log.d("test",result);
+            if (result != null) {
+                Log.d("test", result);
                 try {
                     mScenicPolicy.setPolicyID(Integer.parseInt(result));
                     PolicyLab policyList = PolicyLab.get(result);
-                    BasePolicy newPolicy=new BasePolicy(mScenicPolicy.getFee(),mScenicPolicy.getPolicyID(),"景区意外险","生效中",mScenicPolicy.getScenicname());
+                    BasePolicy newPolicy = new BasePolicy(mScenicPolicy.getFee(), mScenicPolicy.getPolicyID(), "景区意外险", "生效中", mScenicPolicy.getScenicname());
                     policyList.addPolicy(newPolicy);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Intent intent=new Intent(getActivity(),MainActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
 
             } else {
-                Log.d("test","return nothing!");
+                Log.d("test", "return nothing!");
                 //getActivity().finish();
             }
         }
@@ -427,37 +429,6 @@ public class AddScenicPolicyFragment extends Fragment {
                     @Override
                     public void run() {
                         scenicweather.setText("查询天气失败");
-                    }
-                });
-            }
-        });
-    }
-
-    //从服务器取出所有的城市信息
-    private void queryCitiesFromServer() {
-        String address = "https://api.heweather.com/x3/citylist?search=allchina&key=" + WeatherActivity.WEATHER_KEY;
-        MyProgressDialog.showProgressDialog(getActivity());
-        HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                if (Utility.handleAllCityResponse(mWeatherDB, response)) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            MyProgressDialog.closeProgressDialog();
-                            mWeatherDB.updateDataState();
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onError(final Exception e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        MyProgressDialog.closeProgressDialog();
-                        Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT);
                     }
                 });
             }

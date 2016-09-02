@@ -195,7 +195,7 @@ public class WeatherDB {
         }
         if (cursor != null)
             cursor.close();
-        Log.d("policy",data_state+" 0代表没All城市");
+        Log.d("policy", data_state + " 0代表没All城市");
 
         return data_state;
     }
@@ -203,6 +203,7 @@ public class WeatherDB {
 
     //根据名称获取某一个或多个匹配的城市
     public AllCity loadCitiesByName(String name) {
+        //先检查数据库处理对象是否获取
         List<AllCity> cities = new ArrayList<>();
         Cursor cursor = db.query("ALLCITY", null, "CITY_NAME_CH like ?", new String[]{name + "%"}, null, null, "CITY_CODE");
         while (cursor.moveToNext()) {
@@ -215,7 +216,7 @@ public class WeatherDB {
         }
         if (cursor != null)
             cursor.close();
-        Log.d("policy",cities.get(0).getCity_name_ch());
+        Log.d("policy", "查到城市" + cities.get(0).getCity_name_ch());
         return cities.get(0);
     }
 }
