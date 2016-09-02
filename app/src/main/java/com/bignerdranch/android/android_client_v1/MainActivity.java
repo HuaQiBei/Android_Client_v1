@@ -16,9 +16,14 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bignerdranch.android.android_client_v1.db.WeatherDB;
 import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
+import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
+import com.bignerdranch.android.android_client_v1.util.HttpUtil;
+import com.bignerdranch.android.android_client_v1.util.Utility;
 import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
+import com.bignerdranch.android.android_client_v1.view.WeatherActivity;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
@@ -28,6 +33,8 @@ import org.json.JSONException;
  * @功能说明 自定义TabHost
  */
 public class MainActivity extends AppCompatActivity {
+
+    private WeatherDB mWeatherDB;//数据库操作对象
 
     private FindAllPolicyTask mAuthTask = null;
     // public static String resultString;
@@ -83,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("test", "Main auto exe!");
         mAuthTask = new FindAllPolicyTask(userID);//为后台传递参数
         mAuthTask.execute((Void) null);
+
+        mWeatherDB = WeatherDB.getInstance(this);//获取数据库处理对象
+        //先检查本地是否已同步过城市数据，如果没有，则从服务器同步
+        if (mWeatherDB.checkDataState() == 0) {
+            Log.d("policy", "没有All城市列表");
+            queryCitiesFromServer();
+        }
 
         initView();
         Intent intent = new Intent(this, AutoUpdateService.class);
@@ -210,6 +224,33 @@ public class MainActivity extends AppCompatActivity {
 // --------------------------------------
 
 
+    //从服务器取出所有的城市信息
+    private void queryCitiesFromServer() {
+        String address = "https://api.heweather.com/x3/citylist?search=allchina&key=" + WeatherActivity.WEATHER_KEY;
+        HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                if (Utility.handleAllCityResponse(mWeatherDB, response)) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWeatherDB.updateDataState();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(final Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "加载城市失败", Toast.LENGTH_SHORT);
+                    }
+                });
+            }
+        });
+    }
 }
 
 /*生成保单号

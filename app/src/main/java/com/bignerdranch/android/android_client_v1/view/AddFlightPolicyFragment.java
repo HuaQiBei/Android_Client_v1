@@ -87,14 +87,9 @@ public class AddFlightPolicyFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mWeatherDB = WeatherDB.getInstance(getActivity());//获取数据库处理对象
-        //先检查本地是否已同步过城市数据，如果没有，则从服务器同步
-        if (mWeatherDB.checkDataState() == 0) {
-            Log.d("policy", "没有All城市列表");
-            queryCitiesFromServer();
-        }
 
         par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
-        delayData=getArguments().getString("data");
+        String delayData=getArguments().getString("data");
         try {
             delayRate = new JSONObject(delayData);
         } catch (JSONException e) {
@@ -115,7 +110,6 @@ public class AddFlightPolicyFragment extends Fragment {
      */
     private void queryWeatherInfo(String cityName, String date/*日期用字符串?Date?*/) {
         String weatherCode = mWeatherDB.loadCitiesByName(cityName).getCity_code();
-
         Log.d("policy", "cityName" + cityName + "date" + date);
         String address = "https://api.heweather.com/x3/weather?cityid=" + weatherCode + "&key=" + WeatherActivity.WEATHER_KEY;
         Log.d("policy", address);
@@ -156,36 +150,7 @@ public class AddFlightPolicyFragment extends Fragment {
         });
     }
 
-    //从服务器取出所有的城市信息
-    private void queryCitiesFromServer() {
-        String address = "https://api.heweather.com/x3/citylist?search=allchina&key=" + WeatherActivity.WEATHER_KEY;
-        MyProgressDialog.showProgressDialog(getActivity());
-        HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                if (Utility.handleAllCityResponse(mWeatherDB, response)) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            MyProgressDialog.closeProgressDialog();
-                            mWeatherDB.updateDataState();
-                        }
-                    });
-                }
-            }
 
-            @Override
-            public void onError(final Exception e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        MyProgressDialog.closeProgressDialog();
-                        Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT);
-                    }
-                });
-            }
-        });
-    }
 
     private int coverage = 0;
     private int[] flag = {0, 0, 0};
@@ -394,7 +359,6 @@ public class AddFlightPolicyFragment extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             Log.d("test", "in to do add flight policy in background!");
             try {
                 // Simulate network access.
@@ -407,7 +371,7 @@ public class AddFlightPolicyFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return "Noting";
+            return "Nothing";
 
         }
 
