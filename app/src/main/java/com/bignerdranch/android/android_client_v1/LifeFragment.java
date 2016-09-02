@@ -81,10 +81,14 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
             case 1:
                 //航班
                 if (getView().findViewById(R.id.add_flight_policy_button) == null)
-                    parent.addView(flightDelayView("", "", ""));
+                    parent.addView(flightDelayView(prefs.getString("flightNo", "航班号"),
+                            prefs.getString("flightStartCity", "出发地"),
+                            prefs.getString("flightEndCity", "到达地")));
                 break;
             case 2:
                 //景区
+                if (getView().findViewById(R.id.add_scenic_spot_policy_button) == null)
+                    parent.addView(scenicSpotView());
                 break;
             case 3:
                 //夜跑
@@ -260,50 +264,35 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    private View flightDelayView(String a, String b, String c) {
+    private View flightDelayView(String flightNo, String flightStartCity, String flightEndCity) {
+        if (mAuthTask != null) {
+            return null;
+        }
+        //"MU5693","北京首都","上海");
+        mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
+        mAuthTask.execute((Void) null);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.item_flight, null);
         mFlightNo = (EditText) view.findViewById(R.id.flight_no);
+        mFlightNo.setText(flightNo);
         mFlightStartCity = (EditText) view.findViewById(R.id.flight_start_city);
+        mFlightEndCity.setText(flightStartCity);
         mFlightEndCity = (EditText) view.findViewById(R.id.flight_end_city);
+        mFlightEndCity.setText(flightEndCity);
         mDelayRate = (TextView) view.findViewById(R.id.flight_delay_rate);
         mAddFlightPolicyButton = (Button) view.findViewById(R.id.add_flight_policy_button);
-        mFlightEndCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String flightNo = mFlightNo.getText().toString();
-                    String flightStartCity = mFlightStartCity.getText().toString();
-                    String flightEndCity = mFlightEndCity.getText().toString();
-                    /**
-                     * TODO
-                     * 去查询输入对应航班的延误率
-                     * 然后显示在mDelayRate
-                     */
-
-                    if (mAuthTask != null) {
-                        return;
-                    }
-                    Log.d("test", "end city focus changed!");//"MU5693","北京首都","上海");//
-                    mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
-                    mAuthTask.execute((Void) null);
-
-
-                }
-
-            }
-        });
         mAddFlightPolicyButton.setOnClickListener(this);
         return view;
     }
 
     private View scenicSpotView() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.item_scenic_spot, null);
         mScenicSpot = (TextView) view.findViewById(R.id.scenic_spot_name);
+        mScenicSpot.setText(prefs.getString("scenic_spot_city", "景点名称"));
         mScenicSpotIntroduce = (TextView) view.findViewById(R.id.scenic_spot_introduce);
         mAddScenicSpotPolicyButton = (Button) view.findViewById(R.id.add_scenic_spot_policy_button);
-        mScenicSpot.setText("显示景区名称");
         mScenicSpotIntroduce.setText("//TODO 根据定位得到的景区名称 要加景区描述吗？");//TODO 根据定位得到的景区名称 要加景区描述吗？
         mAddScenicSpotPolicyButton.setOnClickListener(this);
         return view;

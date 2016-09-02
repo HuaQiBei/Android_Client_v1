@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         //启动定位服务
         Intent startIntent = new Intent(this, LocationService.class);
         startService(startIntent); // 启动服务
-        Log.d("test","service started");
+        Log.d("test", "service started");
         setContentView(R.layout.activity_main);
 
         int userID = preferences.getInt("id", 0);
@@ -110,30 +110,27 @@ public class MainActivity extends AppCompatActivity {
         initView();
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
-
         ArrayList<String> par = getIntent().getStringArrayListExtra("flight_policy");
         if (par != null) {
             setCurrentTabByTag("生活");
             preferences.edit()
-                    .putInt("cardId", 1)
+                    .putInt("cardId", 1)    //航空延误险//TODO 记得把这些清空
                     .putString("flightNo", par.get(0))
                     .putString("flightStartCity", par.get(1))
                     .putString("flightEndCity", par.get(2))
                     .apply();
         }
-        int from = getIntent().getIntExtra("who",0);//获取调用该activity的activity类型
-        if ( from == 1) {   //来自景区通知的调用
+        //获取调用该activity的activity类型
+        if (getIntent().getIntExtra("who", 0) == 1) {   //来自景区通知的调用
             String scenic_spot_city = getIntent().getStringExtra("city");
             String scenic_spot_name = getIntent().getStringExtra("name");
 
             setCurrentTabByTag("生活");
-            SharedPreferences.Editor editor = PreferenceManager
-                    .getDefaultSharedPreferences(this).edit();
-            editor.putInt("cardId", 2);     //景区意外险
-            editor.putString("scenic_spot_city", scenic_spot_city);
-            editor.putString("scenic_spot_name", scenic_spot_name);
-            editor.apply();
-
+            preferences.edit()
+                    .putInt("cardId", 2)     //景区意外险
+                    .putString("scenic_spot_city", scenic_spot_city)
+                    .putString("scenic_spot_name", scenic_spot_name)
+                    .apply();
         }
     }
 
