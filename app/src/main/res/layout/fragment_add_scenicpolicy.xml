@@ -261,23 +261,24 @@
                                 android:text="境内景区意外身故、残疾"/>
                         </LinearLayout>
                         <RadioGroup
+                            android:id="@+id/rg_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/rb_1_1"
-                                android:layout_width="wrap_content"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
                                 android:text="100000"
                                 android:checked="true"/>
                             <RadioButton
                                 android:id="@+id/rb_1_2"
-                                android:layout_width="wrap_content"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
                                 android:text="200000"/>
                             <RadioButton
                                 android:id="@+id/rb_1_3"
-                                android:layout_width="wrap_content"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
                                 android:text="300000"/>
                         </RadioGroup>
@@ -296,23 +297,24 @@
                                 android:text="意外医疗"/>
                         </LinearLayout>
                         <RadioGroup
+                            android:id="@+id/rg_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
                             <RadioButton
                                 android:id="@+id/rb_2_1"
-                                android:layout_width="wrap_content"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
                                 android:text="5000"
                                 android:checked="true"/>
                             <RadioButton
                                 android:id="@+id/rb_2_2"
-                                android:layout_width="wrap_content"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
                                 android:text="10000"/>
                             <RadioButton
                                 android:id="@+id/rb_2_3"
-                                android:layout_width="wrap_content"
+                                android:layout_width="90dp"
                                 android:layout_height="wrap_content"
                                 android:text="15000"/>
                         </RadioGroup>
