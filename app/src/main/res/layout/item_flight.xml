@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AlertDialog.AppCompat"
@@ -32,7 +31,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/flight"/>
+                android:src="@drawable/flight" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,7 +48,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginTop="30dp"
                     android:lineSpacingMultiplier="1.2"
-                    android:text="      智随保检测到您有一条航班信息，您可以通过填写航班号购买延误险。"/>
+                    android:text="      智随保检测到您有一条航班信息，您可以通过填写航班号购买延误险。" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -65,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="航班号"/>
+                        android:text="航班号" />
 
                     <EditText
                         android:id="@+id/flight_no"
@@ -76,7 +75,8 @@
                         android:layout_marginRight="16dp"
                         android:layout_weight="1"
                         android:height="30dp"
-                        android:background="@drawable/edittext_bg"/>
+                        android:background="@drawable/edittext_bg"
+                        android:text="MU5693" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -92,7 +92,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="出发地"/>
+                        android:text="出发地" />
 
                     <EditText
                         android:id="@+id/flight_start_city"
@@ -103,7 +103,8 @@
                         android:layout_marginRight="16dp"
                         android:layout_weight="1"
                         android:height="30dp"
-                        android:background="@drawable/edittext_bg"/>
+                        android:background="@drawable/edittext_bg"
+                        android:text="北京首都" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,7 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="到达地"/>
+                        android:text="到达地" />
 
                     <EditText
                         android:id="@+id/flight_end_city"
@@ -131,7 +132,8 @@
                         android:layout_marginRight="16dp"
                         android:layout_weight="1"
                         android:height="30dp"
-                        android:background="@drawable/edittext_bg"/>
+                        android:background="@drawable/edittext_bg"
+                        android:text="上海" />
                 </LinearLayout>
 
 
@@ -147,7 +149,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        tools:text="延误率:"/>
+                        tools:text="延误率:" />
 
                 </LinearLayout>
 
@@ -168,7 +170,7 @@
                         tools:text="这里显示延误率详情:
                         \n这里显示延误率详情:
                         \n这里显示延误率详情:
-                        \n这里显示延误率详情:"/>
+                        \n这里显示延误率详情:" />
 
                 </LinearLayout>
 
@@ -191,7 +193,7 @@
                         android:background="@drawable/button"
                         android:text="购买"
                         android:textColor="#fff"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp" />
 
                 </RelativeLayout>
             </LinearLayout>

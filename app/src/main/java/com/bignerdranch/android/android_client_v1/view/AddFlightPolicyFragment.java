@@ -222,8 +222,9 @@ public class AddFlightPolicyFragment extends Fragment {
                 int flight_cb_str = flag[0] + flag[1] + flag[2];
                 String flight_coverage_str = mFlightCoverage.getText().toString();
                 String policyfee_str = mFlightFee.getText().toString();
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 FlightPolicy policy = new FlightPolicy(
-                        77, 13,
+                        100, preferences.getInt("id", 0),
                         flight_date_str, flight_id_str,
                         flight_route_str, flight_weather_str, flight_cb_str,
                         Integer.parseInt(flight_coverage_str), Double.parseDouble(policyfee_str)
@@ -420,6 +421,7 @@ public class AddFlightPolicyFragment extends Fragment {
             if (result != null) {
                 Log.d("test", result);
                 try {
+                    mFlightPolicy.setPolicyID(Integer.parseInt(result));
                     PolicyLab policyList = PolicyLab.get(result);
                     BasePolicy newPolicy = new BasePolicy(mFlightPolicy.getFlightFee(), mFlightPolicy.getPolicyID(), "航班延误险", "生效中", mFlightPolicy.getFlightRoute());
                     policyList.addPolicy(newPolicy);
