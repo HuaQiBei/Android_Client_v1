@@ -238,6 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="4"
+                        android:layout_gravity="center"
                         android:text="保障责任"/>
 
                     <LinearLayout
@@ -246,17 +247,75 @@
                         android:layout_toRightOf="@+id/accidentText"
                         android:orientation="vertical">
 
-                        <CheckBox
-                            android:id="@+id/accident_checked"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:gravity="center"
+                                android:src="@drawable/item"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="境内景区意外身故、残疾"/>
+                        </LinearLayout>
+                        <RadioGroup
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="境内景区意外身故、残疾"/>
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:id="@+id/rb_1_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="100000"
+                                android:checked="true"/>
+                            <RadioButton
+                                android:id="@+id/rb_1_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="200000"/>
+                            <RadioButton
+                                android:id="@+id/rb_1_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="300000"/>
+                        </RadioGroup>
 
-                        <CheckBox
-                            android:id="@+id/medical_checked"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:gravity="center"
+                                android:src="@drawable/item"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="意外医疗"/>
+                        </LinearLayout>
+                        <RadioGroup
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="意外医疗"/>
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:id="@+id/rb_2_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="5000"
+                                android:checked="true"/>
+                            <RadioButton
+                                android:id="@+id/rb_2_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10000"/>
+                            <RadioButton
+                                android:id="@+id/rb_2_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="15000"/>
+                        </RadioGroup>
 
                     </LinearLayout>
 

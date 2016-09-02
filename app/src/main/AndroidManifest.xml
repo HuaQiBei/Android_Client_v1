@@ -194,6 +194,8 @@
             android:process=":remote">
         </service>
 
+        <activity android:name=".LocationApplication">
+        </activity>
         <activity
             android:name=".view.ChooseAreaActivity"
             android:label=""
@@ -211,9 +213,9 @@
 
         <activity
             android:name=".view.AddScenicPolicyActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="景区意外险"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
         <activity
             android:name=".view.SearchAreaActivity"
@@ -221,9 +223,9 @@
         </activity>
         <activity
             android:name=".view.AddFlightPolicyActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="航空延误险"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden">
 
         </activity>
         <activity
