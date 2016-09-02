@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +69,18 @@ public class AddScenicPolicyFragment extends Fragment {
     private ImageView mAdd;
     private TextView mCoverage;
 
+    private RadioGroup mRG1;
+    private RadioGroup mRG2;
+
+    private RadioButton rb1_1;
+    private RadioButton rb1_2;
+    private RadioButton rb1_3;
+
+    private RadioButton rb2_1;
+    private RadioButton rb2_2;
+    private RadioButton rb2_3;
+
+
 
     private static final String ARG_SCENIC_SPOT = "scenic_policy";
 
@@ -94,13 +108,23 @@ public class AddScenicPolicyFragment extends Fragment {
         bt_add_scenicPolicy_OK = v.findViewById(R.id.add_scenicPolicy_OK);
 
         scenicname = (EditText) v.findViewById(R.id.scenicName);
-        scenicname.setText(getArguments().getStringArrayList(ARG_SCENIC_SPOT).get(0));
+        //scenicname.setText(getArguments().getStringArrayList(ARG_SCENIC_SPOT).get(0));
         scenicweather = (EditText) v.findViewById(R.id.scenicWeather);
         startdate = (EditText) v.findViewById(R.id.scenicStartDate);
         enddate = (EditText) v.findViewById(R.id.scenicEndDate);
         insureduty = (EditText) v.findViewById(R.id.insureDuty);
         fee = (TextView) v.findViewById(R.id.scenicFee);
         mAdd = (ImageView) v.findViewById(R.id.addScenicPolicyMan);
+
+        mRG1 = (RadioGroup) v.findViewById(R.id.rg_1);
+        mRG2 = (RadioGroup) v.findViewById(R.id.rg_2);
+
+        rb1_1 = (RadioButton) v.findViewById(R.id.rb_1_1);
+        rb1_2 = (RadioButton) v.findViewById(R.id.rb_1_2);
+        rb1_3 = (RadioButton) v.findViewById(R.id.rb_1_3);
+        rb2_1 = (RadioButton) v.findViewById(R.id.rb_2_1);
+        rb2_2 = (RadioButton) v.findViewById(R.id.rb_2_2);
+        rb2_3 = (RadioButton) v.findViewById(R.id.rb_2_3);
 
         mCoverage = (TextView) v.findViewById(R.id.policy_coverage);
         getDate();
@@ -242,16 +266,72 @@ public class AddScenicPolicyFragment extends Fragment {
         }
     }
 
-    private int coverage = 0;
-    private int[] flag = {0, 0};
+    private String[] flag = {"a", "a"};
 
     /*计算保额*/
     private void calculatePolicyCoverage() {
 
+        mRG1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (rb1_1.getId() == i) {
+                    flag[0]="a";
+                } else if (rb1_2.getId() == i) {
+                    flag[0]="b";
+                } else if (rb1_3.getId() == i) {
+                    flag[0]="c";
+                }
+                update();
+            }
+        });
+
+        mRG2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (rb2_1.getId() == i) {
+                    flag[1]="a";
+                } else if (rb2_2.getId() == i) {
+                    flag[1]="b";
+                } else if (rb2_3.getId() == i) {
+                    flag[1]="c";
+                }
+                update();
+            }
+        });
     }
 
     public void update() {
+        String sum = flag[0] + flag[1];
 
+        switch (sum) {
+            case "aa":
+                mCoverage.setText("105000");
+                break;
+            case "ab":
+                mCoverage.setText("110000");
+                break;
+            case "ac":
+                mCoverage.setText("115000");
+                break;
+            case "ba":
+                mCoverage.setText("205000");
+                break;
+            case "bb":
+                mCoverage.setText("210000");
+                break;
+            case "bc":
+                mCoverage.setText("215000");
+                break;
+            case "ca":
+                mCoverage.setText("305000");
+                break;
+            case "cb":
+                mCoverage.setText("310000");
+                break;
+            case "cc":
+                mCoverage.setText("315000");
+                break;
+        }
     }
 
     public class AddScenicPolicyTask extends AsyncTask<Void, Void, String> {
