@@ -19,8 +19,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,8 +65,6 @@ public class AddScenicPolicyFragment extends Fragment {
     private EditText insureduty;
     private TextView fee;
     private ImageView mAdd;
-    private CheckBox mAccident;
-    private CheckBox mMedical;
     private TextView mCoverage;
 
 
@@ -105,8 +101,7 @@ public class AddScenicPolicyFragment extends Fragment {
         insureduty = (EditText) v.findViewById(R.id.insureDuty);
         fee = (TextView) v.findViewById(R.id.scenicFee);
         mAdd = (ImageView) v.findViewById(R.id.addScenicPolicyMan);
-        mAccident = (CheckBox) v.findViewById(R.id.accident_checked);
-        mMedical = (CheckBox) v.findViewById(R.id.medical_checked);
+
         mCoverage = (TextView) v.findViewById(R.id.policy_coverage);
         getDate();
         calculatePolicyCoverage();
@@ -149,8 +144,6 @@ public class AddScenicPolicyFragment extends Fragment {
                 ScenicPolicy policy = new ScenicPolicy(100, startdatestr, enddatestr, userID, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insuredutystr, "生效中");
 
 
-//                String insurednamestr=insuredname.getText().toString();
-//                String insuredIDcardstr=insuredIDcard.getText().toString();
 
                 if (mAuthTask != null) {
                     return;
@@ -159,8 +152,6 @@ public class AddScenicPolicyFragment extends Fragment {
                 mAuthTask = new AddScenicPolicyTask(policy);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
-//                Intent intent = new Intent(getActivity(),MainActivity.class);
-//                startActivity(intent);
             }
         });
 
@@ -193,6 +184,7 @@ public class AddScenicPolicyFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
+
                                 start.set(year, monthOfYear, dayOfMonth);
                                 CharSequence date = DateFormat.format("yyy-MM-dd", start);
                                 startdate.setText(date);
@@ -214,6 +206,7 @@ public class AddScenicPolicyFragment extends Fragment {
                         c.get(Calendar.MONTH),
                         c.get(Calendar.DAY_OF_MONTH));
                 dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis() + 604800000);
                 dialog.show();
             }
         });
@@ -254,57 +247,11 @@ public class AddScenicPolicyFragment extends Fragment {
 
     /*计算保额*/
     private void calculatePolicyCoverage() {
-        mAccident.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (mAccident.isChecked()) {
-                    flag[0] = 1;
-                } else {
-                    flag[0] = 0;
-                }
-                try {
-                    update();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
 
-        mMedical.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (mMedical.isChecked()) {
-                    flag[1] = 2;
-                } else {
-                    flag[1] = 0;
-                }
-                try {
-                    update();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
-    public void update() throws JSONException {
-        switch (flag[0] + flag[1]) {
-            case 1:
-                mCoverage.setText("100000");
+    public void update() {
 
-                break;
-            case 2:
-                mCoverage.setText("5000");
-
-                break;
-            case 3:
-                mCoverage.setText("105000");
-
-                break;
-            default:
-                mCoverage.setText("0");
-                break;
-        }
     }
 
     public class AddScenicPolicyTask extends AsyncTask<Void, Void, String> {
