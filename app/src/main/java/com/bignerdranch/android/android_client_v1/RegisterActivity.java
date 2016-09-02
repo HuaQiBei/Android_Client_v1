@@ -20,8 +20,11 @@ import cn.smssdk.gui.RegisterPage;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final String APPKEY = "164fb160b6716";
-    private static final String APPSECRET="028b98c2a52546db6caa7be8de6c3b6d";
+    //private static final String APPKEY = "164fb160b6716";
+    //private static final String APPSECRET="028b98c2a52546db6caa7be8de6c3b6d";
+
+    private static final String APPKEY = "165330232451a";
+    private static final String APPSECRET="478eaddde32096a52c888c7cbecd669f";
 
     private Button login;
     private Button get_code;
