@@ -2,7 +2,7 @@ package com.bignerdranch.android.util;
 
 import com.bignerdranch.android.android_client_v1.model.FlightPolicy;
 import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
-
+import com.bignerdranch.android.android_client_v1.model.FlightPolicy;
 import org.json.JSONException;
 
 import java.io.IOException;

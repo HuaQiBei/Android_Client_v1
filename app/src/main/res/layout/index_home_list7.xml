@@ -88,7 +88,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="5dp"
+        android:id="@+id/scenic_policy">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -132,17 +133,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="活动"
-                    android:textColor="@color/orange"
-                    android:background="@drawable/index_home_list7_tip123"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp" />
 
                 <TextView
                     android:layout_width="0dp"

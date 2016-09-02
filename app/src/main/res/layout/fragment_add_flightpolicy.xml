@@ -283,7 +283,7 @@
                 <LinearLayout style="@style/common_horizontal_division_line_style"/>
 
                 <ImageView
-                    android:id="@+id/scenicInsuredManImg"
+                    android:id="@+id/flightInsuredManImg"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -294,17 +294,17 @@
                     android:src="@drawable/policyman"/>
 
                 <TextView
-                    android:id="@+id/scenicInsuredManText"
+                    android:id="@+id/flightInsuredManText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_toRightOf="@id/scenicInsuredManImg"
+                    android:layout_toRightOf="@id/flightInsuredManImg"
                     android:gravity="center"
                     android:padding="16dp"
                     android:text="被保人"/>
 
                 <ImageView
-                    android:id="@+id/addScenicPolicyMan"
+                    android:id="@+id/addFlightPolicyMan"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
@@ -332,60 +332,25 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/deleteInsuredMan"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/ico_action_delete"/>
-
-
-                    <TextView
-                        android:id="@+id/insuredMan"
+                    <EditText
+                        android:id="@+id/insured_person"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
-                        android:text="小明"/>
+                        android:layout_marginLeft="50dp"
+                        android:ems="4"
+                        android:hint="姓名"/>
 
-                    <TextView
-                        android:id="@+id/insuredManIDCard"
+                    <EditText
+                        android:id="@+id/insured_idcard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="612731199311140035"/>
+                        android:ems="10"
+                        android:digits="0123456789X"
+                        android:maxLength="18"
+                        android:hint="身份证号"/>
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/deleteInsuredMan2"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/ico_action_delete"/>
-
-
-                    <TextView
-                        android:id="@+id/insuredMan2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:text="小红"/>
-
-                    <TextView
-                        android:id="@+id/insuredManIDCard2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="612731199311140039"/>
-
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout style="@style/common_horizontal_division_line_style"/>

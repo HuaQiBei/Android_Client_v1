@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -20,8 +20,8 @@ import cn.smssdk.gui.RegisterPage;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button login;
-    private Button register;
+    private TextView login;
+    private TextView register;
     private EditText name;
     private EditText passw;
     String sname;
@@ -33,8 +33,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        login = (Button)findViewById(R.id.login);
-        register = (Button)findViewById(R.id.register);
+        login = (TextView)findViewById(R.id.login);
+        register = (TextView)findViewById(R.id.register);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         name = (EditText)findViewById(R.id.login_username);
         name.setHint(preferences.getString("name", "请输入账号"));

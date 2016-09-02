@@ -99,14 +99,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         View query_policy = view.findViewById(R.id.query_policy);
         query_policy.setOnClickListener(this);
 
+        View scenic_policy = view.findViewById(R.id.scenic_policy);
+        scenic_policy.setOnClickListener(this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Log.d("life", "刷新view");
         home_choose_area.setText(prefs.getString("city_name", "选择"));
 
         return view;
     }
-
-
 
     @Override
     public void onClick(View v) {
@@ -133,6 +133,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.query_policy:
                 ((MainActivity) getActivity()).setCurrentTabByTag("保单");
                 break;
+            case R.id.scenic_policy:
+                intent = new Intent(getActivity(), AddScenicPolicyActivity.class);
+                startActivity(intent);
+                Log.d("scenic_policy", "点击");
         }
     }
 

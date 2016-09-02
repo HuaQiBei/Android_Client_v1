@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="用户名"
+            android:ems="3"
             style="@style/Font20"
             />
 
@@ -39,7 +40,7 @@
                   android:layout_marginLeft="30dp"
                   android:layout_marginRight="30dp"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
                   android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -51,15 +52,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="密码"
-            style="@style/Font20"
-            />
+            android:text="密    码"
+            android:ems="3"
+            style="@style/Font20"/>
 
         <EditText
             android:id="@+id/login_password"
             android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:inputType="textPassword"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
@@ -79,28 +81,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center">
-        <Button
+
+        <TextView
             android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textColor="#fff"
-            android:background="@drawable/button"
+            android:textColor="@color/blue_ico"
             style="?android:attr/borderlessButtonStyle"
-            android:text="登陆"
-            />
-        <Button
+            android:text="登陆"/>
+        <LinearLayout
+            style="@style/common_vertical_division_line_style"
+            android:layout_height="30dp"/>
+        <TextView
             android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textColor="#fff"
-            android:layout_marginLeft="25dp"
-            android:layout_gravity="center"
-            android:background="@drawable/button"
+            android:textColor="@color/blue_ico"
             style="?android:attr/borderlessButtonStyle"
-            android:text="注册"
-            />
+            android:text="注册"/>
     </LinearLayout>
 
 

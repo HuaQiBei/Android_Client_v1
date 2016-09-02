@@ -175,9 +175,14 @@
 
         <activity
             android:name=".view.AddScenicPolicyActivity"
-            android:label=""
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:label="景区意外险"
             android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.SearchAreaActivity"
@@ -191,9 +196,13 @@
 
         </activity>
         <activity
-            android:name=".view.ShowScenicPolicyActivity">
+            android:name=".view.ShowScenicPolicyActivity"
+            android:label="查看详情">
         </activity>
-
+        <activity
+            android:name=".view.ShowFlightPolicyActivity"
+            android:label="查看详情">
+        </activity>
     </application>
 
 </manifest>
