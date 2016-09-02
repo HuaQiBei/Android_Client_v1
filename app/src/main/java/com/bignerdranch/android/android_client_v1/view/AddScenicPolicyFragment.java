@@ -55,7 +55,7 @@ public class AddScenicPolicyFragment extends Fragment {
     private ImageView mAdd;
     private MyAdapter adapter;
 
-    private static final String ARG_SCENIC_SPOT = "flight_policy";
+    private static final String ARG_SCENIC_SPOT = "scenic_policy";
 
     //    private TextView insuredname;
 //    private TextView insuredIDcard;
