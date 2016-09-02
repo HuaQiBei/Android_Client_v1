@@ -12,8 +12,17 @@ public class ScenicPolicy {
     private String scenicname;
     private String scenicweather;
     private String insureduty;
+    private String state;
 
-    public ScenicPolicy(int policyID, String startdate, String enddate, int policyholder, double fee, String scenicname, String scenicweather, String insureduty) {
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public ScenicPolicy(int policyID, String startdate, String enddate, int policyholder, double fee, String scenicname, String scenicweather, String insureduty, String state) {
         this.policyID = policyID;
         this.startdate = startdate;
         this.enddate = enddate;
@@ -22,6 +31,7 @@ public class ScenicPolicy {
         this.scenicname = scenicname;
         this.scenicweather = scenicweather;
         this.insureduty = insureduty;
+        this.state = state;
     }
 
     public int getPolicyID() {

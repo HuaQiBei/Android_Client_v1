@@ -9,15 +9,13 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bignerdranch.android.android_client_v1.R;
-import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
-import com.bignerdranch.android.android_client_v1.util.HttpCallbackListner;
+import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
 
@@ -170,21 +168,23 @@ public class WeatherActivity extends Activity implements OnClickListener {
      * 根据传入的地址和类型去向服务器查询天气代号或者天气信息。
      */
     private void queryFromServer(final String address, final String type) {
-        HttpUtil.sendHttpRequest(address, new HttpCallbackListner() {
+        HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(final String response) {
-                if ("countyCode".equals(type)) {
-                    Log.d("life", "countyCode");
-                    if (!TextUtils.isEmpty(response)) {
-                        // 从服务器返回的数据中解析出天气代号
-                        String[] array = response.split("\\|");
-                        if (array != null && array.length == 2) {
-                            String weatherCode = "CN101" + array[1];
-
-                            queryWeatherInfo(weatherCode);
-                        }
-                    }
-                } else if ("weatherCode".equals(type)) {
+//                这部分不用了，注释掉
+//                if ("countyCode".equals(type)) {
+//                    Log.d("life", "countyCode");
+//                    if (!TextUtils.isEmpty(response)) {
+//                        // 从服务器返回的数据中解析出天气代号
+//                        String[] array = response.split("\\|");
+//                        if (array != null && array.length == 2) {
+//                            String weatherCode = "CN101" + array[1];
+//
+//                            queryWeatherInfo(weatherCode);
+//                        }
+//                    }
+//                } else
+                if ("weatherCode".equals(type)) {
                     Log.d("life", "进入天气服务器weatherCode");
                     // 处理服务器返回的天气信息
                     Utility.handleWeatherResponse(WeatherActivity.this, response);

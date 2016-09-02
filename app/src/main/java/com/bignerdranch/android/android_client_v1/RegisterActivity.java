@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.gui.RegisterPage;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     //private static final String APPKEY = "164fb160b6716";
     //private static final String APPSECRET="028b98c2a52546db6caa7be8de6c3b6d";
@@ -33,9 +34,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText input_again;
     private EditText input_phone;
     private EditText input_code;
-    private EditText label;
+    private TextView label;
     private String phone = "";
     int i = 30;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         input_again = (EditText) findViewById(R.id.again);
         input_phone = (EditText) findViewById(R.id.phone);
         input_code = (EditText) findViewById(R.id.code);
-        label = (EditText) findViewById(R.id.label);
+        label = (TextView) findViewById(R.id.label);
 
         get_code = (Button) findViewById(R.id.get_code);
         get_code.setOnClickListener(this);
@@ -71,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         // 启动短信验证sdk
         SMSSDK.initSDK(this, APPKEY, APPSECRET);
-        EventHandler eventHandler = new EventHandler(){
+        EventHandler eventHandler = new EventHandler() {
             @Override
             public void afterEvent(int event, int result, Object data) {
                 Message msg = new Message();
@@ -101,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Log.e("event", "event=" + event);
                 if (result == SMSSDK.RESULT_COMPLETE) {
                     // 短信注册成功后，返回MainActivity,然后提示
-                    Log.d("event","succ");
+                    Log.d("event", "succ");
                     if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {// 提交验证码成功
                         Toast.makeText(RegisterActivity.this, "提交验证码成功",
                                 Toast.LENGTH_SHORT).show();
@@ -126,6 +128,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         }
     };
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -184,22 +187,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
-        /**
-         * 判断手机号码是否合理
-         *
-         * @param phoneNums
-         */
+
+    /**
+     * 判断手机号码是否合理
+     *
+     * @param phoneNums
+     */
     private boolean judgePhoneNums(String phoneNums) {
         if (isMatchLength(phoneNums, 11)
                 && isMobileNO(phoneNums)) {
             return true;
         }
-        Toast.makeText(RegisterActivity.this, "手机号码输入有误！",Toast.LENGTH_SHORT).show();
+        Toast.makeText(RegisterActivity.this, "手机号码输入有误！", Toast.LENGTH_SHORT).show();
         return false;
     }
 
     /**
      * 判断一个字符串的位数
+     *
      * @param str
      * @param length
      * @return
@@ -227,6 +232,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         else
             return mobileNums.matches(telRegex);
     }
+
     @Override
     public void onDestroy() {
         SMSSDK.unregisterAllEventHandler();
@@ -238,11 +244,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
-                Log.d("test",response);
+                Log.d("test", response);
                 if (response.equals("already")) {
                     label.setText("（用户名已存在）");
                     input_name.setText("");
-                }else if (response.equals("ok")){
+                } else if (response.equals("ok")) {
                     label.setText("（该用户名可用）");
                 }
             }

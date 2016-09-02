@@ -13,8 +13,11 @@
         android:id="@+id/mCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="#ffffff"
         android:layout_margin="8dp"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardElevation="1px"
+        card_view:cardCornerRadius="4dp"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +32,7 @@
                     android:layout_height="wrap_content"
 
                     android:textStyle="bold"
-                    tools:text="险种"/>
+                    android:text="险种"/>
                 <TextView
                     android:id="@+id/list_tv_PolicyState"
                     android:layout_width="wrap_content"

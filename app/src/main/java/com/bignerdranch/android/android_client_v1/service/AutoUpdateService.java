@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.bignerdranch.android.android_client_v1.receiver.AutoUpdateReceiver;
-import com.bignerdranch.android.android_client_v1.util.HttpCallbackListner;
+import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
 import com.bignerdranch.android.android_client_v1.view.WeatherActivity;
@@ -54,7 +54,7 @@ public class AutoUpdateService extends Service {
         String weatherCode = prefs.getString("weather_code", "");
         //String address = "http://www.weather.com.cn/data/cityinfo/" + weatherCode + ".html";
         String address = "https://api.heweather.com/x3/weather?cityid=" + weatherCode + "&key=" + WeatherActivity.WEATHER_KEY;
-        HttpUtil.sendHttpRequest(address, new HttpCallbackListner() {
+        HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 Utility.handleWeatherResponse(AutoUpdateService.this, response);

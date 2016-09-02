@@ -71,10 +71,10 @@ public class PolicyFragment extends Fragment {
             Log.d("life", "mAdapter != null");
         }
         mViewPager.setAdapter(mAdapter);
-        mTitle = ((MainActivity)getActivity()).getPolicyTitle();
-        if (mTitle > 0){
+        mTitle = ((MainActivity) getActivity()).getPolicyTitle();
+        if (mTitle > 0) {
             mViewPager.setCurrentItem(mTitle);
-            ((MainActivity)getActivity()).setPolicyTitle(-1);
+            ((MainActivity) getActivity()).setPolicyTitle(-1);
         }
     }
 

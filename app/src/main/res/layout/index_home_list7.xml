@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white" >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/viewGroup2"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@color/white"
+              tools:showIn="@layout/outfragment_home">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="5dp"
+        android:id="@+id/list_one">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -19,13 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/android_bigger" />
+                android:src="@drawable/ic_flight_144" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_reservation" />
         </FrameLayout>
 
         <LinearLayout
@@ -36,7 +35,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -46,10 +46,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView
@@ -57,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:minLines="2"
-                android:text="[几店通用]本保险多次购买可积累积分，不出险还有奖励哦！（不与其他优惠叠加）" />
+                android:text="航空延误险介绍" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +62,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="折扣"
+                    android:text="推荐"
                     android:textColor="@color/orange"
                     android:background="@drawable/index_home_list7_tip123"
                     android:paddingTop="2dp"
@@ -79,7 +75,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    
                     android:text="已售xxxx" />
             </LinearLayout>
         </LinearLayout>
@@ -93,7 +88,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="5dp"
+        android:id="@+id/scenic_policy">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -103,13 +99,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:src="@drawable/android_bigger" />
+                android:src="@drawable/ic_scenicspot_144" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_booking" />
         </FrameLayout>
 
         <LinearLayout
@@ -126,14 +117,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="炽热青春怀旧主题餐厅"
+                    android:text="景区意外险"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView
@@ -141,22 +128,11 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:minLines="2"
-                android:text="[折扣]炽热青春周一专享优惠，超低价68代100代金卷（不与其他优惠叠加）" />
+                android:text="景区意外险介绍" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="活动"
-                    android:textColor="@color/orange"
-                    android:background="@drawable/index_home_list7_tip123"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -189,11 +165,6 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/android_bigger" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_dianping_chosen" />
         </FrameLayout>
 
         <LinearLayout
@@ -214,10 +185,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView
@@ -258,6 +225,7 @@
         android:layout_height="1dp"
         android:background="@color/normal_bg_color_litter" />
     <LinearLayout
+        android:id="@+id/addView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -273,11 +241,6 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/android_bigger" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:src="@drawable/deal_list_item_status_coupon" />
         </FrameLayout>
 
         <LinearLayout
@@ -298,10 +261,6 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10km" />
             </LinearLayout>
 
             <TextView

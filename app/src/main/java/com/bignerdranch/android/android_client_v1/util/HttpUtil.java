@@ -1,6 +1,5 @@
 package com.bignerdranch.android.android_client_v1.util;
 
-import android.telephony.SignalStrength;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -13,7 +12,7 @@ import java.net.URL;
  * Created by DELL on 2016/8/18.
  */
 public class HttpUtil {
-    public static void sendHttpRequest(final String address, final HttpCallbackListner listner) {
+    public static void sendHttpRequest(final String address, final HttpCallbackListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -32,16 +31,17 @@ public class HttpUtil {
                         response.append(line);
                     }
 
-                    if (listner != null) {
+
+                    if (listener != null) {
                         //回调onFinish方法
-                        listner.onFinish(response.toString());
+                        listener.onFinish(response.toString());
                     }
                 } catch (Exception e) {
-                    if (listner != null) {
+                    if (listener != null) {
                         Log.d("life", e + " at HttpUtil");
 
                         //onError
-                        listner.onError(e);
+                        listener.onError(e);
                     }
                 } finally {
                     if (connection != null) {

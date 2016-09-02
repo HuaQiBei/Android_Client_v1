@@ -30,13 +30,13 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:background="@null"/>
-        <EditText
+        <TextView
             android:id="@+id/label"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Font16"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:background="@null"/>
     </LinearLayout>
 
@@ -146,7 +146,7 @@
             android:textSize="12dp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textColor="#808080"
+            android:textColor="#fff"
             android:background="@drawable/button"
             style="?android:attr/borderlessButtonStyle"
             android:text="获取验证码"
@@ -192,9 +192,9 @@
     <Button
         android:id="@+id/login"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:textColor="#808080"
+        android:textColor="#fff"
         android:layout_gravity="center"
         android:background="@drawable/button"
         style="?android:attr/borderlessButtonStyle"

@@ -1,5 +1,6 @@
 package com.bignerdranch.android.android_client_v1;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -7,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -19,19 +20,24 @@ import cn.smssdk.gui.RegisterPage;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button login;
-    private Button register;
+    private TextView login;
+    private TextView register;
     private EditText name;
     private EditText passw;
     String sname;
+    private static ProgressDialog dialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        login = (Button)findViewById(R.id.login);
-        register = (Button)findViewById(R.id.register);
+        login = (TextView)findViewById(R.id.login);
+        register = (TextView)findViewById(R.id.register);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         name = (EditText)findViewById(R.id.login_username);
+        name.setHint(preferences.getString("name", "请输入账号"));
         passw = (EditText)findViewById(R.id.login_password);
 
         login.setOnClickListener(this);
@@ -55,6 +61,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     map.put("flag", "login");
 
                     new LoginTask().execute(map);
+                    if (dialog == null) {
+                        dialog = new ProgressDialog(this);
+                        // dialog=new ProgressDialog(SearchActivity.this);
+                    }
+                    dialog.setTitle("请耐心等待");
+                    dialog.setMessage("查询中...");
+                    dialog.setCancelable(false);
+                    dialog.show();
                 }
                 break;
             case R.id.register:
@@ -73,6 +87,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //执行完后更新UI
         @Override
         protected void onPostExecute(Boolean result) {
+            Log.d("test","on post Execute!");
+            dialog.dismiss();
             if (result) {
                 if (response.equals("null")) {
                     Toast.makeText(LoginActivity.this,"该用户不存在或输入密码错误", Toast.LENGTH_SHORT).show();

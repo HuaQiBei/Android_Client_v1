@@ -10,64 +10,44 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.view.ViewGroup.LayoutParams;
 
 import com.baidu.location.LocationClient;
+import com.bignerdranch.android.android_client_v1.view.AddFlightPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.AddScenicPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ChooseAreaActivity;
 import com.bignerdranch.android.android_client_v1.view.SearchAreaActivity;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
-    private LocationClient mLocationClient=null;
+    private ViewPager adViewPager;
+    private LinearLayout pagerLayout;
+    private List<View> pageViews;
+    private ImageView[] imageViews;
+    private ImageView imageView;
+    private AdPageAdapter adapter;
+    private AtomicInteger atomicInteger = new AtomicInteger(0);
+    private boolean isContinue = true;
 
-    @ViewInject(R.id.index_home_viewpager)
-    private WrapContentHeightViewPager viewPager;
-
-    @ViewInject(R.id.index_home_rb1)//radiogroup 1组以及3个radiobutton
-    private RadioButton rb1;
-    @ViewInject(R.id.index_home_rb2)
-    private RadioButton rb2;
-    @ViewInject(R.id.index_home_rb3)
-    private RadioButton rb3;
+    private LocationClient mLocationClient = null;
 
     View view;
 
     private TextView jiudian;
-
-    private GridView gridView1;
-    private GridView gridView2;
-    private GridView gridView3;
-
-    //接受处理消息
-    private Handler handler = new Handler(new Handler.Callback() {//暂时先让秒数动起来
-
-        @Override
-        public boolean handleMessage(Message arg0) {
-            if (arg0.what == 1) {
-                initViewPager();//初始化 viewpager 解决切换不显示的问题
-            }
-            return false;
-        }
-    });
 
     @Override
     public void onStart() {
@@ -78,58 +58,54 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // TODO Auto-generated method stub  暂时不能用
         //checkGPSIsOpen();
     }
+
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mLocationClient = ((LocationApplication)getActivity().getApplication()).mLocationClient;
+        mLocationClient = ((LocationApplication) getActivity().getApplication()).mLocationClient;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-		view=inflater.inflate(R.layout.fragment_home, null);
-		ViewUtils.inject(this, view);   //注入控件
-		//获取数据并显示
-		//topCity.setText(SharedUtils.getCityName(getActivity()));
-        jiudian=(TextView) view.findViewById(R.id.jiudianxian);
-		jiudian.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent=new Intent(getActivity(), AddScenicPolicyActivity.class);
-				startActivity(intent);
-			}
-		});
-
-        initGridView();
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        initViewPager();
+        //获取数据并显示
+        //topCity.setText(SharedUtils.getCityName(getActivity()));
+        jiudian = (TextView) view.findViewById(R.id.jiudianxian);
+        jiudian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddScenicPolicyActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Log.d("test", "HomeFragment onCreateView");
 
-        handler.sendEmptyMessage(1);//发线程 初始化viewpager 解决切换页面导致viewpager中的内容为空
+        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
+        home_choose_area.setOnClickListener(this);
 
-        TextView choose_area = (TextView) view.findViewById(R.id.home_choose_area);
-        choose_area.setOnClickListener(this);
-        ImageView gps = (ImageView)view.findViewById(R.id.index_home_tip);
+        ImageView gps = (ImageView) view.findViewById(R.id.index_home_tip);
         gps.setOnClickListener(this);
 
         /*搜索TextView*/
         TextView search_area = (TextView) view.findViewById(R.id.home_search_textview);
         search_area.setOnClickListener(this);
 
-        return view;
+        View flight_policy = view.findViewById(R.id.list_one);
+        flight_policy.setOnClickListener(this);
 
+        View query_policy = view.findViewById(R.id.query_policy);
+        query_policy.setOnClickListener(this);
 
-        //return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
-
+        View scenic_policy = view.findViewById(R.id.scenic_policy);
+        scenic_policy.setOnClickListener(this);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Log.d("life", "刷新view");
         home_choose_area.setText(prefs.getString("city_name", "选择"));
+
+        return view;
     }
 
     @Override
@@ -142,196 +118,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.index_home_tip:
                 mLocationClient.start();
-                if (mLocationClient != null&& mLocationClient.isStarted())
+                if (mLocationClient != null && mLocationClient.isStarted())
                     mLocationClient.requestLocation();
                 break;
-            case  R.id.home_search_textview:
+            case R.id.home_search_textview:
                 intent = new Intent(getActivity(), SearchAreaActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.list_one:
+                intent = new Intent(getActivity(), AddFlightPolicyActivity.class);
+                startActivity(intent);
+                Log.d("list_one", "点击");
+                break;
+            case R.id.query_policy:
+                ((MainActivity) getActivity()).setCurrentTabByTag("保单");
+                break;
+            case R.id.scenic_policy:
+                intent = new Intent(getActivity(), AddScenicPolicyActivity.class);
+                startActivity(intent);
+                Log.d("scenic_policy", "点击");
         }
     }
 
-    //gridview 的适配器
-    public class GridViewAdapter extends BaseAdapter {
-
-        //我的数据在utils包下的MyConstant中定义好了
-        private LayoutInflater inflater;
-        private int page;
-
-        public GridViewAdapter(Context context, int page) {
-            super();
-            this.inflater = LayoutInflater.from(context);
-            this.page = page;
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            if (page != -1) {
-                return 8;
-            } else {
-                return 0;//MyConstant.navSort.length;
-            }
-        }
-
-        @Override
-        public Object getItem(int arg0) {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public long getItemId(int arg0) {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup arg2) {
-
-            ViewHolder vh = null;
-            if (convertView == null) {
-                vh = new ViewHolder();
-                convertView = inflater.inflate(R.layout.index_home_grid_item, null);
-                ViewUtils.inject(vh, convertView);
-                convertView.setTag(vh);
-            } else {
-                vh = (ViewHolder) convertView.getTag();
-            }
-
-            //vh.iv_navsort.setImageResource(MyConstant.navSortImages[position+8*page]);
-//			vh.tv_navsort.setText(MyConstant.navSort[position+8*page]);
-//			if(position==8-1 && page==2){
-//				vh.iv_navsort.setOnClickListener(new OnClickListener() {
-//
-//					@Override
-//					public void onClick(View arg0) {
-//						// TODO Auto-generated method stub
-//						startActivity(new Intent(getActivity(), AllCategoryActivity.class));
-//					}
-//				});
-//			}else{
-//				vh.iv_navsort.setOnClickListener(new OnClickListener() {
-//
-//					@Override
-//					public void onClick(View arg0) {
-//						// TODO Auto-generated method stub
-//						startActivity(new Intent(getActivity(), ActivityHomeList1.class));
-//					}
-//				});
-//			}
-
-
-            return convertView;
-        }
-    }
-
-    //gridview 适配器的holder类
-    private class ViewHolder {
-        @ViewInject(R.id.index_home_iv_navsort)
-        ImageView iv_navsort;
-    }
-
-    private void initGridView() {
-        gridView1 = (GridView) LayoutInflater.from(getActivity()).inflate(R.layout.index_home_gridview, null);
-        gridView1.setAdapter(new GridViewAdapter(getActivity(), 0));
-        gridView2 = (GridView) LayoutInflater.from(getActivity()).inflate(R.layout.index_home_gridview, null);
-        gridView2.setAdapter(new GridViewAdapter(getActivity(), 1));
-        gridView3 = (GridView) LayoutInflater.from(getActivity()).inflate(R.layout.index_home_gridview, null);
-        gridView3.setAdapter(new GridViewAdapter(getActivity(), 2));
-    }
-
-    private void initViewPager() {   //初始化viewpager
-        List<View> list = new ArrayList<View>();  //以下实现动态添加三组gridview
-        //		GridView gridView1=(GridView) LayoutInflater.from(getActivity()).inflate(R.layout.index_home_gridview, null);
-        //		gridView1.setAdapter(new GridViewAdapter(getActivity(), 0));
-        //		GridView gridView2=(GridView) LayoutInflater.from(getActivity()).inflate(R.layout.index_home_gridview, null);
-        //		gridView2.setAdapter(new GridViewAdapter(getActivity(), 1));
-        //		GridView gridView3=(GridView) LayoutInflater.from(getActivity()).inflate(R.layout.index_home_gridview, null);
-        //		gridView3.setAdapter(new GridViewAdapter(getActivity(), 2));
-        list.add(gridView1);
-        list.add(gridView2);
-        list.add(gridView3);
-        viewPager.setAdapter(new MyViewPagerAdapter(list));
-        //viewPager .setOffscreenPageLimit(2);   //meiyong
-        rb1.setChecked(true);//设置默认  下面的点选中的是第一个
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {  //实现划到那个页面，那个页面下面的点会被选中
-                // TODO Auto-generated method stub
-                if (position == 0) {
-                    rb1.setChecked(true);
-                } else if (position == 1) {
-                    rb2.setChecked(true);
-                } else if (position == 2) {
-                    rb3.setChecked(true);
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-    }
-
-    //自定义viewpager的适配器
-    private class MyViewPagerAdapter extends PagerAdapter {
-
-        List<View> list;
-
-        //List<String> titles;
-        public MyViewPagerAdapter(List<View> list) {
-            // TODO Auto-generated constructor stub
-
-            this.list = list;
-            //this.titles=titles;
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return list.size();
-        }
-
-        //  判断  当前的view 是否是  Object 对象
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            // TODO Auto-generated method stub
-            return arg0 == arg1;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            // TODO Auto-generated method stub
-            container.addView(list.get(position));
-            Log.e("jhd", "添加--" + position);
-
-            return list.get(position);
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            // TODO Auto-generated method stub
-
-            container.removeView(list.get(position));
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            // TODO Auto-generated method stub
-            //return titles.get(position);
-            return "1";  //暂时没用的
-        }
-    }
 
     @Override
     public void onStop() {
@@ -340,5 +148,209 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Log.d("test", "HomeFragment onStop");
     }
 
+
+    private void initViewPager() {
+
+        //从布局文件中获取ViewPager父容器
+        pagerLayout = (LinearLayout) view.findViewById(R.id.view_pager_content);
+        //创建ViewPager
+        adViewPager = new ViewPager(getContext());
+
+        //获取屏幕像素相关信息
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        //根据屏幕信息设置ViewPager广告容器的宽高      原高度dm.heightPixels * 2 / 5
+        adViewPager.setLayoutParams(new LayoutParams(dm.widthPixels, dm.widthPixels * 9 / 16));
+
+        //将ViewPager容器设置到布局文件父容器中
+        pagerLayout.addView(adViewPager);
+
+        initPageAdapter();
+
+        initCirclePoint();
+
+        adViewPager.setAdapter(adapter);
+        adViewPager.addOnPageChangeListener(new AdPageChangeListener());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (isContinue) {
+                        viewHandler.sendEmptyMessage(atomicInteger.get());
+                        atomicOption();
+                    }
+                }
+            }
+        }).start();
+    }
+
+
+    private void atomicOption() {
+        atomicInteger.incrementAndGet();
+        if (atomicInteger.get() > imageViews.length - 1) {
+            atomicInteger.getAndAdd(-5);
+        }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    /*
+     * 每隔固定时间切换广告栏图片
+     */
+    private final Handler viewHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            adViewPager.setCurrentItem(msg.what);
+            super.handleMessage(msg);
+        }
+
+    };
+
+    private void initPageAdapter() {
+        pageViews = new ArrayList<>();
+
+        ImageView img1 = new ImageView(getActivity());
+        img1.setBackgroundResource(R.drawable.view_add_1);
+        pageViews.add(img1);
+
+        ImageView img2 = new ImageView(getActivity());
+        img2.setBackgroundResource(R.drawable.view_add_2);
+        pageViews.add(img2);
+
+        ImageView img3 = new ImageView(getContext());
+        img3.setBackgroundResource(R.drawable.view_add_3);
+        pageViews.add(img3);
+
+        ImageView img4 = new ImageView(getContext());
+        img4.setBackgroundResource(R.drawable.view_add_4);
+        pageViews.add(img4);
+
+        ImageView img5 = new ImageView(getContext());
+        img5.setBackgroundResource(R.drawable.view_add_5);
+        pageViews.add(img5);
+
+        ImageView img6 = new ImageView(getContext());
+        img6.setBackgroundResource(R.drawable.view_add_6);
+        pageViews.add(img6);
+
+        adapter = new AdPageAdapter(pageViews);
+    }
+
+    private void initCirclePoint() {
+        ViewGroup group = (ViewGroup) view.findViewById(R.id.viewGroup);
+        imageViews = new ImageView[pageViews.size()];
+        //广告栏的小圆点图标
+        for (int i = 0; i < pageViews.size(); i++) {
+            //创建一个ImageView, 并设置宽高. 将该对象放入到数组中
+            imageView = new ImageView(getActivity());
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(20, 20);
+            lp.setMargins(0, 0, 10, 0);
+            imageView.setLayoutParams(lp);
+
+
+            imageViews[i] = imageView;
+
+            //初始值, 默认第0个选中
+            if (i == 0) {
+                imageViews[i]
+                        .setBackgroundResource(R.drawable.point_focused);
+            } else {
+                imageViews[i]
+                        .setBackgroundResource(R.drawable.point_unfocused);
+            }
+            //将小圆点放入到布局中
+            group.addView(imageViews[i]);
+        }
+    }
+
+    /**
+     * ViewPager 页面改变监听器
+     */
+    private final class AdPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        /**
+         * 页面滚动状态发生改变的时候触发
+         */
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+        }
+
+        /**
+         * 页面滚动的时候触发
+         */
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        /**
+         * 页面选中的时候触发
+         */
+        @Override
+        public void onPageSelected(int arg0) {
+            //获取当前显示的页面是哪个页面
+            atomicInteger.getAndSet(arg0);
+            //重新设置原点布局集合
+            for (int i = 0; i < imageViews.length; i++) {
+                imageViews[arg0]
+                        .setBackgroundResource(R.drawable.point_focused);
+                if (arg0 != i) {
+                    imageViews[i]
+                            .setBackgroundResource(R.drawable.point_unfocused);
+                }
+            }
+        }
+    }
+
+
+    private final class AdPageAdapter extends PagerAdapter {
+        private List<View> views = null;
+
+        /**
+         * 初始化数据源, 即View数组
+         */
+        public AdPageAdapter(List<View> views) {
+            this.views = views;
+        }
+
+        /**
+         * 从ViewPager中删除集合中对应索引的View对象
+         */
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(views.get(position));
+        }
+
+        /**
+         * 获取ViewPager的个数
+         */
+        @Override
+        public int getCount() {
+            return views.size();
+        }
+
+        /**
+         * 从View集合中获取对应索引的元素, 并添加到ViewPager中
+         */
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            container.addView(views.get(position), 0);
+            return views.get(position);
+        }
+
+        /**
+         * 是否将显示的ViewPager页面与instantiateItem返回的对象进行关联
+         * 这个方法是必须实现的
+         */
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+    }
 
 }

@@ -1,80 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-    >
-    <RelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white" >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp">
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    android:id="@+id/detail_activity_home_list1_rb"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:checked="true"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="5dp"
-                    android:singleLine="true"
-                    android:text="全部商家"
-                    android:textColor="@drawable/btn_text_color_selector"
-                    android:textSize="16sp"/>
-
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:clickable="true"
-                    android:gravity="center"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="5dp"
-                    android:singleLine="true"
-                    android:text="优惠商家"
-                    android:textSize="16sp"
-                    android:textColor="@drawable/btn_text_color_selector" />
-            </RadioGroup>
-        </LinearLayout>
-
-
-
-    </RelativeLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:padding="10dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="horizontal">
 
-            <include layout="@layout/fragment_life_tab" />
-            <include layout="@layout/fragment_life_list"/>
-            <include layout="@layout/fragment_life_filter"/>
+            <TextView
+                android:id="@+id/flight_delay"
+                style="@style/Font16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="航班延误险"/>
+
+            <TextView
+                android:id="@+id/scenic_spot"
+                style="@style/Font16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="景区意外险"/>
+
+            <TextView
+                android:id="@+id/night_running"
+                style="@style/Font16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="夜跑险"/>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@drawable/title_shadow" />
-    </FrameLayout>
+        <!--<include layout="@layout/item_night_running"/>-->
 
-</LinearLayout>
+        <!--<include layout="@layout/item_flight"/>-->
+
+        <!--<include layout="@layout/item_scenic_spot"/>-->
+
+    </LinearLayout>
+</ScrollView>

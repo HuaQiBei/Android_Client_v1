@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:padding="5dp" >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:paddingTop="5dp"
+              android:paddingBottom="0dp"
+              tools:showIn="@layout/outfragment_home">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -17,13 +20,13 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp" >
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/jiudianxian"
@@ -32,22 +35,23 @@
                     android:layout_marginBottom="3dp"
                     android:text="酒店意外险"
                     android:textColor="#844833"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="支付宝5秒买单" />
+                    android:text="入住无忧"/>
             </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/android" />
+                android:src="@drawable/ic_flight_72"/>
         </LinearLayout>
-        <View 
-            android:layout_height="match_parent"
+
+        <View
             android:layout_width="1dp"
+            android:layout_height="match_parent"
             android:background="@color/normal_bg_color"/>
 
         <LinearLayout
@@ -56,116 +60,115 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp" >
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/showPolicy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
                     android:text="平安等位险"
                     android:textColor="#ea881f"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="折后满21减20" />
+                    android:text="再也不担心等位了"/>
             </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/android" />
+                android:src="@drawable/ic_scenicspot_72"/>
         </LinearLayout>
     </LinearLayout>
-    <View 
-            android:layout_height="1dp"
-            android:layout_width="match_parent"
-            
-            android:background="@color/normal_bg_color"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/normal_bg_color"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp" >
+            android:padding="10dp"
+            >
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical" >
+                android:id="@+id/query_policy"
+                >
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/main_tab_item_policy_focus"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                    android:text="半价买保险"
-                    android:textColor="#df5f87"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="更享高额立减" />
+                    android:text="保单查询"
+                    android:textColor="@color/blue_ico"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/android" />
         </LinearLayout>
-        <View 
-            android:layout_height="match_parent"
+
+        <View
             android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
             android:background="@color/normal_bg_color"/>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp" >
+            android:padding="10dp"
+            >
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical" >
+                >
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_pei"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                    android:text="平安保险套餐"
-                    android:textColor="#3b85c6"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="最高立减50" />
+                    android:text="理赔申请"
+                    android:textColor="@color/blue_ico"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/android" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/burlywood"/>
 
 </LinearLayout>

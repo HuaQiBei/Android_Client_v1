@@ -2,12 +2,14 @@ package com.bignerdranch.android.android_client_v1;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.sax.RootElement;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +81,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         super.onResume();
     }
 
+
     @Override
     public void onClick(View v) {
         ((MainActivity) getActivity()).setCurrentTabByTag("保单");
@@ -101,3 +104,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 }
+/**
+ * 查主题背景色方法
+ */
+//    TypedArray array = getActivity().getTheme().obtainStyledAttributes(new int[]{android.R.attr.colorBackground,android.R.attr.textColorPrimary});
+//    int bc = array.getColor(0,0xff00ff);
+////int tc = array.getColor(1,0xff00ff);
+//array.recycle();
+//        Log.d("life",         Integer.toHexString(bc)
+//        +"");
