@@ -60,7 +60,6 @@ public class AddFlightPolicyFragment extends Fragment {
     private EditText mFlightId;
     private EditText mFlightRoute;
     private EditText mFlightWeather;
-    private Button mFlightGetWeather;
     private CheckBox mOneHour;
     private CheckBox mFourHours;
     private CheckBox mCancelFlight;

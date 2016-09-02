@@ -117,7 +117,6 @@ public class AddScenicPolicyFragment extends Fragment {
             }
         });
 
-
         bt_add_scenicPolicy_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +128,6 @@ public class AddScenicPolicyFragment extends Fragment {
                 String insuredutystr = insureduty.getText().toString();
                 String feestr = fee.getText().toString();
 
-                //ScenicPolicy policy = new ScenicPolicy(12345, startdatestr, enddatestr, 12, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insuredutystr);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 int userID=preferences.getInt("id",0);
                 if(userID==0){
@@ -353,7 +351,6 @@ public class AddScenicPolicyFragment extends Fragment {
             mAuthTask = null;
             // showProgress(false);
         }
-
     }
 
     /*获取天气*/
@@ -454,7 +451,6 @@ public class AddScenicPolicyFragment extends Fragment {
             }
         });
     }
-
 }
 
 

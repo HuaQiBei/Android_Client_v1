@@ -3,9 +3,9 @@ package com.bignerdranch.android.android_client_v1;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.RegisterPage;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -31,7 +35,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         login = (TextView)findViewById(R.id.login);
         register = (TextView)findViewById(R.id.register);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         name = (EditText)findViewById(R.id.login_username);
+        name.setHint(preferences.getString("name", "请输入账号"));
         passw = (EditText)findViewById(R.id.login_password);
 
         login.setOnClickListener(this);

@@ -1,5 +1,6 @@
 package com.bignerdranch.android.android_client_v1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,10 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.ViewGroup.LayoutParams;
 
 import com.baidu.location.LocationClient;
 import com.bignerdranch.android.android_client_v1.view.AddFlightPolicyActivity;
@@ -82,8 +83,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         Log.d("test", "HomeFragment onCreateView");
 
-        TextView choose_area = (TextView) view.findViewById(R.id.home_choose_area);
-        choose_area.setOnClickListener(this);
+        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
+        home_choose_area.setOnClickListener(this);
+
         ImageView gps = (ImageView) view.findViewById(R.id.index_home_tip);
         gps.setOnClickListener(this);
 
@@ -94,19 +96,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         View flight_policy = view.findViewById(R.id.list_one);
         flight_policy.setOnClickListener(this);
 
+        View query_policy = view.findViewById(R.id.query_policy);
+        query_policy.setOnClickListener(this);
+
         View scenic_policy = view.findViewById(R.id.scenic_policy);
         scenic_policy.setOnClickListener(this);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        TextView home_choose_area = (TextView) view.findViewById(R.id.home_choose_area);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Log.d("life", "刷新view");
         home_choose_area.setText(prefs.getString("city_name", "选择"));
+
+        return view;
     }
 
     @Override
@@ -130,6 +129,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent = new Intent(getActivity(), AddFlightPolicyActivity.class);
                 startActivity(intent);
                 Log.d("list_one", "点击");
+                break;
+            case R.id.query_policy:
+                ((MainActivity) getActivity()).setCurrentTabByTag("保单");
                 break;
             case R.id.scenic_policy:
                 intent = new Intent(getActivity(), AddScenicPolicyActivity.class);
