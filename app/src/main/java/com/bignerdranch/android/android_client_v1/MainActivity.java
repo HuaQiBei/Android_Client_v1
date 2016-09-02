@@ -16,9 +16,11 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.bignerdranch.android.android_client_v1.db.WeatherDB;
 import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
+import com.bignerdranch.android.android_client_v1.service.LocationService;
 import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
@@ -28,6 +30,8 @@ import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
 
 /**
  * @功能说明 自定义TabHost
@@ -69,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SDKInitializer.initialize(getApplicationContext());
         Log.d("test", "MainActivity onCreate");
         //  requestWindowFeature(Window.FEATURE_NO_TITLE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -78,7 +84,10 @@ public class MainActivity extends AppCompatActivity {
 //            finish();
 //            return;
 //        }
-
+        //启动定位服务
+        Intent startIntent = new Intent(this, LocationService.class);
+        startService(startIntent); // 启动服务
+        Log.d("test","service started");
         setContentView(R.layout.activity_main);
 
         int userID = preferences.getInt("id", 0);
@@ -101,6 +110,31 @@ public class MainActivity extends AppCompatActivity {
         initView();
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
+
+        ArrayList<String> par = getIntent().getStringArrayListExtra("flight_policy");
+        if (par != null) {
+            setCurrentTabByTag("生活");
+            preferences.edit()
+                    .putInt("cardId", 1)
+                    .putString("flightNo", par.get(0))
+                    .putString("flightStartCity", par.get(1))
+                    .putString("flightEndCity", par.get(2))
+                    .apply();
+        }
+        int from = getIntent().getIntExtra("who",0);//获取调用该activity的activity类型
+        if ( from == 1) {   //来自景区通知的调用
+            String scenic_spot_city = getIntent().getStringExtra("city");
+            String scenic_spot_name = getIntent().getStringExtra("name");
+
+            setCurrentTabByTag("生活");
+            SharedPreferences.Editor editor = PreferenceManager
+                    .getDefaultSharedPreferences(this).edit();
+            editor.putInt("cardId", 2);     //景区意外险
+            editor.putString("scenic_spot_city", scenic_spot_city);
+            editor.putString("scenic_spot_name", scenic_spot_name);
+            editor.apply();
+
+        }
     }
 
     /**
