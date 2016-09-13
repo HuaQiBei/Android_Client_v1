@@ -28,4 +28,6 @@ public interface Connect2Server {
     public String addFlightPolicy(FlightPolicy policy) throws IOException, JSONException;
 
     public String findDelayRate(String flightCode, String startCity, String endCity) throws IOException, JSONException;
+
+    public String getFee(String scenicname, String weather) throws IOException, JSONException ;
 }

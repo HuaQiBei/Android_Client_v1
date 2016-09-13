@@ -44,7 +44,7 @@ public class ConnectTask extends AsyncTask<HashMap<String, String>, String, Bool
     public String postParams(HashMap<String, String> params) throws IOException {
 
         StringBuilder response = new StringBuilder();
-        String urlSpec = "http://172.27.207.3:8080/Server4android/Search.do";//"http://172.27.207.10:8080/Server4android/Search.do";
+        String urlSpec = "http://172.27.211.7:8080/Server4android/Search.do";//"http://172.27.207.10:8080/Server4android/Search.do";
         URL url = new URL(urlSpec);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);

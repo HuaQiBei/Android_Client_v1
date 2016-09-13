@@ -31,6 +31,7 @@ import com.bignerdranch.android.android_client_v1.MainActivity;
 import com.bignerdranch.android.android_client_v1.R;
 import com.bignerdranch.android.android_client_v1.db.WeatherDB;
 import com.bignerdranch.android.android_client_v1.model.BasePolicy;
+import com.bignerdranch.android.android_client_v1.model.Fee;
 import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
 import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
@@ -39,6 +40,7 @@ import com.bignerdranch.android.android_client_v1.util.Utility;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.text.ParseException;
@@ -46,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -80,7 +83,9 @@ public class AddScenicPolicyFragment extends Fragment {
     private RadioButton rb2_2;
     private RadioButton rb2_3;
 
+    private View v;
 
+    private ArrayList<Fee> feeLab;
 
     private static final String ARG_SCENIC_SPOT = "scenic_policy";
 
@@ -88,6 +93,7 @@ public class AddScenicPolicyFragment extends Fragment {
 //    private TextView insuredIDcard;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        feeLab = null;
         super.onCreate(savedInstanceState);
         mWeatherDB = WeatherDB.getInstance(getActivity());//获取数据库处理对象
     }
@@ -104,11 +110,11 @@ public class AddScenicPolicyFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_add_scenicpolicy, container, false);
+        v = inflater.inflate(R.layout.fragment_add_scenicpolicy, container, false);
         bt_add_scenicPolicy_OK = v.findViewById(R.id.add_scenicPolicy_OK);
 
         scenicname = (EditText) v.findViewById(R.id.scenicName);
-        //scenicname.setText(getArguments().getStringArrayList(ARG_SCENIC_SPOT).get(0));
+        scenicname.setText(getArguments().getStringArrayList(ARG_SCENIC_SPOT).get(0));
         scenicweather = (EditText) v.findViewById(R.id.scenicWeather);
         startdate = (EditText) v.findViewById(R.id.scenicStartDate);
         enddate = (EditText) v.findViewById(R.id.scenicEndDate);
@@ -194,6 +200,13 @@ public class AddScenicPolicyFragment extends Fragment {
         return v;
     }
 
+    private void getFee() {
+        GetFeeTask mAuthTask;
+        Log.d("test", "getFee");
+        mAuthTask = new GetFeeTask(scenicname.getText().toString(), (scenicweather.getText().toString().contains("雨") || scenicweather.getText().toString().contains("雪")) ? "2" : "1");//为后台传递参数
+        mAuthTask.execute((Void) null);
+    }
+
 
     private void getDate() {
         final Calendar c = Calendar.getInstance();
@@ -266,21 +279,25 @@ public class AddScenicPolicyFragment extends Fragment {
         }
     }
 
-    private String[] flag = {"a", "a"};
+    private int rg_1_value = 100000, rg_2_value = 5000;
+    //private String[] flag;
 
     /*计算保额*/
     private void calculatePolicyCoverage() {
-
+        update();
         mRG1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (rb1_1.getId() == i) {
-                    flag[0]="a";
-                } else if (rb1_2.getId() == i) {
-                    flag[0]="b";
-                } else if (rb1_3.getId() == i) {
-                    flag[0]="c";
-                }
+                RadioButton rb = (RadioButton) getView().findViewById(i);
+                rg_1_value = Integer.parseInt(rb.getText().toString());
+                Log.d("test", rb.getText().toString() + " " + rg_1_value);
+//                if (rb1_1.getId() == i) {
+//                    flag[0] = "a";
+//                } else if (rb1_2.getId() == i) {
+//                    flag[0] = "b";
+//                } else if (rb1_3.getId() == i) {
+//                    flag[0] = "c";
+//                }
                 update();
             }
         });
@@ -288,50 +305,74 @@ public class AddScenicPolicyFragment extends Fragment {
         mRG2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (rb2_1.getId() == i) {
-                    flag[1]="a";
-                } else if (rb2_2.getId() == i) {
-                    flag[1]="b";
-                } else if (rb2_3.getId() == i) {
-                    flag[1]="c";
-                }
+                RadioButton rb = (RadioButton) getView().findViewById(i);
+                rg_2_value = Integer.parseInt(rb.getText().toString());
+                Log.d("test", rb.getText().toString() + " " + rg_2_value);
+//                if (rb2_1.getId() == i) {
+//                    flag[1] = "a";
+//                } else if (rb2_2.getId() == i) {
+//                    flag[1] = "b";
+//                } else if (rb2_3.getId() == i) {
+//                    flag[1] = "c";
+//                }
                 update();
             }
         });
     }
 
-    public void update() {
-        String sum = flag[0] + flag[1];
-
-        switch (sum) {
-            case "aa":
-                mCoverage.setText("105000");
-                break;
-            case "ab":
-                mCoverage.setText("110000");
-                break;
-            case "ac":
-                mCoverage.setText("115000");
-                break;
-            case "ba":
-                mCoverage.setText("205000");
-                break;
-            case "bb":
-                mCoverage.setText("210000");
-                break;
-            case "bc":
-                mCoverage.setText("215000");
-                break;
-            case "ca":
-                mCoverage.setText("305000");
-                break;
-            case "cb":
-                mCoverage.setText("310000");
-                break;
-            case "cc":
-                mCoverage.setText("315000");
-                break;
+    /*计算保费*/
+    private float calculatePolicyFee(int rg_1_value, int rg_2_value) {
+        if (feeLab != null) {
+            Iterator it = feeLab.iterator();
+            Fee fee;
+            while (it.hasNext()) {
+                Log.d("test", it.next() + "");
+                fee = (Fee) it.next();
+                if (fee.getRg_1_value().equals(rg_1_value) && fee.getRg_2_value().equals(rg_2_value)) {
+                    return Float.parseFloat(fee.getFee());
+                }
+            }
         }
+        Toast.makeText(getContext(), "保费查询中，请稍后", Toast.LENGTH_SHORT);
+        return 0;
+    }
+
+    public void update() {
+        Log.d("test", rg_1_value + rg_2_value + calculatePolicyFee(rg_1_value, rg_2_value) + "");
+        mCoverage.setText(rg_1_value + rg_2_value + "");
+        fee.setText(calculatePolicyFee(rg_1_value, rg_2_value) + "");
+
+//
+//        String sum = flag[0] + flag[1];
+//        switch (sum) {
+//            case "aa":
+//                mCoverage.setText("105000");
+//                break;
+//            case "ab":
+//                mCoverage.setText("110000");
+//                break;
+//            case "ac":
+//                mCoverage.setText("115000");
+//                break;
+//            case "ba":
+//                mCoverage.setText("205000");
+//                break;
+//            case "bb":
+//                mCoverage.setText("210000");
+//                break;
+//            case "bc":
+//                mCoverage.setText("215000");
+//                break;
+//            case "ca":
+//                mCoverage.setText("305000");
+//                break;
+//            case "cb":
+//                mCoverage.setText("310000");
+//                break;
+//            case "cc":
+//                mCoverage.setText("315000");
+//                break;
+//        }
     }
 
     public class AddScenicPolicyTask extends AsyncTask<Void, Void, String> {
@@ -394,6 +435,62 @@ public class AddScenicPolicyFragment extends Fragment {
         }
     }
 
+    public class GetFeeTask extends AsyncTask<Void, Void, String> {
+
+        String scenicName, weather;
+
+        GetFeeTask(String scenicname, String weather) {
+            this.scenicName = scenicname;
+            this.weather = weather;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Log.d("test", "in to do get fee in background!");
+            try {
+                // Simulate network access.
+                resultString = c2s.getFee(scenicName, weather);
+                Log.d("test", "航班延误险的get fee的 resultString=" + resultString);
+                return resultString;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "Nothing";
+
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            //showProgress(false);
+            Log.d("test", "in to on PostExecute!");
+
+            if (result != null) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("getFee", null));
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        Log.d("test", jsonArray.getJSONObject(i) + "");
+                        feeLab.add(new Fee(jsonArray.getJSONObject(i).getString(""),
+                                jsonArray.getJSONObject(i).getString(""),
+                                jsonArray.getJSONObject(i).getString("")));//TODO
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.d("test", "return nothing!");
+                //getActivity().finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+
+            // showProgress(false);
+        }
+    }
+
+
     /*获取天气*/
     public boolean inSevenDays(CharSequence date) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -445,6 +542,7 @@ public class AddScenicPolicyFragment extends Fragment {
                             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                             Log.d("policy", prefs.getString("txt_d", "变化前") + "转" + prefs.getString("txt_n", "变化后"));
                             scenicweather.setText(prefs.getString("txt_d", "变化前") + "转" + prefs.getString("txt_n", "变化后"));//设置天气
+                            getFee();
                         }
                     });
                 }
@@ -464,3 +562,11 @@ public class AddScenicPolicyFragment extends Fragment {
 }
 
 
+/*
+SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            preferences.edit()
+                    .putBoolean("scenicSpotView", false)   //航空延误险
+                    .putString("scenic_spot_city", null)
+                    .putString("scenic_spot_name", null)
+                    .apply();
+ */

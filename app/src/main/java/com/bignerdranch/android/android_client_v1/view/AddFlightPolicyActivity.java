@@ -12,17 +12,17 @@ public class AddFlightPolicyActivity extends SingleFragmentActivity {
 
     private static final String EXTRA_FLIGHT_DALAY_POLICY = "flight_policy";
 
-    public static Intent newIntent(Context packageContext, ArrayList<String> par,String data){
+    public static Intent newIntent(Context packageContext, ArrayList<String> par, String data) {
         Intent intent = new Intent(packageContext, AddFlightPolicyActivity.class);
         intent.putExtra(EXTRA_FLIGHT_DALAY_POLICY, par);
-        intent.putExtra("data",data);
+        intent.putExtra("data", data);
         return intent;
     }
 
     @Override
     protected Fragment createFragment() {
         ArrayList<String> par = getIntent().getStringArrayListExtra(EXTRA_FLIGHT_DALAY_POLICY);
-        String data=getIntent().getStringExtra("data");
-        return AddFlightPolicyFragment.newInstance(par,data);
+        String data = getIntent().getStringExtra("data");
+        return AddFlightPolicyFragment.newInstance(par, data);
     }
 }

@@ -114,20 +114,20 @@ public class MainActivity extends AppCompatActivity {
         if (par != null) {
             setCurrentTabByTag("生活");
             preferences.edit()
-                    .putInt("cardId", 1)    //航空延误险//TODO 记得把这些清空
+                    .putBoolean("flightDelayView", true)   //航空延误险//TODO 记得把这些清空
                     .putString("flightNo", par.get(0))
                     .putString("flightStartCity", par.get(1))
                     .putString("flightEndCity", par.get(2))
                     .apply();
         }
         //获取调用该activity的activity类型
-        if (getIntent().getIntExtra("who", 0) == 1) {   //来自景区通知的调用
+        if (getIntent().getIntExtra("who", 0) == 1) {   //who == 1 来自景区通知的调用
             String scenic_spot_city = getIntent().getStringExtra("city");
             String scenic_spot_name = getIntent().getStringExtra("name");
 
             setCurrentTabByTag("生活");
             preferences.edit()
-                    .putInt("cardId", 2)     //景区意外险
+                    .putBoolean("scenicSpotView", true) //景区意外险
                     .putString("scenic_spot_city", scenic_spot_city)
                     .putString("scenic_spot_name", scenic_spot_name)
                     .apply();
