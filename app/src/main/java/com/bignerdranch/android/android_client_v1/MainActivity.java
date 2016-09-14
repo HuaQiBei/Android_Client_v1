@@ -16,7 +16,6 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.bignerdranch.android.android_client_v1.db.WeatherDB;
 import com.bignerdranch.android.android_client_v1.model.PolicyLab;
 import com.bignerdranch.android.android_client_v1.service.AutoUpdateService;
@@ -24,7 +23,6 @@ import com.bignerdranch.android.android_client_v1.service.LocationService;
 import com.bignerdranch.android.android_client_v1.util.HttpCallbackListener;
 import com.bignerdranch.android.android_client_v1.util.HttpUtil;
 import com.bignerdranch.android.android_client_v1.util.Utility;
-import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.WeatherActivity;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
@@ -76,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        SDKInitializer.initialize(getApplicationContext());
         Log.d("test", "MainActivity onCreate");
+        mWeatherDB = WeatherDB.getInstance(this);//获取数据库处理对象
         //  requestWindowFeature(Window.FEATURE_NO_TITLE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        if (!preferences.getBoolean("isLogin", false)) {

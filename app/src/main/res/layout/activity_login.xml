@@ -1,106 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@drawable/login"
+              android:orientation="vertical">
 
+    <ImageView
+        android:layout_marginTop="40dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo1"/>
 
     <LinearLayout
-                  android:orientation="horizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="240dp"
-                  android:weightSum="1"
-                  android:layout_marginLeft="30dp"
-                  android:layout_marginRight="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="用户名"
-            android:ems="3"
-            style="@style/Font20"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/login_username"
-            android:layout_gravity="center_vertical"
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/username"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:background="@null"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/login_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:background="@null"/>
+
+            <LinearLayout
+                style="@style/common_horizontal_division_line_style"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/login"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 
-    <LinearLayout style="@style/common_horizontal_division_line_style"
-                  android:layout_marginBottom="5dp"
-                  android:layout_marginTop="5dp"
-                  android:layout_marginLeft="30dp"
-                  android:layout_marginRight="30dp"/>
 
     <LinearLayout
-                  android:orientation="horizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="10dp"
-                  android:weightSum="1"
-                  android:layout_marginLeft="30dp"
-                  android:layout_marginRight="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="密    码"
-            android:ems="3"
-            style="@style/Font20"/>
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/login_password"
-            android:layout_gravity="center_vertical"
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/password"/>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:inputType="textPassword"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:background="@null"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:background="@null"/>
+
+            <LinearLayout
+                style="@style/common_horizontal_division_line_style"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/login"/>
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
-    <LinearLayout style="@style/common_horizontal_division_line_style"
-                  android:layout_marginBottom="5dp"
-                  android:layout_marginTop="5dp"
-                  android:layout_marginLeft="30dp"
-                  android:layout_marginRight="30dp"/>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center">
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <TextView
+
+        <ImageView
             android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="@color/blue_ico"
-            style="?android:attr/borderlessButtonStyle"
-            android:text="登陆"/>
-        <LinearLayout
-            style="@style/common_vertical_division_line_style"
-            android:layout_height="30dp"/>
-        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingBottom="11dp"
+            android:src="@drawable/signin"/>
+
+        <ImageView
             android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingBottom="11dp"
+            android:src="@drawable/signup"/>
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="@color/blue_ico"
-            style="?android:attr/borderlessButtonStyle"
-            android:text="注册"/>
+            android:layout_height="20dp"
+            android:src="@drawable/foget"/>
+
     </LinearLayout>
 
 

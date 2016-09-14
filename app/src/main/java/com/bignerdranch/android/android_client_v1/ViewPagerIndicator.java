@@ -10,7 +10,6 @@ import android.graphics.Path;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -40,8 +39,8 @@ public class ViewPagerIndicator extends LinearLayout {
     private List<String> mTitles;
     private ViewPager mViewPager;
 
-    private static final int COLOR_TEXT_NORMAL = 0x77000000;
-    private static final int COLOR_TEXT_HIGHLIGHT = 0x882977c3;
+    private static final int COLOR_TEXT_NORMAL = 0x88ffffff;
+    private static final int COLOR_TEXT_HIGHLIGHT = 0xffffffff;
 
     public ViewPagerIndicator(Context context) {
         this(context, null);
@@ -62,7 +61,7 @@ public class ViewPagerIndicator extends LinearLayout {
         //初始化画笔
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.parseColor("#882977c3"));
+        mPaint.setColor(Color.parseColor("#ffffff"));
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setPathEffect(new CornerPathEffect(3));
     }
@@ -223,6 +222,7 @@ public class ViewPagerIndicator extends LinearLayout {
         View view = getChildAt(pos);
         if (view instanceof TextView) {
             ((TextView) view).setTextColor(COLOR_TEXT_HIGHLIGHT);
+            ((TextView) view).getPaint().setFakeBoldText(true);
         }
     }
 
