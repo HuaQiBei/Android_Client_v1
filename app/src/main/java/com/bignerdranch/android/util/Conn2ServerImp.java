@@ -26,7 +26,7 @@ import com.bignerdranch.android.android_client_v1.model.ScenicPolicy;
  */
 public class Conn2ServerImp implements Connect2Server {
     private static final String TAG = "Conn2ServerImp";
-    private static final String urlSpec = "http://172.27.207.3:8080/Server4android/Search.do";
+    private static final String urlSpec = "http://172.27.211.7:8080/Server4android/Search.do";
 
 
     @Override
@@ -158,7 +158,7 @@ public class Conn2ServerImp implements Connect2Server {
     }
 
     @Override
-    public String showScenicPolicy(int policyID,String policyName) throws IOException, JSONException {
+    public String showScenicPolicy(int policyID, String policyName) throws IOException, JSONException {
         String str = null;
         Log.d("test", "in show Policy!");
 
@@ -166,7 +166,7 @@ public class Conn2ServerImp implements Connect2Server {
         DataOutputStream out = new DataOutputStream(conn
                 .getOutputStream());
         SetPostParams.setPostParam("policyID", Integer.toString(policyID));
-        SetPostParams.setPostParam("policyName",policyName);
+        SetPostParams.setPostParam("policyName", policyName);
         SetPostParams.setPostParam("flag", "showpolicy");
         Log.d("test", "policy required:" + SetPostParams.getResult().toString());
         out.writeBytes(SetPostParams.getResult().toString());
@@ -319,5 +319,23 @@ public class Conn2ServerImp implements Connect2Server {
 
     }
 
-
+    @Override
+    public String getFee(String scenicname, String weather) throws IOException, JSONException {
+        String str = null;
+        Log.d("test", "in find all Policy! INPUT" + scenicname + weather);
+        HttpURLConnection conn = initPost(urlSpec);
+        DataOutputStream out = new DataOutputStream(conn
+                .getOutputStream());
+        SetPostParams.setPostParam("scenicName", scenicname);
+        SetPostParams.setPostParam("weather", weather);
+        SetPostParams.setPostParam("flag", "findscenicfee");
+        Log.d("test", "findscenicfee required:" + SetPostParams.getResult().toString());
+        out.writeBytes(SetPostParams.getResult().toString());
+        SetPostParams.dismiss();
+        out.flush();
+        out.close();
+        str = new String(getPostReturn(conn));
+        Log.d("test", "response:" + str);
+        return str;
+    }
 }

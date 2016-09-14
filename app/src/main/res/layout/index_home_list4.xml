@@ -5,8 +5,8 @@
               android:layout_height="wrap_content"
               android:background="@color/white"
               android:orientation="vertical"
-              android:paddingTop="5dp"
               android:paddingBottom="0dp"
+              android:paddingTop="5dp"
               tools:showIn="@layout/outfragment_home">
 
     <LinearLayout
@@ -15,6 +15,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/flight_delay_policy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -29,18 +30,17 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/jiudianxian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                    android:text="酒店意外险"
+                    android:text="航空延误险"
                     android:textColor="#844833"
                     android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="入住无忧"/>
+                    android:text="延误就赔"/>
             </LinearLayout>
 
             <ImageView
@@ -93,7 +93,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/normal_bg_color"/>
+        android:background="@color/burlywood"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -110,10 +110,11 @@
             >
 
             <LinearLayout
+                android:id="@+id/query_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/query_policy"
                 >
+
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
@@ -134,7 +135,7 @@
             android:layout_width="1dp"
             android:layout_height="16dp"
             android:layout_gravity="center_vertical"
-            android:background="@color/normal_bg_color"/>
+            android:background="@color/burlywood"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -149,6 +150,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
+
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
@@ -166,6 +168,7 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

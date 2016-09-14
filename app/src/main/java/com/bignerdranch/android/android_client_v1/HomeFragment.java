@@ -71,15 +71,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         initViewPager();
         //获取数据并显示
-        //topCity.setText(SharedUtils.getCityName(getActivity()));
-        jiudian = (TextView) view.findViewById(R.id.jiudianxian);
-        jiudian.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddScenicPolicyActivity.class);
-                startActivity(intent);
-            }
-        });
 
         Log.d("test", "HomeFragment onCreateView");
 
@@ -101,6 +92,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         View scenic_policy = view.findViewById(R.id.scenic_policy);
         scenic_policy.setOnClickListener(this);
+
+        view.findViewById(R.id.flight_delay_policy).setOnClickListener(this);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Log.d("life", "刷新view");
         home_choose_area.setText(prefs.getString("city_name", "选择"));
@@ -114,7 +108,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.home_choose_area:
                 Intent intent = new Intent(getActivity(), ChooseAreaActivity.class);
                 startActivity(intent);
-                Log.d("life", "点击");
                 break;
             case R.id.index_home_tip:
                 mLocationClient.start();
@@ -122,21 +115,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     mLocationClient.requestLocation();
                 break;
             case R.id.home_search_textview:
-                intent = new Intent(getActivity(), SearchAreaActivity.class);
-                startActivity(intent);
+                //intent = new Intent(getActivity(), SearchAreaActivity.class);
+                //startActivity(intent);
                 break;
             case R.id.list_one:
-                intent = new Intent(getActivity(), AddFlightPolicyActivity.class);
-                startActivity(intent);
-                Log.d("list_one", "点击");
+                ((MainActivity) getActivity()).setCurrentTabByTag("生活");
+                PreferenceManager
+                        .getDefaultSharedPreferences(getActivity()).edit()
+                        .putBoolean("flightDelayView", true)//TODO 什么时候改为false
+                        .apply();
                 break;
             case R.id.query_policy:
                 ((MainActivity) getActivity()).setCurrentTabByTag("保单");
                 break;
             case R.id.scenic_policy:
-                intent = new Intent(getActivity(), AddScenicPolicyActivity.class);
-                startActivity(intent);
-                Log.d("scenic_policy", "点击");
+                ((MainActivity) getActivity()).setCurrentTabByTag("生活");
+                PreferenceManager
+                        .getDefaultSharedPreferences(getActivity()).edit()
+                        .putBoolean("scenicSpotView", true)//TODO 什么时候改为false
+                        .apply();
+                break;
+            case R.id.flight_delay_policy:
+                ((MainActivity) getActivity()).setCurrentTabByTag("生活");
+                PreferenceManager
+                        .getDefaultSharedPreferences(getActivity()).edit()
+                        .putBoolean("flightDelayView", true)//TODO 什么时候改为false
+                        .apply();
+                break;
         }
     }
 
@@ -216,28 +221,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         pageViews = new ArrayList<>();
 
         ImageView img1 = new ImageView(getActivity());
-        img1.setBackgroundResource(R.drawable.view_add_1);
+        img1.setBackgroundResource(R.drawable.ad01);
         pageViews.add(img1);
 
         ImageView img2 = new ImageView(getActivity());
-        img2.setBackgroundResource(R.drawable.view_add_2);
+        img2.setBackgroundResource(R.drawable.ad03);
         pageViews.add(img2);
 
         ImageView img3 = new ImageView(getContext());
-        img3.setBackgroundResource(R.drawable.view_add_3);
+        img3.setBackgroundResource(R.drawable.ad02);
         pageViews.add(img3);
-
-        ImageView img4 = new ImageView(getContext());
-        img4.setBackgroundResource(R.drawable.view_add_4);
-        pageViews.add(img4);
-
-        ImageView img5 = new ImageView(getContext());
-        img5.setBackgroundResource(R.drawable.view_add_5);
-        pageViews.add(img5);
-
-        ImageView img6 = new ImageView(getContext());
-        img6.setBackgroundResource(R.drawable.view_add_6);
-        pageViews.add(img6);
 
         adapter = new AdPageAdapter(pageViews);
     }

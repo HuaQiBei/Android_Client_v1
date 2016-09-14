@@ -52,7 +52,7 @@ public class AddFlightPolicyFragment extends Fragment {
 
 
     private AddFlightPolicyTask mFlightTask = null;
-    public  String resultString;
+    public String resultString;
     public Connect2Server c2s = new Conn2ServerImp();
     JSONObject delayRate;
 
@@ -73,10 +73,10 @@ public class AddFlightPolicyFragment extends Fragment {
     private EditText insured_person;
     private EditText insured_idcard;
 
-    public static AddFlightPolicyFragment newInstance(ArrayList<String> par,String data) {
+    public static AddFlightPolicyFragment newInstance(ArrayList<String> par, String data) {
         Bundle args = new Bundle();
         args.putStringArrayList(ARG_FLIGHT_DAILAY_POLICY, par);
-        args.putString("data",data);
+        args.putString("data", data);
         AddFlightPolicyFragment fragment = new AddFlightPolicyFragment();
         fragment.setArguments(args);
         return fragment;
@@ -89,13 +89,13 @@ public class AddFlightPolicyFragment extends Fragment {
         mWeatherDB = WeatherDB.getInstance(getActivity());//获取数据库处理对象
 
         par = getArguments().getStringArrayList(ARG_FLIGHT_DAILAY_POLICY);
-        String delayData=getArguments().getString("data");
+        String delayData = getArguments().getString("data");
         try {
             delayRate = new JSONObject(delayData);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("delay",delayData);
+        Log.d("delay", delayData);
         Log.d("policy", par.get(0));//航班号
         Log.d("policy", par.get(1));//起点
         Log.d("policy", par.get(2));//终点
@@ -259,7 +259,7 @@ public class AddFlightPolicyFragment extends Fragment {
                                 try {
                                     if (inSevenDays(date)) {
                                         queryWeatherInfo(par.get(1), date + "");
-                                    }else {
+                                    } else {
                                         mFlightWeather.setText("暂无天气预报");
                                     }
                                 } catch (ParseException e) {
@@ -414,7 +414,14 @@ public class AddFlightPolicyFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-
+                Toast.makeText(getContext(), "购买成功", Toast.LENGTH_SHORT);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                preferences.edit()
+                        .putBoolean("flightDelayView", false)   //航空延误险
+                        .putString("flightNo", null)
+                        .putString("flightStartCity", null)
+                        .putString("flightEndCity", null)
+                        .apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
 
