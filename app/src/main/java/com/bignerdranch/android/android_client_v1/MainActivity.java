@@ -78,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("test", "MainActivity onCreate");
         //  requestWindowFeature(Window.FEATURE_NO_TITLE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        if (!preferences.getBoolean("isLogin", false)) {
-//            Intent intent = new Intent(this, LoginActivity.class);
-//            startActivity(intent);
-//            finish();
-//            return;
-//        }
+        if (!preferences.getBoolean("isLogin", false)) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         //启动定位服务
         Intent startIntent = new Intent(this, LocationService.class);
         startService(startIntent); // 启动服务

@@ -93,7 +93,7 @@ public class AddScenicPolicyFragment extends Fragment {
 //    private TextView insuredIDcard;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        feeLab = null;
+        feeLab = new ArrayList<>();
         super.onCreate(savedInstanceState);
         mWeatherDB = WeatherDB.getInstance(getActivity());//获取数据库处理对象
     }
@@ -172,7 +172,6 @@ public class AddScenicPolicyFragment extends Fragment {
                     Log.d("test", "没取到用户ID");
                 }
                 ScenicPolicy policy = new ScenicPolicy(100, startdatestr, enddatestr, userID, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insuredutystr, "生效中");
-
 
 
                 if (mAuthTask != null) {
@@ -326,9 +325,8 @@ public class AddScenicPolicyFragment extends Fragment {
             Iterator it = feeLab.iterator();
             Fee fee;
             while (it.hasNext()) {
-                Log.d("test", it.next() + "");
                 fee = (Fee) it.next();
-                if (fee.getRg_1_value().equals(rg_1_value) && fee.getRg_2_value().equals(rg_2_value)) {
+                if ((Integer.parseInt(fee.getDeadordis()) == rg_1_value) && (Integer.parseInt(fee.getMedical()) == rg_2_value)) {
                     return Float.parseFloat(fee.getFee());
                 }
             }
@@ -338,7 +336,7 @@ public class AddScenicPolicyFragment extends Fragment {
     }
 
     public void update() {
-        Log.d("test", rg_1_value + rg_2_value + calculatePolicyFee(rg_1_value, rg_2_value) + "");
+        Log.d("test", rg_1_value + "" + rg_2_value + calculatePolicyFee(rg_1_value, rg_2_value) + "计算保费");
         mCoverage.setText(rg_1_value + rg_2_value + "");
         fee.setText(calculatePolicyFee(rg_1_value, rg_2_value) + "");
 
@@ -467,13 +465,15 @@ public class AddScenicPolicyFragment extends Fragment {
             if (result != null) {
                 JSONArray jsonArray = null;
                 try {
-                    jsonArray = new JSONArray(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("getFee", null));
+                    jsonArray = new JSONArray(result);
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        Log.d("test", jsonArray.getJSONObject(i) + "");
-                        feeLab.add(new Fee(jsonArray.getJSONObject(i).getString(""),
-                                jsonArray.getJSONObject(i).getString(""),
-                                jsonArray.getJSONObject(i).getString("")));//TODO
+                        Fee fee = new Fee(jsonArray.getJSONObject(i).getString("deadordis"),
+                                jsonArray.getJSONObject(i).getString("medical"),
+                                jsonArray.getJSONObject(i).getString("fee"));
+                        feeLab.add(fee);
                     }
+                    update();
+                    Log.d("test", "addFee" + feeLab.size());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
