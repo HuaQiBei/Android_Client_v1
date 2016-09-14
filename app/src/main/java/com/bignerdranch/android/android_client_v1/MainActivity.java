@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("test", "MainActivity onCreate");
         //  requestWindowFeature(Window.FEATURE_NO_TITLE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        if (!preferences.getBoolean("isLogin", false)) {
-//            Intent intent = new Intent(this, LoginActivity.class);
-//            startActivity(intent);
-//            finish();
-//            return;
-//        }
+        if (!preferences.getBoolean("isLogin", false)) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         setContentView(R.layout.activity_main);
 

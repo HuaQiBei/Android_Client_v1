@@ -108,6 +108,7 @@
             android:name=".AddAddressActivity"
             android:label="@string/Address_Title"
             android:parentActivityName=".AddressActivity">
+
         </activity>
         <activity
             android:name=".ContactActivity"
@@ -178,11 +179,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="景区意外险"
             android:parentActivityName=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".view.SearchAreaActivity"
@@ -193,6 +189,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="航空延误险"
             android:parentActivityName=".MainActivity">
+
 
         </activity>
         <activity

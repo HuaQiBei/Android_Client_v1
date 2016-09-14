@@ -65,6 +65,8 @@ public class AddScenicPolicyFragment extends Fragment {
     private EditText enddate;
     private EditText insurednum;
     private EditText insureduty;
+    private EditText insured_person;
+    private EditText insured_idcard;
     private TextView fee;
     private ImageView mAdd;
     private CheckBox mAccident;
@@ -102,12 +104,13 @@ public class AddScenicPolicyFragment extends Fragment {
         scenicweather = (EditText) v.findViewById(R.id.scenicWeather);
         startdate = (EditText) v.findViewById(R.id.scenicStartDate);
         enddate = (EditText) v.findViewById(R.id.scenicEndDate);
-        insureduty = (EditText) v.findViewById(R.id.insureDuty);
         fee = (TextView) v.findViewById(R.id.scenicFee);
         mAdd = (ImageView) v.findViewById(R.id.addScenicPolicyMan);
         mAccident = (CheckBox) v.findViewById(R.id.accident_checked);
         mMedical = (CheckBox) v.findViewById(R.id.medical_checked);
         mCoverage = (TextView) v.findViewById(R.id.policy_coverage);
+        insured_person = (EditText) v.findViewById(R.id.insured_person);
+        insured_idcard = (EditText) v.findViewById(R.id.insured_idcard);
         getDate();
         calculatePolicyCoverage();
 
@@ -129,6 +132,9 @@ public class AddScenicPolicyFragment extends Fragment {
             }
         });
 
+
+
+
         bt_add_scenicPolicy_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,8 +143,17 @@ public class AddScenicPolicyFragment extends Fragment {
                 String scenicweatherstr = scenicweather.getText().toString();
                 String startdatestr = startdate.getText().toString();
                 String enddatestr = enddate.getText().toString();
-                String insuredutystr = insureduty.getText().toString();
                 String feestr = fee.getText().toString();
+                String insuredman=insured_person.getText().toString();
+                String insuredmanIDCard=insured_idcard.getText().toString();
+                String coverage=mCoverage.getText().toString();
+                String insureduty="AA";
+
+//                for (int i = 0; i < group.getChildCount(); i++) {
+//                    group.getChildAt(i).findViewById(R.id.insured_person);
+//                    group.getChildAt(i).findViewById(R.id.insured_idcard);
+//                }
+
 
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -146,8 +161,9 @@ public class AddScenicPolicyFragment extends Fragment {
                 if (userID == 0) {
                     Log.d("test", "没取到用户ID");
                 }
-                ScenicPolicy policy = new ScenicPolicy(100, startdatestr, enddatestr, userID, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insuredutystr, "生效中");
-
+                Log.d("test",startdatestr+enddatestr+ userID+ Double.parseDouble(feestr)+ scenicnamestr+ scenicweatherstr+ insureduty+ "生效中"+Integer.parseInt(coverage));
+                ScenicPolicy policy = new ScenicPolicy(100, startdatestr, enddatestr, userID, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insureduty, "生效中",Integer.parseInt(coverage));
+Log.d("test",policy.toString());
 
 //                String insurednamestr=insuredname.getText().toString();
 //                String insuredIDcardstr=insuredIDcard.getText().toString();
@@ -156,7 +172,7 @@ public class AddScenicPolicyFragment extends Fragment {
                     return;
                 }
                 Log.d("test", "click the scenic commit button!");
-                mAuthTask = new AddScenicPolicyTask(policy);//为后台传递参数
+                mAuthTask = new AddScenicPolicyTask(policy,insuredman,insuredmanIDCard);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
 //                Intent intent = new Intent(getActivity(),MainActivity.class);
@@ -310,9 +326,13 @@ public class AddScenicPolicyFragment extends Fragment {
     public class AddScenicPolicyTask extends AsyncTask<Void, Void, String> {
 
         ScenicPolicy mScenicPolicy = null;
+        String mInsuredMan=null;
+        String mIDCard=null;
 
-        AddScenicPolicyTask(ScenicPolicy scenicPolicy) {
+        AddScenicPolicyTask(ScenicPolicy scenicPolicy,String insuredMan,String IDCard) {
             this.mScenicPolicy = scenicPolicy;
+            this.mInsuredMan=insuredMan;
+            this.mIDCard=IDCard;
 
         }
 
@@ -322,7 +342,7 @@ public class AddScenicPolicyFragment extends Fragment {
             Log.d("test", "in to do addpolicy in background!");
             try {
                 // Simulate network access.
-                resultString = c2s.addScenicPolicy(mScenicPolicy);
+                resultString = c2s.addScenicPolicy(mScenicPolicy,mInsuredMan,mIDCard);
 
                 Log.d("test", "add scenic policy resultString=" + resultString);
                 return resultString;

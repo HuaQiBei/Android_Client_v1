@@ -17,7 +17,7 @@ public interface Connect2Server {
 
     public String modifyEmail(String newemail) throws IOException;
 
-    public String addScenicPolicy(ScenicPolicy policy) throws IOException, JSONException;
+    public String addScenicPolicy(ScenicPolicy policy,String insuredname, String insuredIDcard) throws IOException, JSONException;
 
     public String showScenicPolicy(int policyID,String policyName) throws IOException, JSONException;
 
