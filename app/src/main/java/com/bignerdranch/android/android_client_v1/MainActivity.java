@@ -132,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
                     .putString("scenic_spot_name", scenic_spot_name)
                     .apply();
         }
+        if (getIntent().getIntExtra("des", 0) == 3) {
+            setCurrentTabByTag("保单");
+
+        }
     }
 
     /**

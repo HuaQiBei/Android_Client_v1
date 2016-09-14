@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         register = (TextView)findViewById(R.id.register);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         name = (EditText)findViewById(R.id.login_username);
-        name.setHint(preferences.getString("name", "请输入账号"));
+        name.setText(preferences.getString("name", "请输入账号"));
         passw = (EditText)findViewById(R.id.login_password);
 
         login.setOnClickListener(this);

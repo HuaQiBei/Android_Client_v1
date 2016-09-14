@@ -1,10 +1,12 @@
 package com.bignerdranch.android.android_client_v1.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,9 @@ public class ShowFlightPolicyFragment extends Fragment {
     private CheckBox mCancelFlight;
     private TextView mFlightCoverage;
     private TextView mFlightFee;
+    private EditText insuredMan;
+    private EditText insuredManIDCard;
+    private View obtain_pay_button;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,16 +54,18 @@ public class ShowFlightPolicyFragment extends Fragment {
         mFlightDate = (EditText) v.findViewById(R.id.flight_date);
         mFlightId = (EditText) v.findViewById(R.id.flight_id);
         mFlightRoute = (EditText) v.findViewById(R.id.flight_route);
-        mFlightTime = (EditText) v.findViewById(R.id.flight_time);
         mFlightWeather = (EditText) v.findViewById(R.id.flight_weather);
         mOneHour = (CheckBox) v.findViewById(R.id.one_hour_checked);
         mFourHours = (CheckBox) v.findViewById(R.id.four_hour_checked);
         mCancelFlight = (CheckBox) v.findViewById(R.id.flight_cancel_checked);
         mFlightCoverage = (TextView) v.findViewById(R.id.policy_coverage);
         mFlightFee = (TextView) v.findViewById(R.id.policyfee);
+        insuredMan = (EditText) v.findViewById(R.id.insuredMan);
+        insuredManIDCard = (EditText) v.findViewById(R.id.insuredManIDCard);
+        obtain_pay_button = v.findViewById(R.id.obtain_pay_button);
 
-        JSONArray respObjectArr = null;
-        JSONObject respJsonObj = null;
+        JSONArray respObjectArr;
+        JSONObject respJsonObj;
 
         try {
             respObjectArr = new JSONArray(result);
@@ -67,10 +74,22 @@ public class ShowFlightPolicyFragment extends Fragment {
             mFlightDate.setText(respJsonObj.getString("mFlightDate"));
             mFlightId.setText(respJsonObj.getString("mFlightId"));
             mFlightRoute.setText(respJsonObj.getString("mFlightRoute"));
-            mFlightTime.setText(respJsonObj.getString("mFlightTime"));
             mFlightWeather.setText(respJsonObj.getString("mFlightWeather"));
             mFlightCoverage.setText(Double.toString(respJsonObj.getDouble("mFlightCoverage")));
             mFlightFee.setText(Double.toString(respJsonObj.getDouble("mFlightFee")));
+            insuredMan.setText(respJsonObj.getString("insuredman"));
+            insuredManIDCard.setText(respJsonObj.getString("insuredIDCard"));
+            final int policyID = respJsonObj.getInt("policyID");
+            if (respJsonObj.getString("state").equals("生效中")){
+                obtain_pay_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ObtainPayActivity.class);
+                        intent.putExtra("policyID", policyID);
+                        startActivity(intent);
+                    }
+                });
+            }
             int sum = Integer.parseInt(respJsonObj.getString("mFlightCheckBox"));
             switch (sum) {
                 case 1:

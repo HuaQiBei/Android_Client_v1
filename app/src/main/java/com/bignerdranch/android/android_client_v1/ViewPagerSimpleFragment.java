@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.bignerdranch.android.android_client_v1.model.BasePolicy;
 import com.bignerdranch.android.android_client_v1.model.PolicyLab;
+import com.bignerdranch.android.android_client_v1.view.ObtainPayActivity;
 import com.bignerdranch.android.android_client_v1.view.ShowFlightPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
 import com.bignerdranch.android.util.Conn2ServerImp;
@@ -210,7 +211,12 @@ public class ViewPagerSimpleFragment extends Fragment {
 
 
                     break;
-
+                case R.id.list_bt_Apply:
+                    Intent intent = new Intent(getActivity(), ObtainPayActivity.class);
+                    intent.putExtra("policyID", mPolicy.getPolicyID())
+                            .putExtra("policyName", mPolicy.getPolicyName());
+                    startActivity(intent);
+                    break;
             }
 
         }
@@ -300,6 +306,7 @@ public class ViewPagerSimpleFragment extends Fragment {
                 case "生效中": {
                     mApply.setText("申请理赔");
                     mApply.setVisibility(View.VISIBLE);
+                    mApply.setOnClickListener(this);
                     break;
                 }
                 case "理赔中": {

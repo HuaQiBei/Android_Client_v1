@@ -234,6 +234,10 @@
             android:name=".view.ShowFlightPolicyActivity"
             android:label="查看详情">
         </activity>
+        <activity
+            android:name=".view.ObtainPayActivity"
+            android:label="申请理赔">
+        </activity>
     </application>
 
 </manifest>

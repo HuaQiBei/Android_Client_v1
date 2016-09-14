@@ -417,7 +417,7 @@ public class AddFlightPolicyFragment extends Fragment {
                 Toast.makeText(getContext(), "购买成功", Toast.LENGTH_SHORT);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 preferences.edit()
-                        .putBoolean("flightDelayView", false)   //航空延误险
+                        .putBoolean("flightDelayView", false)   //航班延误险
                         .putString("flightNo", null)
                         .putString("flightStartCity", null)
                         .putString("flightEndCity", null)

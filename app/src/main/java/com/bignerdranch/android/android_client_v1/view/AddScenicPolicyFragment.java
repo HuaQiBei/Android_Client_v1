@@ -158,8 +158,6 @@ public class AddScenicPolicyFragment extends Fragment {
         });
 
 
-
-
         bt_add_scenicPolicy_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,10 +167,10 @@ public class AddScenicPolicyFragment extends Fragment {
                 String startdatestr = startdate.getText().toString();
                 String enddatestr = enddate.getText().toString();
                 String feestr = fee.getText().toString();
-                String insuredman=insured_person.getText().toString();
-                String insuredmanIDCard=insured_idcard.getText().toString();
-                String coverage=mCoverage.getText().toString();
-                String insureduty="AA";
+                String insuredman = insured_person.getText().toString();
+                String insuredmanIDCard = insured_idcard.getText().toString();
+                String coverage = deadordis + "";
+                String insureduty = medical + "";
 
 //                for (int i = 0; i < group.getChildCount(); i++) {
 //                    group.getChildAt(i).findViewById(R.id.insured_person);
@@ -180,21 +178,20 @@ public class AddScenicPolicyFragment extends Fragment {
 //                }
 
 
-
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 int userID = preferences.getInt("id", 0);
                 if (userID == 0) {
                     Log.d("test", "没取到用户ID");
                 }
-                Log.d("test",startdatestr+enddatestr+ userID+ Double.parseDouble(feestr)+ scenicnamestr+ scenicweatherstr+ insureduty+ "生效中"+Integer.parseInt(coverage));
-                ScenicPolicy policy = new ScenicPolicy(100, startdatestr, enddatestr, userID, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insureduty, "生效中",Integer.parseInt(coverage));
-Log.d("test",policy.toString());
+                Log.d("test", startdatestr + enddatestr + userID + Double.parseDouble(feestr) + scenicnamestr + scenicweatherstr + insureduty + "生效中" + Integer.parseInt(coverage));
+                ScenicPolicy policy = new ScenicPolicy(100, startdatestr, enddatestr, userID, Double.parseDouble(feestr), scenicnamestr, scenicweatherstr, insureduty, "生效中", Integer.parseInt(coverage));
+                Log.d("test", policy.toString());
 
                 if (mAuthTask != null) {
                     return;
                 }
                 Log.d("test", "click the scenic commit button!");
-                mAuthTask = new AddScenicPolicyTask(policy,insuredman,insuredmanIDCard);//为后台传递参数
+                mAuthTask = new AddScenicPolicyTask(policy, insuredman, insuredmanIDCard);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
             }
@@ -294,7 +291,7 @@ Log.d("test",policy.toString());
         }
     }
 
-    private int rg_1_value = 100000, rg_2_value = 5000;
+    private int deadordis = 100000, medical = 5000;
     //private String[] flag;
 
     /*计算保额*/
@@ -304,8 +301,8 @@ Log.d("test",policy.toString());
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton rb = (RadioButton) getView().findViewById(i);
-                rg_1_value = Integer.parseInt(rb.getText().toString());
-                Log.d("test", rb.getText().toString() + " " + rg_1_value);
+                deadordis = Integer.parseInt(rb.getText().toString());
+                Log.d("test", rb.getText().toString() + " " + deadordis);
 //                if (rb1_1.getId() == i) {
 //                    flag[0] = "a";
 //                } else if (rb1_2.getId() == i) {
@@ -321,8 +318,8 @@ Log.d("test",policy.toString());
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton rb = (RadioButton) getView().findViewById(i);
-                rg_2_value = Integer.parseInt(rb.getText().toString());
-                Log.d("test", rb.getText().toString() + " " + rg_2_value);
+                medical = Integer.parseInt(rb.getText().toString());
+                Log.d("test", rb.getText().toString() + " " + medical);
 //                if (rb2_1.getId() == i) {
 //                    flag[1] = "a";
 //                } else if (rb2_2.getId() == i) {
@@ -336,13 +333,13 @@ Log.d("test",policy.toString());
     }
 
     /*计算保费*/
-    private float calculatePolicyFee(int rg_1_value, int rg_2_value) {
+    private float calculatePolicyFee(int deadordis, int medical) {
         if (feeLab != null) {
             Iterator it = feeLab.iterator();
             Fee fee;
             while (it.hasNext()) {
                 fee = (Fee) it.next();
-                if ((Integer.parseInt(fee.getDeadordis()) == rg_1_value) && (Integer.parseInt(fee.getMedical()) == rg_2_value)) {
+                if ((Integer.parseInt(fee.getDeadordis()) == deadordis) && (Integer.parseInt(fee.getMedical()) == medical)) {
                     return Float.parseFloat(fee.getFee());
                 }
             }
@@ -352,9 +349,9 @@ Log.d("test",policy.toString());
     }
 
     public void update() {
-        Log.d("test", rg_1_value + "" + rg_2_value + calculatePolicyFee(rg_1_value, rg_2_value) + "计算保费");
-        mCoverage.setText(rg_1_value + rg_2_value + "");
-        fee.setText(calculatePolicyFee(rg_1_value, rg_2_value) + "");
+        Log.d("test", deadordis + "" + medical + calculatePolicyFee(deadordis, medical) + "计算保费");
+        mCoverage.setText(deadordis + medical + "");
+        fee.setText(calculatePolicyFee(deadordis, medical) + "");
 
 //
 //        String sum = flag[0] + flag[1];
@@ -392,13 +389,13 @@ Log.d("test",policy.toString());
     public class AddScenicPolicyTask extends AsyncTask<Void, Void, String> {
 
         ScenicPolicy mScenicPolicy = null;
-        String mInsuredMan=null;
-        String mIDCard=null;
+        String mInsuredMan = null;
+        String mIDCard = null;
 
-        AddScenicPolicyTask(ScenicPolicy scenicPolicy,String insuredMan,String IDCard) {
+        AddScenicPolicyTask(ScenicPolicy scenicPolicy, String insuredMan, String IDCard) {
             this.mScenicPolicy = scenicPolicy;
-            this.mInsuredMan=insuredMan;
-            this.mIDCard=IDCard;
+            this.mInsuredMan = insuredMan;
+            this.mIDCard = IDCard;
 
         }
 
@@ -408,7 +405,7 @@ Log.d("test",policy.toString());
             Log.d("test", "in to do addpolicy in background!");
             try {
                 // Simulate network access.
-                resultString = c2s.addScenicPolicy(mScenicPolicy,mInsuredMan,mIDCard);
+                resultString = c2s.addScenicPolicy(mScenicPolicy, mInsuredMan, mIDCard);
 
                 Log.d("test", "add scenic policy resultString=" + resultString);
                 return resultString;
@@ -437,7 +434,15 @@ Log.d("test",policy.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Toast.makeText(getContext(), "购买成功", Toast.LENGTH_SHORT);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                preferences.edit()
+                        .putBoolean("scenicSpotView", false)   //景区意外险
+                        .putString("scenic_spot_city", null)
+                        .putString("scenic_spot_name", null)
+                        .apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("des", 3);
                 startActivity(intent);
 
             } else {

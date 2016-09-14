@@ -120,10 +120,6 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                 par.add(mFlightEndCity.getText().toString());
                 intent = AddFlightPolicyActivity.newIntent(getActivity(), par, data);
                 startActivity(intent);
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                preferences.edit()
-                        .putBoolean("flightDelayView", false)
-                        .apply();
                 break;
             case R.id.add_scenic_spot_policy_button:
                 par = new ArrayList<>();
@@ -254,7 +250,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
         if (mAuthTask != null) {
             return null;
         }
-        //"MU5693","北京首都","上海");
+        //"MU3662","北京首都","上海");
         if (!flightNo.equals("航班号")) {
             mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
             mAuthTask.execute((Void) null);
