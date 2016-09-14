@@ -1,5 +1,7 @@
 package com.bignerdranch.android.android_client_v1.model;
 
+import android.util.Log;
+
 /**
  * Created by Administrator on 2016/8/22.
  */
@@ -11,8 +13,17 @@ public class ScenicPolicy {
     private double fee;
     private String scenicname;
     private String scenicweather;
-    private String insureduty;
+    private String  insureduty;
     private String state;
+    private int suminsured;
+
+    public int getSuminsured() {
+        return suminsured;
+    }
+
+    public void setSuminsured(int suminsured) {
+        this.suminsured = suminsured;
+    }
 
     public String getState() {
         return state;
@@ -22,16 +33,22 @@ public class ScenicPolicy {
         this.state = state;
     }
 
-    public ScenicPolicy(int policyID, String startdate, String enddate, int policyholder, double fee, String scenicname, String scenicweather, String insureduty, String state) {
+    public ScenicPolicy(int policyID, String startdate, String enddate, int policyholder, double fee, String scenicname, String scenicweather, String insureduty, String state, int suminsured) {
+        Log.d("test","in to scenic policy1");
         this.policyID = policyID;
         this.startdate = startdate;
+        Log.d("test","in to scenic policy1");
         this.enddate = enddate;
         this.policyholder = policyholder;
+        Log.d("test","in to scenic policy1");
         this.fee = fee;
         this.scenicname = scenicname;
+        Log.d("test","in to scenic policy1");
         this.scenicweather = scenicweather;
         this.insureduty = insureduty;
+        Log.d("test","in to scenic policy1");
         this.state = state;
+        this.suminsured = suminsured;
     }
 
     public int getPolicyID() {
@@ -96,6 +113,22 @@ public class ScenicPolicy {
 
     public void setInsureduty(String insureduty) {
         this.insureduty = insureduty;
+    }
+
+    @Override
+    public String toString() {
+        return "ScenicPolicy{" +
+                "policyID=" + policyID +
+                ", startdate='" + startdate + '\'' +
+                ", enddate='" + enddate + '\'' +
+                ", policyholder=" + policyholder +
+                ", fee=" + fee +
+                ", scenicname='" + scenicname + '\'' +
+                ", scenicweather='" + scenicweather + '\'' +
+                ", insureduty='" + insureduty + '\'' +
+                ", state='" + state + '\'' +
+                ", suminsured=" + suminsured +
+                '}';
     }
 }
 

@@ -99,8 +99,9 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.flight_delay:
-                if (getView().findViewById(R.id.add_flight_policy_button) == null)
+                if (getView().findViewById(R.id.add_flight_policy_button) == null) {
                     parent.addView(flightDelayView());
+                }
                 break;
             case R.id.scenic_spot:
                 if (getView().findViewById(R.id.add_scenic_spot_policy_button) == null)
@@ -111,11 +112,6 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                     parent.addView(nightRunningView());
                 break;
             case R.id.add_night_running_policy_button:
-
-                /**
-                 * TODO
-                 * 夜跑险的Activity
-                 */
                 break;
             case R.id.add_flight_policy_button:
                 par = new ArrayList<>();
@@ -124,6 +120,10 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                 par.add(mFlightEndCity.getText().toString());
                 intent = AddFlightPolicyActivity.newIntent(getActivity(), par, data);
                 startActivity(intent);
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                preferences.edit()
+                        .putBoolean("flightDelayView", false)
+                        .apply();
                 break;
             case R.id.add_scenic_spot_policy_button:
                 par = new ArrayList<>();

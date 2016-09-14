@@ -4,30 +4,30 @@ package com.bignerdranch.android.android_client_v1.model;
  * Created by DELL on 2016/9/12.
  */
 public class Fee {
-    String rg_1_value;
-    String rg_2_value;
+    String deadordis;
+    String medical;
     String fee;
 
-    public Fee(String rg_1_value, String rg_2_value, String fee) {
-        this.rg_1_value = rg_1_value;
-        this.rg_2_value = rg_2_value;
+    public Fee(String deadordis, String medical, String fee) {
+        this.deadordis = deadordis;
+        this.medical = medical;
         this.fee = fee;
     }
 
-    public String getRg_1_value() {
-        return rg_1_value;
+    public String getDeadordis() {
+        return deadordis;
     }
 
-    public void setRg_1_value(String rg_1_value) {
-        this.rg_1_value = rg_1_value;
+    public void setDeadordis(String deadordis) {
+        this.deadordis = deadordis;
     }
 
-    public String getRg_2_value() {
-        return rg_2_value;
+    public String getMedical() {
+        return medical;
     }
 
-    public void setRg_2_value(String rg_2_value) {
-        this.rg_2_value = rg_2_value;
+    public void setMedical(String medical) {
+        this.medical = medical;
     }
 
     public String getFee() {
@@ -36,5 +36,14 @@ public class Fee {
 
     public void setFee(String fee) {
         this.fee = fee;
+    }
+
+    @Override
+    public String toString() {
+        return "Fee{" +
+                "deadordis='" + deadordis + '\'' +
+                ", medical='" + medical + '\'' +
+                ", fee='" + fee + '\'' +
+                '}';
     }
 }
