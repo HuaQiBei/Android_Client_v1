@@ -123,7 +123,7 @@ public class Conn2ServerImp implements Connect2Server {
     }
 
     @Override
-    public String addScenicPolicy(ScenicPolicy policy) throws IOException, JSONException {
+    public String addScenicPolicy(ScenicPolicy policy,String insuredname, String insuredIDcard) throws IOException, JSONException {
 
         String str = null;
         Log.d("test", "in add Scenic policy!");
@@ -141,7 +141,10 @@ public class Conn2ServerImp implements Connect2Server {
                         .put("insureduty", policy.getInsureduty())
                         .put("fee", policy.getFee())
                         .put("userID", policy.getPolicyholder())
-                        .put("state", policy.getState()));
+                        .put("state", policy.getState())
+                        .put("insuredname", insuredname)
+                        .put("insuredIDcard", insuredIDcard)
+                        .put("suminsured",policy.getSuminsured()));
         Log.d("test", reqValue.toString());
         SetPostParams.setPostParam("data", reqValue.toString());
         SetPostParams.setPostParam("flag", "addscenicpolicy");
@@ -182,13 +185,14 @@ public class Conn2ServerImp implements Connect2Server {
     public String addInsuredman(String insuredname, String insuredIDcard) throws IOException {
 
         String str = null;
-        Log.d("test", "in add Insuredman!");
+        Log.d("test", "in add Insured man!");
 
         HttpURLConnection conn = initPost(urlSpec);
         DataOutputStream out = new DataOutputStream(conn
                 .getOutputStream());
-
-        SetPostParams.setPostParam("flag", "addpolicy");
+        SetPostParams.setPostParam("insuredname", insuredname);
+        SetPostParams.setPostParam("insuredIDcard", insuredIDcard);
+        SetPostParams.setPostParam("flag", "addinsuredman");
         out.writeBytes(SetPostParams.getResult().toString());
         SetPostParams.dismiss();
         out.flush();
@@ -218,7 +222,9 @@ public class Conn2ServerImp implements Connect2Server {
                         .put("mFlightCoverage", policy.getFlightCoverage())
                         .put("mFlightFee", policy.getFlightFee())
                         .put("userID", policy.getPolicyHolder())
-                        .put("state", policy.getmState()));
+                        .put("state", policy.getmState())
+                        .put("insuredname",policy.getmInsuredMan())
+                        .put("insuredIDcard",policy.getmIDCard()));
         Log.d("test", reqValue.toString());
         SetPostParams.setPostParam("data", reqValue.toString());
         SetPostParams.setPostParam("flag", "addflightpolicy");

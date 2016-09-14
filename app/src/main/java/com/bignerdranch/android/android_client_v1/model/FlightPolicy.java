@@ -17,6 +17,24 @@ public class FlightPolicy {
     private int mFlightCoverage;
     private double mFlightFee;
     private String mState;
+    private String mInsuredMan;
+    private String mIDCard;
+
+    public String getmInsuredMan() {
+        return mInsuredMan;
+    }
+
+    public void setmInsuredMan(String mInsuredMan) {
+        this.mInsuredMan = mInsuredMan;
+    }
+
+    public String getmIDCard() {
+        return mIDCard;
+    }
+
+    public void setmIDCard(String mIDCard) {
+        this.mIDCard = mIDCard;
+    }
 
     public String getmState() {
         return mState;
@@ -26,7 +44,7 @@ public class FlightPolicy {
         this.mState = mState;
     }
 
-    public FlightPolicy(int policyID, int policyHolder, String flightDate, String flightId, String flightRoute, String flightWeather, int flightCheckBox, int flightCoverage, double flightFee, String state) {
+    public FlightPolicy(int policyID, int policyHolder, String flightDate, String flightId, String flightRoute, String flightWeather, int flightCheckBox, int flightCoverage, double flightFee, String state,String insuredMan,String insuredIDCard) {
         this.policyID = policyID;
         this.policyHolder = policyHolder;
         this.mFlightDate = flightDate;
@@ -37,6 +55,8 @@ public class FlightPolicy {
         this.mFlightCoverage = flightCoverage;
         this.mFlightFee = flightFee;
         this.mState = state;
+        this.mInsuredMan=insuredMan;
+        this.mIDCard=insuredIDCard;
     }
 
     public int getPolicyID() {
