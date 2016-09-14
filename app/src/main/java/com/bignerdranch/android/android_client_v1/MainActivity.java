@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         if (par != null) {
             setCurrentTabByTag("生活");
             preferences.edit()
-                    .putBoolean("flightDelayView", true)   //航空延误险//TODO 记得把这些清空
+                    .putBoolean("flightDelayView", true)   //航班延误险
                     .putString("flightNo", par.get(0))
                     .putString("flightStartCity", par.get(1))
                     .putString("flightEndCity", par.get(2))

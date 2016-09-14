@@ -20,6 +20,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private View user;
     private TextView name;
     private View credit_card;
+    private View view;
 
     private static final int REQUEST_POLICY = 1;
 
@@ -35,7 +36,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sname = preferences.getString("name", "用户名");
         //显示用户名
-        View view = inflater.inflate(R.layout.fragment_mine, container, false);
+        view = inflater.inflate(R.layout.fragment_mine, container, false);
         name = (TextView)view.findViewById(R.id.name);
         name.setText(sname);
 

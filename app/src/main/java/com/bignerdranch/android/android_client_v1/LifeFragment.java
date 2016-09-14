@@ -104,8 +104,13 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.scenic_spot:
-                if (getView().findViewById(R.id.add_scenic_spot_policy_button) == null)
+                if (getView().findViewById(R.id.add_scenic_spot_policy_button) == null) {
                     parent.addView(scenicSpotView());
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    preferences.edit()
+                            .putBoolean("scenicSpotView", true) //景区意外险
+                            .apply();
+                }
                 break;
             case R.id.night_running:
                 if (getView().findViewById(R.id.add_night_running_policy_button) == null)
