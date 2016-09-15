@@ -115,9 +115,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         map.put("flag", "register");
                         new ConnectTask().execute(map);
                         //跳转
-                        Intent intent = new Intent(RegisterActivity.this,
-                                LoginActivity.class);
-                        startActivity(intent);
+                        finish();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(RegisterActivity.this, "正在获取验证码",
                                 Toast.LENGTH_SHORT).show();

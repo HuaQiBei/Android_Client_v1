@@ -20,8 +20,7 @@ public class ContactFragment extends Fragment {
             bt_contactsSave.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(),MyInfoActivity.class);
-                    startActivity(intent);
+                    getActivity().finish();
                 }
             });
 

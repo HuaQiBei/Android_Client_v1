@@ -19,7 +19,7 @@ public class AddContactsFragment extends Fragment {
 
     private AddContactsTask mAuthTask = null;
     public static String resultString;
-    public Connect2Server c2s=new Conn2ServerImp();
+    public Connect2Server c2s = new Conn2ServerImp();
 
 
     private View bt_add_contacts_OK;
@@ -31,27 +31,26 @@ public class AddContactsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_add_contacts, container, false);
         bt_add_contacts_OK = v.findViewById(R.id.add_contacts_OK);
 
-        contactname=(EditText)v.findViewById(R.id.tv_contacts_name);
-        telephone=(EditText)v.findViewById(R.id.tv_contacts_num);
-        IDcard=(EditText)v.findViewById(R.id.tv_contacts_ID);
+        contactname = (EditText) v.findViewById(R.id.tv_contacts_name);
+        telephone = (EditText) v.findViewById(R.id.tv_contacts_num);
+        IDcard = (EditText) v.findViewById(R.id.tv_contacts_ID);
 
 
-        bt_add_contacts_OK.setOnClickListener(new View.OnClickListener(){
+        bt_add_contacts_OK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String contactnamestr=contactname.getText().toString();
-                String telephonestr=telephone.getText().toString();
-                String IDcardstr=IDcard.getText().toString();
+                String contactnamestr = contactname.getText().toString();
+                String telephonestr = telephone.getText().toString();
+                String IDcardstr = IDcard.getText().toString();
                 if (mAuthTask != null) {
                     return;
                 }
 
-                mAuthTask = new AddContactsTask(contactnamestr,telephonestr,IDcardstr);//为后台传递参数
+                mAuthTask = new AddContactsTask(contactnamestr, telephonestr, IDcardstr);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
-                Intent intent = new Intent(getActivity(),ContactActivity.class);
-                startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -77,19 +76,19 @@ public class AddContactsFragment extends Fragment {
         String mIDcardstr;
 
         AddContactsTask(String Contactnamestr, String Telephonestr, String IDcardstr) {
-            mContactnamestr=Contactnamestr;
-            mTelephonestr=Telephonestr;
-            mIDcardstr=IDcardstr;
+            mContactnamestr = Contactnamestr;
+            mTelephonestr = Telephonestr;
+            mIDcardstr = IDcardstr;
         }
 
         @Override
         protected String doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Log.d("test","in to do addcontact in background!");
+            Log.d("test", "in to do addcontact in background!");
             try {
                 // Simulate network access.
-                resultString = c2s.addContacts(mContactnamestr,mTelephonestr,mIDcardstr);
-                Log.d("test","resultString="+resultString);
+                resultString = c2s.addContacts(mContactnamestr, mTelephonestr, mIDcardstr);
+                Log.d("test", "resultString=" + resultString);
                 return resultString;
 
 
@@ -104,15 +103,15 @@ public class AddContactsFragment extends Fragment {
         protected void onPostExecute(final String result) {
             mAuthTask = null;
             //showProgress(false);
-            Log.d("test","in to on PostExecute!");
+            Log.d("test", "in to on PostExecute!");
 
-            if (result!=null) {
-                Log.d("test",result);
-                Intent intent=new Intent(getActivity(),MyInfoActivity.class);
+            if (result != null) {
+                Log.d("test", result);
+                Intent intent = new Intent(getActivity(), MyInfoActivity.class);
                 startActivity(intent);
 
             } else {
-                Log.d("test","return nothing!");
+                Log.d("test", "return nothing!");
                 //getActivity().finish();
             }
         }
@@ -120,10 +119,9 @@ public class AddContactsFragment extends Fragment {
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-           // showProgress(false);
+            // showProgress(false);
         }
     }
-
 
 
 }

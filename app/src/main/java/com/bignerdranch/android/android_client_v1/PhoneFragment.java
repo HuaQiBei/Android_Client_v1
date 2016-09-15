@@ -108,9 +108,7 @@ public class PhoneFragment extends Fragment implements View.OnClickListener {
                         map.put("flag", "alter_phone");
                         new ConnectTask().execute(map);
                         //跳转
-                        Intent intent = new Intent(getActivity(),
-                                MyInfoActivity.class);
-                        startActivity(intent);
+                        getActivity().finish();
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                         Toast.makeText(getActivity(), "正在获取验证码",
                                 Toast.LENGTH_SHORT).show();

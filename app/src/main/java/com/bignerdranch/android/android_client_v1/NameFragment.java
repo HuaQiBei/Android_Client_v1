@@ -69,6 +69,8 @@ public class NameFragment extends Fragment implements View.OnClickListener {
             map.put("flag", "alter_name");
 
             new ConnectTask().execute(map);
+
+            getActivity().finish();
         }
     }
 }

@@ -22,8 +22,7 @@ public class AddressFragment extends Fragment {
         bt_addressSave.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyInfoActivity.class);
-                startActivity(intent);
+                getActivity().finish();
             }
         });
         bt_addAddress.setOnClickListener(new View.OnClickListener() {

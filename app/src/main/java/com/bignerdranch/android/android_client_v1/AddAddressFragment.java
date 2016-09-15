@@ -128,8 +128,7 @@ public class AddAddressFragment extends Fragment implements View.OnClickListener
 
             if (result!=null) {
                 Log.d("test",result);
-                Intent intent=new Intent(getActivity(),MyInfoActivity.class);
-                startActivity(intent);
+                getActivity().finish();
 
             } else {
                 Log.d("test","return nothing!");

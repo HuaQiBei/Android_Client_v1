@@ -59,8 +59,7 @@ public class ModifyEmailFragment extends Fragment implements View.OnClickListene
                 mAuthTask = new ModifyEmailTask(newemailstr);//为后台传递参数
                 mAuthTask.execute((Void) null);
 
-                Intent intent = new Intent(getActivity(), MyInfoActivity.class);
-                startActivity(intent);
+                getActivity().finish();
 
         }
     }
@@ -101,8 +100,6 @@ public class ModifyEmailFragment extends Fragment implements View.OnClickListene
 
             if (result != null) {
                 Log.d("test", result);
-                Intent intent = new Intent(getActivity(), MyInfoActivity.class);
-                startActivity(intent);
 
             } else {
                 Log.d("test", "return nothing!");
