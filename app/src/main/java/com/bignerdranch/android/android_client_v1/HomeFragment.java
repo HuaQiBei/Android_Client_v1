@@ -143,7 +143,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         .apply();
                 break;
             case R.id.addView:
-
+                Intent i = new Intent(getActivity(), ColligatePolicyActivity.class);
+                startActivity(i);
                 break;
 
         }
