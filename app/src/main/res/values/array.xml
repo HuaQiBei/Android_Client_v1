@@ -13,4 +13,30 @@
         <item>等位</item>
         <item>打车</item>
     </string-array>
+
+    <string-array name="airport_delay">
+        <item>200元</item>
+        <item>300元</item>
+        <item>400元</item>
+        <item>500元</item>
+        <item>1000元</item>
+    </string-array>
+
+    <string-array name="accident">
+        <item>5万元</item>
+        <item>10万元</item>
+        <item>20万元</item>
+        <item>30万元</item>
+        <item>50万元</item>
+        <item>100万元</item>
+    </string-array>
+
+    <string-array name="medical">
+        <item>1万元</item>
+        <item>2万元</item>
+        <item>3万元</item>
+        <item>5万元</item>
+        <item>10万元</item>
+        <item>20万元</item>
+    </string-array>
 </resources>
