@@ -1,12 +1,19 @@
 package com.bignerdranch.android.android_client_v1;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.text.ParseException;
+import java.util.Calendar;
 
 public class ColligatePolicyFragment extends Fragment {
     Spinner mSpinner1;
@@ -17,6 +24,8 @@ public class ColligatePolicyFragment extends Fragment {
     Spinner mSpinner6;
     Spinner mSpinner7;
     Spinner mSpinner8;
+    TextView mBegin_date;
+    TextView mEnd_date;
 
     ArrayAdapter<CharSequence> adapter1;
     ArrayAdapter<CharSequence> adapter2;
@@ -37,6 +46,10 @@ public class ColligatePolicyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_colligate_policy, container, false);
+
+        mBegin_date = (TextView) view.findViewById(R.id.begin_date);
+        mEnd_date = (TextView) view.findViewById(R.id.end_date);
+        getDate();
 
         mSpinner1 = (Spinner) view.findViewById(R.id.spinner1);
         mSpinner2 = (Spinner) view.findViewById(R.id.spinner2);
@@ -103,5 +116,51 @@ public class ColligatePolicyFragment extends Fragment {
         super.onResume();
     }
 
+    /*获取航班日期*/
+    private void getDate() {
+        final Calendar c = Calendar.getInstance();
+        mBegin_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Calendar c = Calendar.getInstance();
+                                c.set(year, monthOfYear, dayOfMonth);
+                                CharSequence date = DateFormat.format("yyy-MM-dd", c);
+                                mBegin_date.setText(date);
+                            }
+                        },
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                dialog.show();
+            }
+        });
+        mEnd_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Calendar c = Calendar.getInstance();
+                                c.set(year, monthOfYear, dayOfMonth);
+                                CharSequence date = DateFormat.format("yyy-MM-dd", c);
+                                mBegin_date.setText(date);
+                            }
+                        },
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                dialog.show();
+            }
+        });
+    }
 
 }
