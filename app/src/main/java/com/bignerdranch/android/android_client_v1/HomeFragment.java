@@ -99,6 +99,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         Log.d("life", "刷新view");
         home_choose_area.setText(prefs.getString("city_name", "选择"));
 
+        view.findViewById(R.id.addView).setOnClickListener(this);
+
         return view;
     }
 

@@ -151,7 +151,7 @@ public class ColligatePolicyFragment extends Fragment {
                                 Calendar c = Calendar.getInstance();
                                 c.set(year, monthOfYear, dayOfMonth);
                                 CharSequence date = DateFormat.format("yyy-MM-dd", c);
-                                mBegin_date.setText(date);
+                                mEnd_date.setText(date);
                             }
                         },
                         c.get(Calendar.YEAR),
