@@ -97,6 +97,7 @@ public class ShowScenicPolicyFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), ObtainPayActivity.class);
                         intent.putExtra("policyID", policyID);
                         startActivity(intent);
+                        getActivity().finish();
                     }
                 });
             }
