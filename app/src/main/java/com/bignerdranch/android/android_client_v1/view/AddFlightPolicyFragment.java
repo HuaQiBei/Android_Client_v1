@@ -65,6 +65,7 @@ public class AddFlightPolicyFragment extends Fragment {
     private CheckBox mCancelFlight;
     private TextView mFlightCoverage;
     private TextView mFlightFee;
+    private TextView flight_fee;
     private ImageView mAdd;
     private View add_flightPolicy_OK;
     private static final String ARG_FLIGHT_DAILAY_POLICY = "flight_policy";
@@ -170,6 +171,7 @@ public class AddFlightPolicyFragment extends Fragment {
         mCancelFlight = (CheckBox) v.findViewById(R.id.flight_cancel_checked);
         mFlightCoverage = (TextView) v.findViewById(R.id.policy_coverage);
         mFlightFee = (TextView) v.findViewById(R.id.policyfee);
+        flight_fee = (TextView) v.findViewById(R.id.flight_fee);
         add_flightPolicy_OK = v.findViewById(R.id.add_fightPolicy_OK);
         insured_person = (EditText) v.findViewById(R.id.insured_person);
         insured_idcard = (EditText) v.findViewById(R.id.insured_idcard);
@@ -333,30 +335,37 @@ public class AddFlightPolicyFragment extends Fragment {
             case 1:
                 mFlightCoverage.setText("200");
                 mFlightFee.setText(delayRate.getString("12"));
+                flight_fee.setText(delayRate.getString("12"));
                 break;
             case 2:
                 mFlightCoverage.setText("400");
                 mFlightFee.setText(delayRate.getString("13"));
+                flight_fee.setText(delayRate.getString("13"));
                 break;
             case 3:
                 mFlightCoverage.setText("600");
                 mFlightFee.setText(delayRate.getString("17"));
+                flight_fee.setText(delayRate.getString("17"));
                 break;
             case 4:
                 mFlightCoverage.setText("200");
                 mFlightFee.setText(delayRate.getString("14"));
+                flight_fee.setText(delayRate.getString("14"));
                 break;
             case 5:
                 mFlightCoverage.setText("200");
                 mFlightFee.setText(delayRate.getString("15"));
+                flight_fee.setText(delayRate.getString("15"));
                 break;
             case 6:
                 mFlightCoverage.setText("400");
                 mFlightFee.setText(delayRate.getString("16"));
+                flight_fee.setText(delayRate.getString("16"));
                 break;
             case 7:
                 mFlightCoverage.setText("600");
                 mFlightFee.setText(delayRate.getString("18"));
+                flight_fee.setText(delayRate.getString("18"));
                 break;
             default:
                 mFlightCoverage.setText("0");
