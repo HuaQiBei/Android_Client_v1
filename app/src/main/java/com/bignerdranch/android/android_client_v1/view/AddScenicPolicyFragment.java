@@ -193,7 +193,7 @@ public class AddScenicPolicyFragment extends Fragment {
                 Log.d("test", "click the scenic commit button!");
                 mAuthTask = new AddScenicPolicyTask(policy, insuredman, insuredmanIDCard);//为后台传递参数
                 mAuthTask.execute((Void) null);
-
+                getActivity().finish();
             }
         });
 

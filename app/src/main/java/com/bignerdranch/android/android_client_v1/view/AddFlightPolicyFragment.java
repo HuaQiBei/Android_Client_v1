@@ -223,7 +223,7 @@ public class AddFlightPolicyFragment extends Fragment {
                 }
                 mFlightTask = new AddFlightPolicyTask(policy);//为后台传递参数
                 mFlightTask.execute((Void) null);
-
+                getActivity().finish();
 
             }
         });
