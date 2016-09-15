@@ -238,6 +238,10 @@
             android:name=".view.ObtainPayActivity"
             android:label="申请理赔">
         </activity>
+        <activity
+            android:name=".ColligatePolicyActivity"
+            android:label="综合意外险">
+        </activity>
     </application>
 
 </manifest>
