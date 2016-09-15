@@ -40,6 +40,7 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
     private EditText mFlightStartCity;
     private EditText mFlightEndCity;
     private TextView mDelayRate;
+    private Button show_flight_delay_rate;
     private Button mAddFlightPolicyButton;
 
     private TextView mScenicSpot;
@@ -119,6 +120,10 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
             case R.id.add_night_running_policy_button:
                 break;
             case R.id.add_flight_policy_button:
+                if (data == null) {
+                    show_flight_delay_rate.performClick();
+                    return;
+                }
                 par = new ArrayList<>();
                 par.add(mFlightNo.getText().toString());
                 par.add(mFlightStartCity.getText().toString());
@@ -176,12 +181,15 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
             Log.d("test", "in to on PostExecute!");
 
             if (result != null) {
-                Log.d("test", result);
                 try {
                     JSONObject delayRate = new JSONObject(result);
-                    mDelayRate.setText(
-                            "延误1小时以上：" + delayRate.getString("9") + "\n延误4小时以上：" + delayRate.getString("10") + "\n航班取消：" + delayRate.getString("11"));
-                    data = result;
+                    if (delayRate.length() > 1) {
+                        mDelayRate.setText(
+                                "延误1小时以上：" + delayRate.getString("9") + "\n延误4小时以上：" + delayRate.getString("10") + "\n航班取消：" + delayRate.getString("11"));
+                        data = result;
+                    } else {
+                        mDelayRate.setText("    " + delayRate.getString("0") + "，请确认后再次查询！");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -200,8 +208,6 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
     }
 
     private View nightRunningView() {
-        //TODO 动态增加卡片
-        // LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.item_night_running, null);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -229,22 +235,19 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
         mFlightEndCity = (EditText) view.findViewById(R.id.flight_end_city);
         mDelayRate = (TextView) view.findViewById(R.id.flight_delay_rate);
         mAddFlightPolicyButton = (Button) view.findViewById(R.id.add_flight_policy_button);
-        mFlightEndCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        show_flight_delay_rate = (Button) view.findViewById(R.id.show_flight_delay_rate);
+        show_flight_delay_rate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    String flightNo = mFlightNo.getText().toString();
-                    String flightStartCity = mFlightStartCity.getText().toString();
-                    String flightEndCity = mFlightEndCity.getText().toString();
+            public void onClick(View v) {
+                String flightNo = mFlightNo.getText().toString();
+                String flightStartCity = mFlightStartCity.getText().toString();
+                String flightEndCity = mFlightEndCity.getText().toString();
 
-                    if (mAuthTask != null) {
-                        return;
-                    }
-                    Log.d("test", "end city focus changed!");//"MU5693","北京首都","上海");//
-                    mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
-                    mAuthTask.execute((Void) null);
+                if (mAuthTask != null) {
+                    return;
                 }
-
+                mAuthTask = new GetDelayRateTask(flightNo, flightStartCity, flightEndCity);//为后台传递参数
+                mAuthTask.execute((Void) null);
             }
         });
         mAddFlightPolicyButton.setOnClickListener(this);
