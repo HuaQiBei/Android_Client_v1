@@ -88,7 +88,7 @@
         android:theme="@style/MyTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="y5RhSAveMk1sewsVQCOvZb3f85GRua9B" />
+            android:value="WkvA7OOqMTRjE1TV0Kvl90hwCCHa7tim" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -211,9 +211,9 @@
 
         <activity
             android:name=".view.AddScenicPolicyActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="景区意外险"
-            android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".view.SearchAreaActivity"
@@ -221,9 +221,9 @@
         </activity>
         <activity
             android:name=".view.AddFlightPolicyActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:label="航空延误险"
-            android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
+            android:parentActivityName=".MainActivity">
 
         </activity>
         <activity
@@ -233,6 +233,10 @@
         <activity
             android:name=".view.ShowFlightPolicyActivity"
             android:label="查看详情">
+        </activity>
+        <activity
+            android:name=".view.ObtainPayActivity"
+            android:label="申请理赔">
         </activity>
     </application>
 

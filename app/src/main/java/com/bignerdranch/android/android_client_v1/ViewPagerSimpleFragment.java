@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.bignerdranch.android.android_client_v1.model.BasePolicy;
 import com.bignerdranch.android.android_client_v1.model.PolicyLab;
+import com.bignerdranch.android.android_client_v1.view.ObtainPayActivity;
+import com.bignerdranch.android.android_client_v1.view.ShowFlightPolicyActivity;
 import com.bignerdranch.android.android_client_v1.view.ShowScenicPolicyActivity;
 import com.bignerdranch.android.util.Conn2ServerImp;
 import com.bignerdranch.android.util.Connect2Server;
@@ -209,7 +211,12 @@ public class ViewPagerSimpleFragment extends Fragment {
 
 
                     break;
-
+                case R.id.list_bt_Apply:
+                    Intent intent = new Intent(getActivity(), ObtainPayActivity.class);
+                    intent.putExtra("policyID", mPolicy.getPolicyID())
+                            .putExtra("policyName", mPolicy.getPolicyName());
+                    startActivity(intent);
+                    break;
             }
 
         }
@@ -261,7 +268,10 @@ public class ViewPagerSimpleFragment extends Fragment {
                         startActivity(intent);
                         Log.d("test", "start show scenic policy activity sucessful!");
                     } else if (mPolicyName.equals("航班延误险")) {
-
+                        Intent intent = new Intent(getActivity(), ShowFlightPolicyActivity.class);
+                        intent.putExtra("policydetail", result);
+                        startActivity(intent);
+                        Log.d("test", "start show scenic policy activity sucessful!");
                     } else {
                         Toast.makeText(getActivity(), "没找到匹配保单类型", Toast.LENGTH_LONG).show();
                     }
@@ -296,6 +306,7 @@ public class ViewPagerSimpleFragment extends Fragment {
                 case "生效中": {
                     mApply.setText("申请理赔");
                     mApply.setVisibility(View.VISIBLE);
+                    mApply.setOnClickListener(this);
                     break;
                 }
                 case "理赔中": {

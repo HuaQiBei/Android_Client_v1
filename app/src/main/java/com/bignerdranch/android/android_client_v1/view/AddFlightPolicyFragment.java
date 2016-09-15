@@ -70,6 +70,8 @@ public class AddFlightPolicyFragment extends Fragment {
     private static final String ARG_FLIGHT_DAILAY_POLICY = "flight_policy";
     private ArrayList<String> par;
     private String delayData;
+    private EditText insured_person;
+    private EditText insured_idcard;
 
     public static AddFlightPolicyFragment newInstance(ArrayList<String> par, String data) {
         Bundle args = new Bundle();
@@ -169,6 +171,8 @@ public class AddFlightPolicyFragment extends Fragment {
         mFlightCoverage = (TextView) v.findViewById(R.id.policy_coverage);
         mFlightFee = (TextView) v.findViewById(R.id.policyfee);
         add_flightPolicy_OK = v.findViewById(R.id.add_fightPolicy_OK);
+        insured_person = (EditText) v.findViewById(R.id.insured_person);
+        insured_idcard = (EditText) v.findViewById(R.id.insured_idcard);
 
         getDate();
         calculatePolicyCoverage();
@@ -202,13 +206,15 @@ public class AddFlightPolicyFragment extends Fragment {
                 int flight_cb_str = flag[0] + flag[1] + flag[2];
                 String flight_coverage_str = mFlightCoverage.getText().toString();
                 String policyfee_str = mFlightFee.getText().toString();
+                String insuredman=insured_person.getText().toString();
+                String insuredIDCard=insured_idcard.getText().toString();
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 FlightPolicy policy = new FlightPolicy(
                         100, preferences.getInt("id", 0),
                         flight_date_str, flight_id_str,
                         flight_route_str, flight_weather_str, flight_cb_str,
                         Integer.parseInt(flight_coverage_str), Double.parseDouble(policyfee_str)
-                        , "生效中");
+                        , "生效中",insuredman,insuredIDCard);
 
                 if (mFlightTask != null) {
                     return;
@@ -411,7 +417,7 @@ public class AddFlightPolicyFragment extends Fragment {
                 Toast.makeText(getContext(), "购买成功", Toast.LENGTH_SHORT);
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 preferences.edit()
-                        .putBoolean("flightDelayView", false)   //航空延误险
+                        .putBoolean("flightDelayView", false)   //航班延误险
                         .putString("flightNo", null)
                         .putString("flightStartCity", null)
                         .putString("flightEndCity", null)
