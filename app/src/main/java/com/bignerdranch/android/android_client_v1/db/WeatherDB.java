@@ -203,9 +203,10 @@ public class WeatherDB {
 
     //根据名称获取某一个或多个匹配的城市
     public AllCity loadCitiesByName(String name) {
+        Log.d("test", "查询天气" + name.substring(0, 2));
         //先检查数据库处理对象是否获取
         List<AllCity> cities = new ArrayList<>();
-        Cursor cursor = db.query("ALLCITY", null, "CITY_NAME_CH like ?", new String[]{name + "%"}, null, null, "CITY_CODE");
+        Cursor cursor = db.query("ALLCITY", null, "CITY_NAME_CH like ?", new String[]{name.substring(0, 2) + "%"}, null, null, "CITY_CODE");
         while (cursor.moveToNext()) {
             AllCity city = new AllCity();
             city.setId(cursor.getInt(cursor.getColumnIndex("ID")));

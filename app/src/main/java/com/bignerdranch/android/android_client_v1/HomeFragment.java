@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 ((MainActivity) getActivity()).setCurrentTabByTag("生活");
                 PreferenceManager
                         .getDefaultSharedPreferences(getActivity()).edit()
-                        .putBoolean("flightDelayView", true)//TODO 什么时候改为false
+                        .putBoolean("flightDelayView", true)
                         .apply();
                 break;
             case R.id.query_policy:
@@ -132,16 +132,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 ((MainActivity) getActivity()).setCurrentTabByTag("生活");
                 PreferenceManager
                         .getDefaultSharedPreferences(getActivity()).edit()
-                        .putBoolean("scenicSpotView", true)//TODO 什么时候改为false
+                        .putBoolean("scenicSpotView", true)
                         .apply();
                 break;
             case R.id.flight_delay_policy:
                 ((MainActivity) getActivity()).setCurrentTabByTag("生活");
                 PreferenceManager
                         .getDefaultSharedPreferences(getActivity()).edit()
-                        .putBoolean("flightDelayView", true)//TODO 什么时候改为false
+                        .putBoolean("flightDelayView", true)
                         .apply();
                 break;
+            case R.id.addView:
+                Intent i = new Intent(getActivity(), ColligatePolicyActivity.class);
+                startActivity(i);
+                break;
+
         }
     }
 
