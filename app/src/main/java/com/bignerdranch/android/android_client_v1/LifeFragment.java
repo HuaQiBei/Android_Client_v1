@@ -132,9 +132,12 @@ public class LifeFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.add_scenic_spot_policy_button:
+                if (mScenicSpot.getText().toString().equals("景区名称")){
+                    return;
+                }
                 par = new ArrayList<>();
-                par.add("华山");//TODO mScenicSpot.getText().toString());
-                par.add("华阴");//TODO 景区城市 par.add(mScenicSpotIntroduce.getText().toString());
+                par.add(mScenicSpot.getText().toString());
+                par.add(mScenicSpotIntroduce.getText().toString());
                 intent = AddScenicPolicyActivity.newIntent(getActivity(), par);
                 startActivity(intent);
                 break;

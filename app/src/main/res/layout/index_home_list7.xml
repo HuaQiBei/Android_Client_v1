@@ -162,10 +162,10 @@
             android:layout_height="wrap_content" >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/android_bigger" />
+                android:src="@drawable/ic_scenicspot_72" />
 
         </FrameLayout>
 
