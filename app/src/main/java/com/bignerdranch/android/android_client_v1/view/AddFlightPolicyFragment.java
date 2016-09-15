@@ -185,7 +185,7 @@ public class AddFlightPolicyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                view = inflater.inflate(R.layout.item_insured, null);
+                view = inflater.inflate(R.layout.item_insured, container , false);
                 final View finalView = view;
                 view.findViewById(R.id.delete_insured_person).setOnClickListener(new View.OnClickListener() {
                     @Override

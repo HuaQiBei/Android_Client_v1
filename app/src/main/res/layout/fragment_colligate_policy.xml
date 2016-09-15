@@ -159,10 +159,12 @@
                         android:text="保险起期"/>
 
                     <EditText
-                        android:id="@+id/scenicName"
+                        android:id="@+id/begin_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="10"/>
+                        android:digits="0123456789-"
+                        android:ems="10"
+                        android:focusable="false"/>
                 </LinearLayout>
 
 
@@ -181,9 +183,10 @@
                         />
 
                     <EditText
-                        android:id="@+id/scenicStartDate"
+                        android:id="@+id/end_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:digits="0123456789-"
                         android:ems="10"
                         android:focusable="false"/>
                 </LinearLayout>
@@ -204,8 +207,7 @@
                         android:id="@+id/scenicEndDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:focusable="false"/>
+                        android:ems="10"/>
                 </LinearLayout>
 
                 <LinearLayout
